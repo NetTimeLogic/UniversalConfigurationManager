@@ -30,7 +30,6 @@ SOURCES += main.cpp\
     Ucm_UniversalConfigurationManager.cpp \
     CommunicationLib/Ucm_CommunicationLib.cpp \
     CoreConfig/Ucm_CoreConfig.cpp \
-    TestTab/Ucm_TestTab.cpp \
     ClkClockTab/Ucm_ClkClockTab.cpp \
     ClkSgTab/Ucm_ClkSgTab.cpp \
     ClkTsTab/Ucm_ClkTsTab.cpp \
@@ -50,7 +49,6 @@ SOURCES += main.cpp\
 HEADERS  += Ucm_UniversalConfigurationManager.h \
     CommunicationLib/Ucm_CommunicationLib.h \
     CoreConfig/Ucm_CoreConfig.h \
-    TestTab/Ucm_TestTab.h \
     ClkClockTab/Ucm_ClkClockTab.h \
     ClkSgTab/Ucm_ClkSgTab.h \
     ClkTsTab/Ucm_ClkTsTab.h \
@@ -69,7 +67,6 @@ HEADERS  += Ucm_UniversalConfigurationManager.h \
     DebugStream/Ucm_DebugStream.h
 
 FORMS    += Ucm_UniversalConfigurationManager.ui \
-    TestTab/Ucm_TestTab.ui \
     ClkClockTab/Ucm_ClkClockTab.ui \
     ClkSgTab/Ucm_ClkSgTab.ui \
     ClkTsTab/Ucm_ClkTsTab.ui \
