@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Ucm_UniversalConfigurationManager</class>
+ <widget class="QMainWindow" name="Ucm_UniversalConfigurationManager">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1380</width>
+    <height>822</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>NetTimeLogic GmbH - Universal Configuration Manager</string>
+  </property>
+  <widget class="QWidget" name="MainWindow">
+   <widget class="QTabWidget" name="MainTab">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1380</width>
+      <height>800</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>-1</number>
+    </property>
+    <property name="elideMode">
+     <enum>Qt::ElideRight</enum>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="Ucm_MainMenu">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1380</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="Ucm_FileMenu">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="Ucm_Exit"/>
+   </widget>
+   <addaction name="Ucm_FileMenu"/>
+  </widget>
+  <action name="Ucm_Exit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
