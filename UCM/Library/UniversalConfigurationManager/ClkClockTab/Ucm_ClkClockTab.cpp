@@ -197,7 +197,7 @@ void Ucm_ClkClockTab::clk_clock_read_values(void)
     // source
     if (0 ==  ucm->com_lib.read_reg(temp_addr + 0x00000008, temp_data))
     {
-        switch (temp_data)
+        switch ((temp_data >> 16) & 0x0000FFFF)
         {
         case 0x00000000:
             ui->ClkClockSourceValue->setCurrentText("NONE");
@@ -219,6 +219,9 @@ void Ucm_ClkClockTab::clk_clock_read_values(void)
             break;
         case 0x00000006:
             ui->ClkClockSourceValue->setCurrentText("REG");
+            break;
+        case 0x00000007:
+            ui->ClkClockSourceValue->setCurrentText("EXT");
             break;
         default:
             ui->ClkClockSourceValue->setCurrentText("NA");
@@ -302,6 +305,10 @@ void Ucm_ClkClockTab::clk_clock_write_values(void)
     {
         temp_data = 0x00000006;
     }
+    else if (temp_string == "EXT")
+    {
+        temp_data = 0x00000007;
+    }
     else
     {
         temp_data = 0x00000000;
@@ -313,7 +320,7 @@ void Ucm_ClkClockTab::clk_clock_write_values(void)
     }
     else if (0 ==  ucm->com_lib.write_reg(temp_addr + 0x00000008, temp_data))
     {
-        switch (temp_data)
+        switch (temp_data & 0x0000FFFF)
         {
         case 0x00000000:
             ui->ClkClockSourceValue->setCurrentText("NONE");
@@ -335,6 +342,9 @@ void Ucm_ClkClockTab::clk_clock_write_values(void)
             break;
         case 0x00000006:
             ui->ClkClockSourceValue->setCurrentText("REG");
+            break;
+        case 0x00000007:
+            ui->ClkClockSourceValue->setCurrentText("EXT");
             break;
         default:
             ui->ClkClockSourceValue->setCurrentText("NA");
