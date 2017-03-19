@@ -69,6 +69,9 @@ Ucm_UniversalConfigurationManager::Ucm_UniversalConfigurationManager(QMainWindow
     // TOD Slave Tab
     tod_slave_tab = new Ucm_TodSlaveTab(this);
 
+    // TOD Master Tab
+    tod_master_tab = new Ucm_TodMasterTab(this);
+
     // RED HsrPrp Tab
     red_hsrprp_tab = new Ucm_RedHsrPrpTab(this);
 
@@ -96,6 +99,7 @@ Ucm_UniversalConfigurationManager::~Ucm_UniversalConfigurationManager()
     delete irig_slave_tab;
     delete irig_master_tab;
     delete tod_slave_tab;
+    delete tod_master_tab;
     delete red_hsrprp_tab;
     delete ptp_oc_tab;
     delete ptp_tc_tab;

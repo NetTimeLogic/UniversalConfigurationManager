@@ -46,6 +46,7 @@
 #include "IrigSlaveTab/Ucm_IrigSlaveTab.h"
 #include "IrigMasterTab/Ucm_IrigMasterTab.h"
 #include "TodSlaveTab/Ucm_TodSlaveTab.h"
+#include "TodMasterTab/Ucm_TodMasterTab.h"
 #include "RedHsrPrpTab/Ucm_RedHsrPrpTab.h"
 #include "PtpOcTab/Ucm_PtpOcTab.h"
 #include "PtpTcTab/Ucm_PtpTcTab.h"
@@ -64,6 +65,7 @@ class Ucm_PpsMasterTab;
 class Ucm_IrigSlaveTab;
 class Ucm_IrigMasterTab;
 class Ucm_TodSlaveTab;
+class Ucm_TodMasterTab;
 class Ucm_RedHsrPrpTab;
 class Ucm_PtpOcTab;
 class Ucm_PtpTcTab;
@@ -112,6 +114,9 @@ class Ucm_UniversalConfigurationManager : public QMainWindow, public Ui::Ucm_Uni
 
         // TOD Slave tab
         Ucm_TodSlaveTab* tod_slave_tab;
+
+        // TOD Master tab
+        Ucm_TodMasterTab* tod_master_tab;
 
         // RED HsrPrp tab
         Ucm_RedHsrPrpTab* red_hsrprp_tab;

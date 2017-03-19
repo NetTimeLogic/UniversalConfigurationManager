@@ -39,6 +39,7 @@ SOURCES += main.cpp\
     PpsSlaveTab/Ucm_PpsSlaveTab.cpp \
     IrigSlaveTab/Ucm_IrigSlaveTab.cpp \
     IrigMasterTab/Ucm_IrigMasterTab.cpp \
+    TodMasterTab/Ucm_TodMasterTab.cpp \
     TodSlaveTab/Ucm_TodSlaveTab.cpp \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.cpp \
     PtpHcTab/Ucm_PtpHcTab.cpp \
@@ -58,6 +59,7 @@ HEADERS  += Ucm_UniversalConfigurationManager.h \
     PpsSlaveTab/Ucm_PpsSlaveTab.h \
     IrigSlaveTab/Ucm_IrigSlaveTab.h \
     IrigMasterTab/Ucm_IrigMasterTab.h \
+    TodMasterTab/Ucm_TodMasterTab.h \
     TodSlaveTab/Ucm_TodSlaveTab.h \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.h \
     PtpHcTab/Ucm_PtpHcTab.h \
@@ -76,6 +78,7 @@ FORMS    += Ucm_UniversalConfigurationManager.ui \
     PpsSlaveTab/Ucm_PpsSlaveTab.ui \
     IrigSlaveTab/Ucm_IrigSlaveTab.ui \
     IrigMasterTab/Ucm_IrigMasterTab.ui \
+    TodMasterTab/Ucm_TodMasterTab.ui \
     TodSlaveTab/Ucm_TodSlaveTab.ui \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.ui \
     PtpHcTab/Ucm_PtpHcTab.ui \

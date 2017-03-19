@@ -43,7 +43,8 @@ SOURCES += main.cpp\
     PtpHcTab/Ucm_PtpHcTab.cpp \
     PtpOcTab/Ucm_PtpOcTab.cpp \
     PtpTcTab/Ucm_PtpTcTab.cpp \
-    ConfigTab/Ucm_ConfigTab.cpp
+    ConfigTab/Ucm_ConfigTab.cpp \
+    TodMasterTab/Ucm_TodMasterTab.cpp
 
 HEADERS  += Ucm_UniversalConfigurationManager.h \
     CommunicationLib/Ucm_CommunicationLib.h \
@@ -63,7 +64,8 @@ HEADERS  += Ucm_UniversalConfigurationManager.h \
     PtpOcTab/Ucm_PtpOcTab.h \
     PtpTcTab/Ucm_PtpTcTab.h \
     ConfigTab/Ucm_ConfigTab.h \
-    DebugStream/Ucm_DebugStream.h
+    DebugStream/Ucm_DebugStream.h \
+    TodMasterTab/Ucm_TodMasterTab.h
 
 FORMS    += Ucm_UniversalConfigurationManager.ui \
     ClkClockTab/Ucm_ClkClockTab.ui \
@@ -80,7 +82,8 @@ FORMS    += Ucm_UniversalConfigurationManager.ui \
     PtpHcTab/Ucm_PtpHcTab.ui \
     PtpOcTab/Ucm_PtpOcTab.ui \
     PtpTcTab/Ucm_PtpTcTab.ui \
-    ConfigTab/Ucm_ConfigTab.ui
+    ConfigTab/Ucm_ConfigTab.ui \
+    TodMasterTab/Ucm_TodMasterTab.ui
 
 RC_FILE = Ucm_UniversalConfigurationManager.rc
 

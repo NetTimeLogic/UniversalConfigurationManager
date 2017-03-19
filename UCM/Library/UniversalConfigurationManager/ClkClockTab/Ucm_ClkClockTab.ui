@@ -104,6 +104,11 @@
      <string>REG</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>EXT</string>
+    </property>
+   </item>
   </widget>
   <widget class="QPushButton" name="ClkClockAutoRefreshButton">
    <property name="geometry">

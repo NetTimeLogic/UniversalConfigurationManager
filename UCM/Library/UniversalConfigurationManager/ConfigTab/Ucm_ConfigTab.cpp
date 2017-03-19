@@ -229,7 +229,9 @@ void Ucm_ConfigTab::config_com_port_button_clicked(void)
                     temp_string.append("TOD Slave");
                     break;
                 case Ucm_CoreConfig_TodMasterCoreType:
-                    // TODO
+                    ucm->tod_master_tab->tod_master_enable();
+                    ucm->tod_master_tab->tod_master_add_instance(ucm->core_config.at(i).core_instance_nr);
+                    ucm->MainTab->addTab(ucm->tod_master_tab, "TOD Master");
                     temp_string.append("TOD Master");
                     break;
                 default:
@@ -289,6 +291,9 @@ void Ucm_ConfigTab::config_com_port_button_clicked(void)
 
             // TOD Slave Tab
             ucm->tod_slave_tab->tod_slave_disable();
+
+            // TOD Master Tab
+            ucm->tod_master_tab->tod_master_disable();
 
             // RED HsrPrp Tab
             ucm->red_hsrprp_tab->red_hsrprp_disable();
