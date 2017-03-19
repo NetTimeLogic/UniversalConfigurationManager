@@ -127,6 +127,54 @@ int Ucm_PtpOcTab::ptp_oc_disable(void)
     ui->PtpOcWriteValuesButton->setEnabled(true);
     ui->PtpOcInstanceComboBox->clear();
 
+    ui->PtpOcVlanValue->setText("NA");
+    ui->PtpOcProfileValue->setCurrentText("NA");
+    ui->PtpOcLayerValue->setCurrentText("NA");
+    ui->PtpOcIpValue->setText("NA");
+    ui->PtpOcVersionValue->setText("NA");
+
+    ui->PtpOcDefaultDsClockIdValue->setText("NA");
+    ui->PtpOcDefaultDsDomainValue->setText("NA");
+    ui->PtpOcDefaultDsPriority1Value->setText("NA");
+    ui->PtpOcDefaultDsPriority2Value->setText("NA");
+    ui->PtpOcDefaultDsAccuracyValue->setText("NA");
+    ui->PtpOcDefaultDsClassValue->setText("NA");
+    ui->PtpOcDefaultDsShortIdValue->setText("NA");
+    ui->PtpOcDefaultDsInaccuracyValue->setText("NA");
+    ui->PtpOcDefaultDsNrOfPortsValue->setText("NA");
+
+    ui->PtpOcPortDsPeerDelayValue->setText("NA");
+    ui->PtpOcPortDsStateValue->setText("NA");
+
+    ui->PtpOcCurrentDsStepsRemovedValue->setText("NA");
+    ui->PtpOcCurrentDsOffsetValue->setText("NA");
+
+    ui->PtpOcParentDsParentClockIdValue->setText("NA");
+    ui->PtpOcParentDsGmClockIdValue->setText("NA");
+    ui->PtpOcParentDsGmPriority1Value->setText("NA");
+    ui->PtpOcParentDsGmPriority2Value->setText("NA");
+    ui->PtpOcParentDsGmAccuracyValue->setText("NA");
+    ui->PtpOcParentDsGmClassValue->setText("NA");
+    ui->PtpOcParentDsGmShortIdValue->setText("NA");
+    ui->PtpOcParentDsGmInaccuracyValue->setText("NA");
+    ui->PtpOcParentDsNwInaccuracyValue->setText("NA");
+
+    ui->PtpOcTimePropertiesDsTimeSourceValue->setText("NA");
+    ui->PtpOcTimePropertiesDsPtpTimescaleCheckBox->setChecked(false);
+    ui->PtpOcTimePropertiesDsFreqTraceableCheckBox->setChecked(false);
+    ui->PtpOcTimePropertiesDsTimeTraceableCheckBox->setChecked(false);
+    ui->PtpOcTimePropertiesDsLeap59CheckBox->setChecked(false);
+    ui->PtpOcTimePropertiesDsLeap61CheckBox->setChecked(false);
+    ui->PtpOcTimePropertiesDsUtcOffsetValCheckBox->setChecked(false);
+    ui->PtpOcTimePropertiesDsUtcOffsetValue->setText("NA");
+    ui->PtpOcTimePropertiesDsCurrentOffsetValue->setText("NA");
+    ui->PtpOcTimePropertiesDsJumpSecondsValue->setText("NA");
+    ui->PtpOcTimePropertiesDsNextJumpValue->setText("NA");
+    ui->PtpOcTimePropertiesDsDisplayNameValue->setText("NA");
+
+    ui->PtpOcVlanEnableCheckBox->setChecked(false);
+    ui->PtpOcVersionValue->setText("NA");
+
     return 0;
 }
 

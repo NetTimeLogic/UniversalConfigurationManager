@@ -63,6 +63,12 @@ int Ucm_PpsSlaveTab::pps_slave_disable(void)
     ui->PpsSlaveWriteValuesButton->setEnabled(true);
     ui->PpsSlaveInstanceComboBox->clear();
 
+    ui->PpsSlavePulseWidthValue->setText("NA");
+    ui->PpsSlaveCableDelayValue->setText("NA");
+    ui->PpsSlaveInvertedCheckBox->setChecked(false);
+    ui->PpsSlaveEnableCheckBox->setChecked(false);
+    ui->PpsSlaveVersionValue->setText("NA");
+
     return 0;
 }
 

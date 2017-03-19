@@ -63,6 +63,13 @@ int Ucm_RedHsrPrpTab::red_hsrprp_disable(void)
     ui->RedHsrPrpWriteValuesButton->setEnabled(true);
     ui->RedHsrPrpInstanceComboBox->clear();
 
+    ui->RedHsrPrpMacValue->setText("NA");
+    ui->RedHsrPrpVlanEnableCheckBox->setChecked(false);
+    ui->RedHsrPrpVlanValue->setText("NA");
+    ui->RedHsrPrpModeValue->setCurrentText("NA");
+    ui->RedHsrPrpEnableCheckBox->setChecked(true);
+    ui->RedHsrPrpVersionValue->setText("NA");
+
     return 0;
 }
 

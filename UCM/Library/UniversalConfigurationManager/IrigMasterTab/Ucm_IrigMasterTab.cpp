@@ -63,6 +63,10 @@ int Ucm_IrigMasterTab::irig_master_disable(void)
     ui->IrigMasterWriteValuesButton->setEnabled(true);
     ui->IrigMasterInstanceComboBox->clear();
 
+    ui->IrigMasterCorrectionValue->setText("NA");
+    ui->IrigMasterEnableCheckBox->setChecked(false);
+    ui->IrigMasterVersionValue->setText("NA");
+
     return 0;
 }
 

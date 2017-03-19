@@ -63,6 +63,11 @@ int Ucm_PpsMasterTab::pps_master_disable(void)
     ui->PpsMasterWriteValuesButton->setEnabled(true);
     ui->PpsMasterInstanceComboBox->clear();
 
+    ui->PpsMasterPulseWidthValue->setText("NA");
+    ui->PpsMasterInvertedCheckBox->setChecked(false);
+    ui->PpsMasterEnableCheckBox->setChecked(false);
+    ui->PpsMasterVersionValue->setText("NA");
+
     return 0;
 }
 

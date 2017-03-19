@@ -63,6 +63,14 @@ int Ucm_ClkClockTab::clk_clock_disable(void)
     ui->ClkClockWriteValuesButton->setEnabled(true);
     ui->ClkClockInstanceComboBox->clear();
 
+    ui->ClkClockSecondsValue->setText("NA");
+    ui->ClkClockNanosecondsValue->setText("NA");
+    ui->ClkClockInSyncValue->setText("NA");
+    ui->ClkClockInSyncThresholdValue->setText("NA");
+    ui->ClkClockSourceValue->setCurrentText("NA");
+    ui->ClkClockEnableCheckBox->setChecked(false);
+    ui->ClkClockVersionValue->setText("NA");
+
     return 0;
 }
 

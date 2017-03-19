@@ -111,6 +111,21 @@ int Ucm_PtpTcTab::ptp_tc_disable(void)
     ui->PtpTcWriteValuesButton->setEnabled(true);
     ui->PtpTcInstanceComboBox->clear();
     
+    ui->PtpTcVlanValue->setText("NA");
+    ui->PtpTcProfileValue->setCurrentText("NA");
+    ui->PtpTcLayerValue->setCurrentText("NA");
+    ui->PtpTcIpValue->setText("NA");
+
+    ui->PtpTcDefaultDsClockIdValue->setText("NA");
+    ui->PtpTcDefaultDsDomainValue->setText("NA");
+    ui->PtpTcDefaultDsNrOfPortsValue->setText("NA");
+
+    ui->PtpTcPortDsPortNrComboBox->clear();
+    ui->PtpTcPortDsPeerDelayValue->setText("NA");
+
+    ui->PtpTcVlanEnableCheckBox->setChecked(false);
+    ui->PtpTcVersionValue->setText("NA");
+
     return 0;
 }
 

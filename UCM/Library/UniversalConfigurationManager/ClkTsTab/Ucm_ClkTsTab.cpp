@@ -63,6 +63,14 @@ int Ucm_ClkTsTab::clk_ts_disable(void)
     ui->ClkTsWriteValuesButton->setEnabled(true);
     ui->ClkTsInstanceComboBox->clear();
 
+    ui->ClkTsInvertedCheckBox->setChecked(false);
+    ui->ClkTsNewTimestampCheckBox->setChecked(false);
+    ui->ClkTsSecondsValue->setText("NA");
+    ui->ClkTsNanosecondsValue->setText("NA");
+    ui->ClkTsTimestampNrValue->setText("NA");
+    ui->ClkTsEnableCheckBox->setChecked(false);
+    ui->ClkTsVersionValue->setText("NA");
+
     return 0;
 }
 

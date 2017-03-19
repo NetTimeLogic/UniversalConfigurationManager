@@ -142,6 +142,55 @@ int Ucm_PtpHcTab::ptp_hc_disable(void)
     ui->PtpHcWriteValuesButton->setEnabled(true);
     ui->PtpHcInstanceComboBox->clear();
 
+    ui->PtpHcVlanValue->setText("NA");
+    ui->PtpHcProfileValue->setCurrentText("NA");
+    ui->PtpHcLayerValue->setCurrentText("NA");
+    ui->PtpHcIpValue->setText("NA");
+    ui->PtpHcVersionValue->setText("NA");
+
+    ui->PtpHcDefaultDsClockIdValue->setText("NA");
+    ui->PtpHcDefaultDsDomainValue->setText("NA");
+    ui->PtpHcDefaultDsPriority1Value->setText("NA");
+    ui->PtpHcDefaultDsPriority2Value->setText("NA");
+    ui->PtpHcDefaultDsAccuracyValue->setText("NA");
+    ui->PtpHcDefaultDsClassValue->setText("NA");
+    ui->PtpHcDefaultDsShortIdValue->setText("NA");
+    ui->PtpHcDefaultDsInaccuracyValue->setText("NA");
+    ui->PtpHcDefaultDsNrOfPortsValue->setText("NA");
+
+    ui->PtpHcPortDsPeerDelayValue->setText("NA");
+    ui->PtpHcPortDsPortNrComboBox->clear();
+    ui->PtpHcPortDsStateValue->setText("NA");
+
+    ui->PtpHcCurrentDsStepsRemovedValue->setText("NA");
+    ui->PtpHcCurrentDsOffsetValue->setText("NA");
+
+    ui->PtpHcParentDsParentClockIdValue->setText("NA");
+    ui->PtpHcParentDsGmClockIdValue->setText("NA");
+    ui->PtpHcParentDsGmPriority1Value->setText("NA");
+    ui->PtpHcParentDsGmPriority2Value->setText("NA");
+    ui->PtpHcParentDsGmAccuracyValue->setText("NA");
+    ui->PtpHcParentDsGmClassValue->setText("NA");
+    ui->PtpHcParentDsGmShortIdValue->setText("NA");
+    ui->PtpHcParentDsGmInaccuracyValue->setText("NA");
+    ui->PtpHcParentDsNwInaccuracyValue->setText("NA");
+
+    ui->PtpHcTimePropertiesDsTimeSourceValue->setText("NA");
+    ui->PtpHcTimePropertiesDsPtpTimescaleCheckBox->setChecked(false);
+    ui->PtpHcTimePropertiesDsFreqTraceableCheckBox->setChecked(false);
+    ui->PtpHcTimePropertiesDsTimeTraceableCheckBox->setChecked(false);
+    ui->PtpHcTimePropertiesDsLeap59CheckBox->setChecked(false);
+    ui->PtpHcTimePropertiesDsLeap61CheckBox->setChecked(false);
+    ui->PtpHcTimePropertiesDsUtcOffsetValCheckBox->setChecked(false);
+    ui->PtpHcTimePropertiesDsUtcOffsetValue->setText("NA");
+    ui->PtpHcTimePropertiesDsCurrentOffsetValue->setText("NA");
+    ui->PtpHcTimePropertiesDsJumpSecondsValue->setText("NA");
+    ui->PtpHcTimePropertiesDsNextJumpValue->setText("NA");
+    ui->PtpHcTimePropertiesDsDisplayNameValue->setText("NA");
+
+    ui->PtpHcVlanEnableCheckBox->setChecked(false);
+    ui->PtpHcVersionValue->setText("NA");
+
     return 0;
 }
 

@@ -63,6 +63,17 @@ int Ucm_ClkSgTab::clk_sg_disable(void)
     ui->ClkSgWriteValuesButton->setEnabled(true);
     ui->ClkSgInstanceComboBox->clear();
 
+    ui->ClkSgInvertedCheckBox->setChecked(false);
+    ui->ClkSgStartSecondsValue->setText("NA");
+    ui->ClkSgStartNanosecondsValue->setText("NA");
+    ui->ClkSgPulseSecondsValue->setText("NA");
+    ui->ClkSgPulseNanosecondsValue->setText("NA");
+    ui->ClkSgPeriodSecondsValue->setText("NA");
+    ui->ClkSgPeriodNanosecondsValue->setText("NA");
+    ui->ClkSgRepeatCountValue->setText("NA");
+    ui->ClkSgEnableCheckBox->setChecked(false);
+    ui->ClkSgVersionValue->setText("NA");
+
     return 0;
 }
 

@@ -63,6 +63,11 @@ int Ucm_IrigSlaveTab::irig_slave_disable(void)
     ui->IrigSlaveWriteValuesButton->setEnabled(true);
     ui->IrigSlaveInstanceComboBox->clear();
 
+    ui->IrigSlaveCorrectionValue->setText("NA");
+    ui->IrigSlaveCableDelayValue->setText("NA");
+    ui->IrigSlaveEnableCheckBox->setChecked(false);
+    ui->IrigSlaveVersionValue->setText("NA");
+
     return 0;
 }
 

@@ -63,6 +63,14 @@ int Ucm_TodMasterTab::tod_master_disable(void)
     ui->TodMasterWriteValuesButton->setEnabled(true);
     ui->TodMasterInstanceComboBox->clear();
 
+    ui->TodMasterCorrectionValue->setText("NA");
+    ui->TodMasterLocalSignCheckBox->setChecked(false);
+    ui->TodMasterLocalHoursValue->setText("NA");
+    ui->TodMasterLocalMinutesValue->setText("NA");
+    ui->TodMasterBaudRateValue->setCurrentText("NA");
+    ui->TodMasterEnableCheckBox->setChecked(false);
+    ui->TodMasterVersionValue->setText("NA");
+
     return 0;
 }
 

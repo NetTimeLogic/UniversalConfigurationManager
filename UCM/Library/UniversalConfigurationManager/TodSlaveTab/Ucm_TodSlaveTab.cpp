@@ -63,6 +63,11 @@ int Ucm_TodSlaveTab::tod_slave_disable(void)
     ui->TodSlaveWriteValuesButton->setEnabled(true);
     ui->TodSlaveInstanceComboBox->clear();
 
+    ui->TodSlaveCorrectionValue->setText("NA");
+    ui->TodSlaveBaudRateValue->setCurrentText("NA");
+    ui->TodSlaveEnableCheckBox->setChecked(false);
+    ui->TodSlaveVersionValue->setText("NA");
+
     return 0;
 }
 

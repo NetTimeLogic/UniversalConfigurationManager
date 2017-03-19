@@ -58,6 +58,9 @@ int Ucm_AdvancedTab::advanced_disable(void)
     ui->AdvancedReadValueButton->setEnabled(false);
     ui->AdvancedWriteValueButton->setEnabled(false);
 
+    ui->AdvancedAddressValue->setText("NA");
+    ui->AdvancedValueValue->setText("NA");
+
     return 0;
 }
 

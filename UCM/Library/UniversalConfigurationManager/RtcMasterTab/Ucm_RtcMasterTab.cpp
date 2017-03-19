@@ -63,6 +63,12 @@ int Ucm_RtcMasterTab::rtc_master_disable(void)
     ui->RtcMasterWriteValuesButton->setEnabled(true);
     ui->RtcMasterInstanceComboBox->clear();
 
+    ui->RtcMasterSecondsValue->setText("NA");
+    ui->RtcMasterNanosecondsValue->setText("NA");
+    ui->RtcMasterInvertedCheckBox->setChecked(false);
+    ui->RtcMasterEnableCheckBox->setChecked(false);
+    ui->RtcMasterVersionValue->setText("NA");
+
     return 0;
 }
 
