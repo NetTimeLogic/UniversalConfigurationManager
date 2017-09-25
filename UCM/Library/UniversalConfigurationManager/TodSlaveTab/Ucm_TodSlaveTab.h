@@ -40,6 +40,7 @@ public:
     Ucm_TodSlaveTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_TodSlaveTab();
 
+    int tod_slave_resize(int height, int width);
     void tod_slave_add_instance(unsigned int instance);
     int tod_slave_disable(void);
     int tod_slave_enable(void);
@@ -50,14 +51,14 @@ private:
     Ucm_UniversalConfigurationManager* ucm;
     Ui::Ucm_TodSlaveTab *ui;
 
-    // CLK Clock tab
+    // TOD Slave tab
     QTimer* tod_slave_timer;
 
     void tod_slave_read_values(void);
     void tod_slave_write_values(void);
 
 private slots:
-    // CLK Clock tab
+    // TOD Slave tab
     void tod_slave_read_values_button_clicked(void);
     void tod_slave_write_values_button_clicked(void);
     void tod_slave_auto_refresh_button_clicked(void);

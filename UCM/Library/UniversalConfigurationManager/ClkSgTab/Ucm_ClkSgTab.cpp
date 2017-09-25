@@ -45,6 +45,11 @@ Ucm_ClkSgTab::~Ucm_ClkSgTab()
     delete clk_sg_timer;
 }
 
+int Ucm_ClkSgTab::clk_sg_resize(int height, int width)
+{
+    return 0;
+}
+
 void Ucm_ClkSgTab::clk_sg_add_instance(unsigned int instance)
 {
     ui->ClkSgInstanceComboBox->addItem(QString::number(instance));
@@ -59,10 +64,13 @@ int Ucm_ClkSgTab::clk_sg_disable(void)
 {
     clk_sg_timer->stop();
     ui->ClkSgAutoRefreshButton->setText("Start Refresh");
+    ui->ClkSgInstanceComboBox->setEnabled(true);
     ui->ClkSgReadValuesButton->setEnabled(true);
     ui->ClkSgWriteValuesButton->setEnabled(true);
     ui->ClkSgInstanceComboBox->clear();
 
+    ui->ClkSgTimeJumpCheckBox->setChecked(false);
+    ui->ClkSgGenErrorCheckBox->setChecked(false);
     ui->ClkSgInvertedCheckBox->setChecked(false);
     ui->ClkSgStartSecondsValue->setText("NA");
     ui->ClkSgStartNanosecondsValue->setText("NA");
@@ -79,8 +87,8 @@ int Ucm_ClkSgTab::clk_sg_disable(void)
 
 void Ucm_ClkSgTab::clk_sg_read_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->ClkSgInstanceComboBox->currentText();
@@ -94,6 +102,8 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
         }
         else if (i == (ucm->core_config.size()-1))
         {
+            ui->ClkSgTimeJumpCheckBox->setChecked(false);
+            ui->ClkSgGenErrorCheckBox->setChecked(false);
             ui->ClkSgInvertedCheckBox->setChecked(false);
             ui->ClkSgStartSecondsValue->setText("NA");
             ui->ClkSgStartNanosecondsValue->setText("NA");
@@ -139,6 +149,33 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
     }
     else
     {
+        ui->ClkSgInvertedCheckBox->setChecked(false);
+    }
+
+    // time jump & gen error
+    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000004, temp_data))
+    {
+        if ((temp_data & 0x00000001) == 0)
+        {
+            ui->ClkSgGenErrorCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->ClkSgGenErrorCheckBox->setChecked(true);
+        }
+
+        if ((temp_data & 0x00000002) == 0)
+        {
+            ui->ClkSgTimeJumpCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->ClkSgTimeJumpCheckBox->setChecked(true);
+        }
+    }
+    else
+    {
+        ui->ClkSgGenErrorCheckBox->setChecked(false);
         ui->ClkSgInvertedCheckBox->setChecked(false);
     }
 
@@ -212,6 +249,17 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
         ui->ClkSgRepeatCountValue->setText("NA");
     }
 
+    // clear time jump and gen error
+    temp_data = 0x00000003;
+    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000004, temp_data))
+    {
+        // nothing time jump and gen error cleared
+    }
+    else
+    {
+        cout << "ERROR: " << "time jump and gen error cleaning didn't work" << endl;
+    }
+
     // version
     if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
     {
@@ -226,8 +274,8 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
 
 void Ucm_ClkSgTab::clk_sg_write_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->ClkSgInstanceComboBox->currentText();
@@ -270,7 +318,6 @@ void Ucm_ClkSgTab::clk_sg_write_values(void)
     {
         ui->ClkSgInvertedCheckBox->setChecked(false);
     }
-
 
     // start seconds
     temp_string = ui->ClkSgStartSecondsValue->text();
@@ -416,6 +463,7 @@ void Ucm_ClkSgTab::clk_sg_auto_refresh_button_clicked(void)
     {
         ui->ClkSgAutoRefreshButton->setEnabled(false);
 
+        ui->ClkSgInstanceComboBox->setEnabled(false);
         ui->ClkSgReadValuesButton->setEnabled(false);
         ui->ClkSgWriteValuesButton->setEnabled(false);
 
@@ -430,6 +478,7 @@ void Ucm_ClkSgTab::clk_sg_auto_refresh_button_clicked(void)
 
         clk_sg_timer->stop();
 
+        ui->ClkSgInstanceComboBox->setEnabled(true);
         ui->ClkSgReadValuesButton->setEnabled(true);
         ui->ClkSgWriteValuesButton->setEnabled(true);
 

@@ -45,6 +45,11 @@ Ucm_TodSlaveTab::~Ucm_TodSlaveTab()
     delete tod_slave_timer;
 }
 
+int Ucm_TodSlaveTab::tod_slave_resize(int height, int width)
+{
+    return 0;
+}
+
 void Ucm_TodSlaveTab::tod_slave_add_instance(unsigned int instance)
 {
     ui->TodSlaveInstanceComboBox->addItem(QString::number(instance));
@@ -59,6 +64,7 @@ int Ucm_TodSlaveTab::tod_slave_disable(void)
 {
     tod_slave_timer->stop();
     ui->TodSlaveAutoRefreshButton->setText("Start Refresh");
+    ui->TodSlaveInstanceComboBox->setEnabled(true);
     ui->TodSlaveReadValuesButton->setEnabled(true);
     ui->TodSlaveWriteValuesButton->setEnabled(true);
     ui->TodSlaveInstanceComboBox->clear();
@@ -73,8 +79,8 @@ int Ucm_TodSlaveTab::tod_slave_disable(void)
 
 void Ucm_TodSlaveTab::tod_slave_read_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->TodSlaveInstanceComboBox->currentText();
@@ -194,8 +200,8 @@ void Ucm_TodSlaveTab::tod_slave_read_values(void)
 
 void Ucm_TodSlaveTab::tod_slave_write_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->TodSlaveInstanceComboBox->currentText();
@@ -382,6 +388,7 @@ void Ucm_TodSlaveTab::tod_slave_auto_refresh_button_clicked(void)
     {
         ui->TodSlaveAutoRefreshButton->setEnabled(false);
 
+        ui->TodSlaveInstanceComboBox->setEnabled(false);
         ui->TodSlaveReadValuesButton->setEnabled(false);
         ui->TodSlaveWriteValuesButton->setEnabled(false);
 
@@ -396,6 +403,7 @@ void Ucm_TodSlaveTab::tod_slave_auto_refresh_button_clicked(void)
 
         tod_slave_timer->stop();
 
+        ui->TodSlaveInstanceComboBox->setEnabled(true);
         ui->TodSlaveReadValuesButton->setEnabled(true);
         ui->TodSlaveWriteValuesButton->setEnabled(true);
 

@@ -40,6 +40,7 @@ public:
     Ucm_ClkSgTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_ClkSgTab();
 
+    int clk_sg_resize(int height, int width);
     void clk_sg_add_instance(unsigned int instance);
     int clk_sg_disable(void);
     int clk_sg_enable(void);

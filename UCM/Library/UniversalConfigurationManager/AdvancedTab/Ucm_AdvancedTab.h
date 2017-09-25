@@ -25,6 +25,8 @@
 
 #include <QWidget>
 #include <QFileDialog>
+#include <QTextStream>
+#include <QMessageBox>
 #include "../Ucm_UniversalConfigurationManager.h"
 
 class Ucm_UniversalConfigurationManager;
@@ -41,8 +43,10 @@ public:
     Ucm_AdvancedTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_AdvancedTab();
 
+    int advanced_resize(int height, int width);
     int advanced_disable(void);
     int advanced_enable(void);
+
 
 private:
     Ucm_UniversalConfigurationManager* ucm;
@@ -58,8 +62,12 @@ private slots:
     void advanced_read_value_button_clicked(void);
     void advanced_write_value_button_clicked(void);
     void advanced_clear_log_button_clicked(void);
+    void advanced_save_log_button_clicked(void);
     void advanced_load_config_button_clicked(void);
-    void advanced_config_file_browse_button_clicked(void);
+    void advanced_save_config_button_clicked(void);
+    void advanced_load_config_file_browse_button_clicked(void);
+    void advanced_save_config_file_browse_button_clicked(void);
+    void advanced_save_log_file_browse_button_clicked(void);
 };
 
 #endif // UCM_ADVANCEDTAB_H

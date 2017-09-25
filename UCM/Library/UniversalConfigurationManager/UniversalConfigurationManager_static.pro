@@ -45,6 +45,7 @@ SOURCES += main.cpp\
     PtpHcTab/Ucm_PtpHcTab.cpp \
     PtpOcTab/Ucm_PtpOcTab.cpp \
     PtpTcTab/Ucm_PtpTcTab.cpp \
+    TapSlaveTab/Ucm_TapSlaveTab.cpp \
     ConfigTab/Ucm_ConfigTab.cpp
 
 HEADERS  += Ucm_UniversalConfigurationManager.h \
@@ -65,6 +66,7 @@ HEADERS  += Ucm_UniversalConfigurationManager.h \
     PtpHcTab/Ucm_PtpHcTab.h \
     PtpOcTab/Ucm_PtpOcTab.h \
     PtpTcTab/Ucm_PtpTcTab.h \
+    TapSlaveTab/Ucm_TapSlaveTab.h \
     ConfigTab/Ucm_ConfigTab.h \
     DebugStream/Ucm_DebugStream.h
 
@@ -84,6 +86,7 @@ FORMS    += Ucm_UniversalConfigurationManager.ui \
     PtpHcTab/Ucm_PtpHcTab.ui \
     PtpOcTab/Ucm_PtpOcTab.ui \
     PtpTcTab/Ucm_PtpTcTab.ui \
+    TapSlaveTab/Ucm_TapSlaveTab.ui \
     ConfigTab/Ucm_ConfigTab.ui
 
 RC_FILE = Ucm_UniversalConfigurationManager.rc

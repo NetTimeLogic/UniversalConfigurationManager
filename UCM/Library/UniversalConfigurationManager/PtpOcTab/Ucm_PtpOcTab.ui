@@ -16,7 +16,7 @@
   <widget class="QLabel" name="PtpOcVersionLabel">
    <property name="geometry">
     <rect>
-     <x>530</x>
+     <x>20</x>
      <y>20</y>
      <width>80</width>
      <height>20</height>
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>170</y>
+     <y>200</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -43,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>50</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -56,7 +56,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
+     <y>110</y>
      <width>75</width>
      <height>20</height>
     </rect>
@@ -69,7 +69,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>140</y>
+     <y>170</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -81,9 +81,9 @@
   <widget class="QLabel" name="PtpOcDelayChartLabel">
    <property name="geometry">
     <rect>
-     <x>750</x>
-     <y>20</y>
-     <width>300</width>
+     <x>449</x>
+     <y>30</y>
+     <width>450</width>
      <height>20</height>
     </rect>
    </property>
@@ -130,41 +130,11 @@
     </property>
    </item>
   </widget>
-  <widget class="QWidget" name="PtpOcDelayChartWidget">
-   <property name="geometry">
-    <rect>
-     <x>750</x>
-     <y>20</y>
-     <width>300</width>
-     <height>170</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="PtpOcDelayChartLayout">
-    <property name="spacing">
-     <number>6</number>
-    </property>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="PtpOcOffsetChartWidget">
-   <property name="geometry">
-    <rect>
-     <x>1060</x>
-     <y>20</y>
-     <width>300</width>
-     <height>170</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="PtpOcOffsetChartLayout">
-    <property name="spacing">
-     <number>0</number>
-    </property>
-   </layout>
-  </widget>
   <widget class="QGroupBox" name="PtpOcCurrentDsGroupBox">
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>220</y>
+     <y>250</y>
      <width>260</width>
      <height>390</height>
     </rect>
@@ -193,7 +163,7 @@
      <rect>
       <x>100</x>
       <y>20</y>
-      <width>140</width>
+      <width>120</width>
       <height>20</height>
      </rect>
     </property>
@@ -236,12 +206,44 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="PtpOcCurrentDsDelayLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delay</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpOcCurrentDsDelayValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>80</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="PtpOcParentDsGroupBox">
    <property name="geometry">
     <rect>
      <x>830</x>
-     <y>220</y>
+     <y>250</y>
      <width>260</width>
      <height>390</height>
     </rect>
@@ -570,7 +572,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>50</y>
+     <y>80</y>
      <width>75</width>
      <height>20</height>
     </rect>
@@ -583,7 +585,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>220</y>
+     <y>250</y>
      <width>260</width>
      <height>390</height>
     </rect>
@@ -860,7 +862,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>20</y>
+     <y>50</y>
      <width>75</width>
      <height>20</height>
     </rect>
@@ -869,14 +871,17 @@
   <widget class="QLabel" name="PtpOcOffsetChartLabel">
    <property name="geometry">
     <rect>
-     <x>1060</x>
-     <y>20</y>
-     <width>300</width>
+     <x>910</x>
+     <y>30</y>
+     <width>450</width>
      <height>20</height>
     </rect>
    </property>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Offset</string>
@@ -902,7 +907,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>50</y>
+     <y>80</y>
      <width>75</width>
      <height>20</height>
     </rect>
@@ -946,9 +951,9 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>610</x>
+     <x>110</x>
      <y>20</y>
-     <width>120</width>
+     <width>75</width>
      <height>20</height>
     </rect>
    </property>
@@ -963,7 +968,7 @@
    <property name="geometry">
     <rect>
      <x>1100</x>
-     <y>220</y>
+     <y>250</y>
      <width>260</width>
      <height>390</height>
     </rect>
@@ -1322,7 +1327,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>140</y>
+     <y>170</y>
      <width>120</width>
      <height>20</height>
     </rect>
@@ -1335,7 +1340,7 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>220</y>
+     <y>250</y>
      <width>260</width>
      <height>390</height>
     </rect>
@@ -1364,7 +1369,7 @@
      <rect>
       <x>100</x>
       <y>20</y>
-      <width>121</width>
+      <width>120</width>
       <height>20</height>
      </rect>
     </property>
@@ -1383,7 +1388,7 @@
      <rect>
       <x>100</x>
       <y>50</y>
-      <width>121</width>
+      <width>120</width>
       <height>20</height>
      </rect>
     </property>
@@ -1407,7 +1412,314 @@
      <string>State</string>
     </property>
    </widget>
+   <widget class="QLineEdit" name="PtpOcPortDsAnnounceLogMsgIntervalValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>170</y>
+      <width>50</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpOcPortDsAnnounceLogMsgIntervalLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>170</y>
+      <width>150</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Announce Log Msg Interval</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpOcPortDsPDelayReqLogMsgIntervalValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>110</y>
+      <width>50</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpOcPortDsSyncLogMsgIntervalLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>230</y>
+      <width>150</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sync Log Msg Interval</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpOcPortDsPDelayReqLogMsgIntervalLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>110</y>
+      <width>150</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PDelayReq Log Msg Interval</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpOcPortDsAnnounceReceiptTimeoutValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>200</y>
+      <width>50</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpOcPortDsDelayReqLogMsgIntervalValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>140</y>
+      <width>50</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpOcPortDsDelayReqLogMsgIntervalLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>140</y>
+      <width>150</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DelayReq Log Msg Interval</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpOcPortDsAnnounceReceiptTimeoutLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>200</y>
+      <width>150</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Announce Receipt  Timeout</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpOcPortDsSyncLogMsgIntervalValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>230</y>
+      <width>50</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="PtpOcPortDsSetCustomIntervalsCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>260</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string> Set Custom Intervals</string>
+    </property>
+   </widget>
   </widget>
+  <widget class="QComboBox" name="PtpOcDelayMechanismValue">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>140</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <item>
+    <property name="text">
+     <string>NA</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>E2E</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>P2P</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QWidget" name="PtpOcDelayChartValue" native="true">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>20</y>
+     <width>450</width>
+     <height>210</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="sizeConstraint">
+     <enum>QLayout::SetMaximumSize</enum>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <layout class="QVBoxLayout" name="PtpOcDelayChartLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMaximumSize</enum>
+      </property>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="PtpOcOffsetChartValue" native="true">
+   <property name="geometry">
+    <rect>
+     <x>910</x>
+     <y>20</y>
+     <width>450</width>
+     <height>210</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <layout class="QVBoxLayout" name="PtpOcOffsetChartLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <zorder>PtpOcVersionLabel</zorder>
+  <zorder>PtpOcEnableCheckBox</zorder>
+  <zorder>PtpOcInstanceLabel</zorder>
+  <zorder>PtpOcAutoRefreshButton</zorder>
+  <zorder>PtpOcIpLabel</zorder>
+  <zorder>PtpOcProfileValue</zorder>
+  <zorder>PtpOcCurrentDsGroupBox</zorder>
+  <zorder>PtpOcParentDsGroupBox</zorder>
+  <zorder>PtpOcLayerValue</zorder>
+  <zorder>PtpOcWriteValuesButton</zorder>
+  <zorder>PtpOcDefaultDsGroupBox</zorder>
+  <zorder>PtpOcInstanceComboBox</zorder>
+  <zorder>PtpOcVlanLabel</zorder>
+  <zorder>PtpOcReadValuesButton</zorder>
+  <zorder>PtpOcVlanValue</zorder>
+  <zorder>PtpOcProfileLabel</zorder>
+  <zorder>PtpOcVersionValue</zorder>
+  <zorder>PtpOcTimePropertiesDsGroupBox</zorder>
+  <zorder>PtpOcVlanEnableCheckBox</zorder>
+  <zorder>PtpOcIpValue</zorder>
+  <zorder>PtpOcPortDsGroupBox</zorder>
+  <zorder>PtpOcDelayMechanismValue</zorder>
+  <zorder>PtpOcDelayChartValue</zorder>
+  <zorder>PtpOcOffsetChartValue</zorder>
+  <zorder>PtpOcDelayChartLabel</zorder>
+  <zorder>PtpOcOffsetChartLabel</zorder>
  </widget>
  <resources/>
  <connections/>

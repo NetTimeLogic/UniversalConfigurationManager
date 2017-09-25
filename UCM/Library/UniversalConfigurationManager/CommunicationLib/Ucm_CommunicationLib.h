@@ -43,6 +43,7 @@ class Ucm_CommunicationLib
 
         int open_port(QString port_name);
         int close_port();
+        int check_port();
         int write_reg(const unsigned int addr, unsigned int& data);
         int read_reg(const unsigned int addr, unsigned int& data);
 

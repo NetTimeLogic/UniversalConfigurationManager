@@ -23,6 +23,7 @@
 #ifndef UCM_PTPOC_H
 #define UCM_PTPOC_H
 
+#include <QScrollArea>
 #include <QWidget>
 #include <QTimer>
 #include <QtCharts/QChartView>
@@ -47,6 +48,7 @@ public:
     Ucm_PtpOcTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_PtpOcTab();
 
+    int ptp_oc_resize(int height, int width);
     void ptp_oc_add_instance(unsigned int instance);
     int ptp_oc_disable(void);
     int ptp_oc_enable(void);
@@ -57,7 +59,7 @@ private:
     Ucm_UniversalConfigurationManager* ucm;
     Ui::Ucm_PtpOcTab *ui;
 
-    // CLK Clock tab
+    // PTP Oc tab
     QTimer* ptp_oc_timer;
 
     QLineSeries* ptp_oc_offset_series;
@@ -75,7 +77,7 @@ private:
     void ptp_oc_write_values(void);
 
 private slots:
-    // CLK Clock tab
+    // PTP Oc tab
     void ptp_oc_read_values_button_clicked(void);
     void ptp_oc_write_values_button_clicked(void);
     void ptp_oc_auto_refresh_button_clicked(void);

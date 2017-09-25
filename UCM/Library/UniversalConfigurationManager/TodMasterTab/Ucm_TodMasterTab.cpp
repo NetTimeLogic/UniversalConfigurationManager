@@ -45,6 +45,11 @@ Ucm_TodMasterTab::~Ucm_TodMasterTab()
     delete tod_master_timer;
 }
 
+int Ucm_TodMasterTab::tod_master_resize(int height, int width)
+{
+    return 0;
+}
+
 void Ucm_TodMasterTab::tod_master_add_instance(unsigned int instance)
 {
     ui->TodMasterInstanceComboBox->addItem(QString::number(instance));
@@ -59,6 +64,7 @@ int Ucm_TodMasterTab::tod_master_disable(void)
 {
     tod_master_timer->stop();
     ui->TodMasterAutoRefreshButton->setText("Start Refresh");
+    ui->TodMasterInstanceComboBox->setEnabled(true);
     ui->TodMasterReadValuesButton->setEnabled(true);
     ui->TodMasterWriteValuesButton->setEnabled(true);
     ui->TodMasterInstanceComboBox->clear();
@@ -76,8 +82,8 @@ int Ucm_TodMasterTab::tod_master_disable(void)
 
 void Ucm_TodMasterTab::tod_master_read_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->TodMasterInstanceComboBox->currentText();
@@ -223,8 +229,8 @@ void Ucm_TodMasterTab::tod_master_read_values(void)
 
 void Ucm_TodMasterTab::tod_master_write_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->TodMasterInstanceComboBox->currentText();
@@ -457,6 +463,7 @@ void Ucm_TodMasterTab::tod_master_auto_refresh_button_clicked(void)
     {
         ui->TodMasterAutoRefreshButton->setEnabled(false);
 
+        ui->TodMasterInstanceComboBox->setEnabled(false);
         ui->TodMasterReadValuesButton->setEnabled(false);
         ui->TodMasterWriteValuesButton->setEnabled(false);
 
@@ -471,6 +478,7 @@ void Ucm_TodMasterTab::tod_master_auto_refresh_button_clicked(void)
 
         tod_master_timer->stop();
 
+        ui->TodMasterInstanceComboBox->setEnabled(true);
         ui->TodMasterReadValuesButton->setEnabled(true);
         ui->TodMasterWriteValuesButton->setEnabled(true);
 

@@ -24,6 +24,7 @@
 #define UCM_CONFIGTAB_H
 
 #include <QWidget>
+#include <QMessageBox>
 #include "../Ucm_UniversalConfigurationManager.h"
 
 class Ucm_UniversalConfigurationManager;
@@ -40,12 +41,19 @@ public:
     Ucm_ConfigTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_ConfigTab();
 
+    int config_resize(int height, int width);
+
 private:
     Ucm_UniversalConfigurationManager* ucm;
     Ui::Ucm_ConfigTab *ui;
 
+    // Config tab
+    QTimer* config_timer;
+
 private slots:
     void config_com_port_button_clicked(void);
+    void config_full_screen_button_clicked(void);
+    void config_com_port_check_timer(void);
 };
 
 #endif // UCM_CONFIGTAB_H

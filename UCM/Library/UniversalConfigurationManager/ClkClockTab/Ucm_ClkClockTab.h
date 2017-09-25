@@ -40,6 +40,7 @@ public:
     Ucm_ClkClockTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_ClkClockTab();
 
+    int clk_clock_resize(int height, int width);
     void clk_clock_add_instance(unsigned int instance);
     int clk_clock_disable(void);
     int clk_clock_enable(void);

@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>140</y>
+     <y>350</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>80</y>
+     <y>290</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -43,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>170</y>
+     <y>380</y>
      <width>80</width>
      <height>17</height>
     </rect>
@@ -56,7 +56,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>140</y>
+     <y>350</y>
      <width>120</width>
      <height>20</height>
     </rect>
@@ -114,7 +114,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
+     <y>110</y>
      <width>75</width>
      <height>20</height>
     </rect>
@@ -142,9 +142,9 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>610</x>
+     <x>110</x>
      <y>20</y>
-     <width>120</width>
+     <width>75</width>
      <height>20</height>
     </rect>
    </property>
@@ -162,7 +162,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>80</y>
+     <y>290</y>
      <width>120</width>
      <height>20</height>
     </rect>
@@ -191,7 +191,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>50</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -216,7 +216,7 @@
   <widget class="QLabel" name="ClkClockVersionLabel">
    <property name="geometry">
     <rect>
-     <x>530</x>
+     <x>20</x>
      <y>20</y>
      <width>80</width>
      <height>20</height>
@@ -230,7 +230,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>50</y>
+     <y>80</y>
      <width>75</width>
      <height>20</height>
     </rect>
@@ -243,7 +243,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>20</y>
+     <y>50</y>
      <width>75</width>
      <height>20</height>
     </rect>
@@ -253,7 +253,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>110</y>
+     <y>320</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -266,7 +266,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>50</y>
+     <y>80</y>
      <width>75</width>
      <height>20</height>
     </rect>
@@ -295,6 +295,32 @@
    <property name="geometry">
     <rect>
      <x>300</x>
+     <y>320</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>NA</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ClkClockOffsetLabel">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>110</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Offset</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="ClkClockOffsetValue">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
      <y>110</y>
      <width>120</width>
      <height>20</height>
@@ -302,6 +328,180 @@
    </property>
    <property name="text">
     <string>NA</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="ClkClockOffsetIntervalValue">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>140</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>NA</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ClkClockOffsetIntervalLabel">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>140</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Offset Interval</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="ClkClockOffsetAdjCheckBox">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>170</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ClkClockOffsetAdjLabel">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>170</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Offset Adj</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="ClkClockDriftValue">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>200</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>NA</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ClkClockDriftLabel">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>200</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Drift</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="ClkClockDriftAdjCheckBox">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>260</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ClkClockDriftIntervalLabel">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>230</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Drift Interval</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ClkClockDriftAdjLabel">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>260</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Drift Adj</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="ClkClockDriftIntervalValue">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>230</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>NA</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ClkClockTimeAdjLabel">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>80</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Time Adj</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="ClkClockTimeAdjCheckBox">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>80</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

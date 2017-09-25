@@ -40,6 +40,7 @@ public:
     Ucm_ClkTsTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_ClkTsTab();
 
+    int clk_ts_resize(int height, int width);
     void clk_ts_add_instance(unsigned int instance);
     int clk_ts_disable(void);
     int clk_ts_enable(void);

@@ -45,6 +45,11 @@ Ucm_RedHsrPrpTab::~Ucm_RedHsrPrpTab()
     delete red_hsrprp_timer;
 }
 
+int Ucm_RedHsrPrpTab::red_hsrprp_resize(int height, int width)
+{
+    return 0;
+}
+
 void Ucm_RedHsrPrpTab::red_hsrprp_add_instance(unsigned int instance)
 {
     ui->RedHsrPrpInstanceComboBox->addItem(QString::number(instance));
@@ -59,6 +64,7 @@ int Ucm_RedHsrPrpTab::red_hsrprp_disable(void)
 {
     red_hsrprp_timer->stop();
     ui->RedHsrPrpAutoRefreshButton->setText("Start Refresh");
+    ui->RedHsrPrpInstanceComboBox->setEnabled(true);
     ui->RedHsrPrpReadValuesButton->setEnabled(true);
     ui->RedHsrPrpWriteValuesButton->setEnabled(true);
     ui->RedHsrPrpInstanceComboBox->clear();
@@ -75,8 +81,8 @@ int Ucm_RedHsrPrpTab::red_hsrprp_disable(void)
 
 void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->RedHsrPrpInstanceComboBox->currentText();
@@ -195,6 +201,42 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
         ui->RedHsrPrpModeValue->setCurrentText("NA");
     }
 
+
+    // lan status
+    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000004, temp_data))
+    {
+        if ((temp_data & 0x00000001) == 0)
+        {
+            ui->RedHsrPrpLanACheckBox->setChecked(true);
+        }
+        else
+        {
+            ui->RedHsrPrpLanACheckBox->setChecked(false);
+        }
+
+        if ((temp_data & 0x00000002) == 0)
+        {
+            ui->RedHsrPrpLanBCheckBox->setChecked(true);
+        }
+        else
+        {
+            ui->RedHsrPrpLanBCheckBox->setChecked(false);
+        }
+
+        temp_data &= 0x00000003;
+        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000004, temp_data))
+        {
+            // nothing just cleared the values
+        }
+    }
+    else
+    {
+        ui->RedHsrPrpLanACheckBox->setChecked(false);
+        ui->RedHsrPrpLanBCheckBox->setChecked(false);
+    }
+
+
+
     // version
     if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
     {
@@ -210,8 +252,8 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
 void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
 {
     unsigned long long temp_mac;
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->RedHsrPrpInstanceComboBox->currentText();
@@ -413,6 +455,7 @@ void Ucm_RedHsrPrpTab::red_hsrprp_auto_refresh_button_clicked(void)
     {
         ui->RedHsrPrpAutoRefreshButton->setEnabled(false);
 
+        ui->RedHsrPrpInstanceComboBox->setEnabled(false);
         ui->RedHsrPrpReadValuesButton->setEnabled(false);
         ui->RedHsrPrpWriteValuesButton->setEnabled(false);
 
@@ -427,6 +470,7 @@ void Ucm_RedHsrPrpTab::red_hsrprp_auto_refresh_button_clicked(void)
 
         red_hsrprp_timer->stop();
 
+        ui->RedHsrPrpInstanceComboBox->setEnabled(true);
         ui->RedHsrPrpReadValuesButton->setEnabled(true);
         ui->RedHsrPrpWriteValuesButton->setEnabled(true);
 

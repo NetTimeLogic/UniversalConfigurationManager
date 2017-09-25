@@ -40,6 +40,7 @@ public:
     Ucm_TodMasterTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_TodMasterTab();
 
+    int tod_master_resize(int height, int width);
     void tod_master_add_instance(unsigned int instance);
     int tod_master_disable(void);
     int tod_master_enable(void);
@@ -50,14 +51,14 @@ private:
     Ucm_UniversalConfigurationManager* ucm;
     Ui::Ucm_TodMasterTab *ui;
 
-    // CLK Clock tab
+    // TOD Master tab
     QTimer* tod_master_timer;
 
     void tod_master_read_values(void);
     void tod_master_write_values(void);
 
 private slots:
-    // CLK Clock tab
+    // TOD Master tab
     void tod_master_read_values_button_clicked(void);
     void tod_master_write_values_button_clicked(void);
     void tod_master_auto_refresh_button_clicked(void);

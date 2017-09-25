@@ -45,6 +45,11 @@ Ucm_PpsMasterTab::~Ucm_PpsMasterTab()
     delete pps_master_timer;
 }
 
+int Ucm_PpsMasterTab::pps_master_resize(int height, int width)
+{
+    return 0;
+}
+
 void Ucm_PpsMasterTab::pps_master_add_instance(unsigned int instance)
 {
     ui->PpsMasterInstanceComboBox->addItem(QString::number(instance));
@@ -59,6 +64,7 @@ int Ucm_PpsMasterTab::pps_master_disable(void)
 {
     pps_master_timer->stop();
     ui->PpsMasterAutoRefreshButton->setText("Start Refresh");
+    ui->PpsMasterInstanceComboBox->setEnabled(true);
     ui->PpsMasterReadValuesButton->setEnabled(true);
     ui->PpsMasterWriteValuesButton->setEnabled(true);
     ui->PpsMasterInstanceComboBox->clear();
@@ -73,8 +79,8 @@ int Ucm_PpsMasterTab::pps_master_disable(void)
 
 void Ucm_PpsMasterTab::pps_master_read_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->PpsMasterInstanceComboBox->currentText();
@@ -155,8 +161,8 @@ void Ucm_PpsMasterTab::pps_master_read_values(void)
 
 void Ucm_PpsMasterTab::pps_master_write_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->PpsMasterInstanceComboBox->currentText();
@@ -242,6 +248,7 @@ void Ucm_PpsMasterTab::pps_master_auto_refresh_button_clicked(void)
     {
         ui->PpsMasterAutoRefreshButton->setEnabled(false);
 
+        ui->PpsMasterInstanceComboBox->setEnabled(false);
         ui->PpsMasterReadValuesButton->setEnabled(false);
         ui->PpsMasterWriteValuesButton->setEnabled(false);
 
@@ -256,6 +263,7 @@ void Ucm_PpsMasterTab::pps_master_auto_refresh_button_clicked(void)
 
         pps_master_timer->stop();
 
+        ui->PpsMasterInstanceComboBox->setEnabled(true);
         ui->PpsMasterReadValuesButton->setEnabled(true);
         ui->PpsMasterWriteValuesButton->setEnabled(true);
 

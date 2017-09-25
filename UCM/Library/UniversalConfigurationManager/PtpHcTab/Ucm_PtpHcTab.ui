@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>50</y>
+     <y>80</y>
      <width>75</width>
      <height>20</height>
     </rect>
@@ -59,7 +59,7 @@
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>220</y>
+     <y>250</y>
      <width>260</width>
      <height>390</height>
     </rect>
@@ -88,7 +88,7 @@
      <rect>
       <x>100</x>
       <y>20</y>
-      <width>140</width>
+      <width>120</width>
       <height>20</height>
      </rect>
     </property>
@@ -131,40 +131,38 @@
      <bool>true</bool>
     </property>
    </widget>
-  </widget>
-  <widget class="QLabel" name="PtpHcOffsetChartLabel">
-   <property name="geometry">
-    <rect>
-     <x>1060</x>
-     <y>20</y>
-     <width>300</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="text">
-    <string>Offset</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QWidget" name="PtpHcOffsetChartWidget">
-   <property name="geometry">
-    <rect>
-     <x>1060</x>
-     <y>20</y>
-     <width>300</width>
-     <height>170</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="PtpHcOffsetChartLayout">
-    <property name="spacing">
-     <number>0</number>
+   <widget class="QLineEdit" name="PtpHcCurrentDsDelayValue">
+    <property name="enabled">
+     <bool>true</bool>
     </property>
-   </layout>
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>80</y>
+      <width>120</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpHcCurrentDsDelayLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delay</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QLabel" name="PtpHcVlanLabel">
    <property name="geometry">
@@ -183,7 +181,7 @@
    <property name="geometry">
     <rect>
      <x>1100</x>
-     <y>220</y>
+     <y>250</y>
      <width>260</width>
      <height>390</height>
     </rect>
@@ -559,7 +557,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>50</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -572,7 +570,7 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>220</y>
+     <y>250</y>
      <width>260</width>
      <height>390</height>
     </rect>
@@ -601,7 +599,7 @@
      <rect>
       <x>100</x>
       <y>50</y>
-      <width>121</width>
+      <width>120</width>
       <height>20</height>
      </rect>
     </property>
@@ -643,7 +641,7 @@
      <rect>
       <x>100</x>
       <y>80</y>
-      <width>121</width>
+      <width>120</width>
       <height>20</height>
      </rect>
     </property>
@@ -667,6 +665,179 @@
      <string>State</string>
     </property>
    </widget>
+   <widget class="QLineEdit" name="PtpHcPortDsPDelayReqLogMsgIntervalValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>140</y>
+      <width>50</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpHcPortDsPDelayReqLogMsgIntervalLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>140</y>
+      <width>150</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PDelayReq Log Msg Interval</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpHcPortDsDelayReqLogMsgIntervalValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>170</y>
+      <width>50</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpHcPortDsDelayReqLogMsgIntervalLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>170</y>
+      <width>150</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DelayReq Log Msg Interval</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpHcPortDsSyncLogMsgIntervalValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>260</y>
+      <width>50</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpHcPortDsSyncLogMsgIntervalLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>260</y>
+      <width>150</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sync Log Msg Interval</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpHcPortDsAnnounceLogMsgIntervalValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>200</y>
+      <width>50</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpHcPortDsAnnounceLogMsgIntervalLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>200</y>
+      <width>150</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Announce Log Msg Interval</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpHcPortDsAnnounceReceiptTimeoutValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>230</y>
+      <width>50</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpHcPortDsAnnounceReceiptTimeoutLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>230</y>
+      <width>150</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Announce Receipt  Timeout</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="PtpHcPortDsSetCustomIntervalsCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>290</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string> Set Custom Intervals</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QLineEdit" name="PtpHcVersionValue">
    <property name="enabled">
@@ -674,9 +845,9 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>610</x>
+     <x>110</x>
      <y>20</y>
-     <width>120</width>
+     <width>75</width>
      <height>20</height>
     </rect>
    </property>
@@ -691,7 +862,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>50</y>
+     <y>80</y>
      <width>75</width>
      <height>20</height>
     </rect>
@@ -717,7 +888,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>220</y>
+     <y>250</y>
      <width>260</width>
      <height>390</height>
     </rect>
@@ -994,7 +1165,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>140</y>
+     <y>170</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -1010,7 +1181,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>140</y>
+     <y>170</y>
      <width>120</width>
      <height>20</height>
     </rect>
@@ -1023,7 +1194,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>170</y>
+     <y>200</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -1036,7 +1207,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
+     <y>110</y>
      <width>75</width>
      <height>20</height>
     </rect>
@@ -1076,7 +1247,7 @@
   <widget class="QLabel" name="PtpHcVersionLabel">
    <property name="geometry">
     <rect>
-     <x>530</x>
+     <x>20</x>
      <y>20</y>
      <width>80</width>
      <height>20</height>
@@ -1090,7 +1261,7 @@
    <property name="geometry">
     <rect>
      <x>830</x>
-     <y>220</y>
+     <y>250</y>
      <width>260</width>
      <height>390</height>
     </rect>
@@ -1391,18 +1562,83 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>20</y>
+     <y>50</y>
      <width>75</width>
      <height>20</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="PtpHcDelayChartLabel">
+  <widget class="QComboBox" name="PtpHcDelayMechanismValue">
    <property name="geometry">
     <rect>
-     <x>750</x>
+     <x>300</x>
+     <y>140</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <item>
+    <property name="text">
+     <string>NA</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>E2E</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>P2P</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QWidget" name="PtpHcOffsetChartValue" native="true">
+   <property name="geometry">
+    <rect>
+     <x>910</x>
      <y>20</y>
-     <width>300</width>
+     <width>450</width>
+     <height>210</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <layout class="QVBoxLayout" name="PtpHcOffsetChartLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="PtpHcOffsetChartLabel">
+   <property name="geometry">
+    <rect>
+     <x>910</x>
+     <y>30</y>
+     <width>450</width>
      <height>20</height>
     </rect>
    </property>
@@ -1410,27 +1646,94 @@
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="text">
-    <string>Peer Delay</string>
+    <string>Offset</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QWidget" name="PtpHcDelayChartWidget">
+  <widget class="QLabel" name="PtpHcDelayChartLabel">
    <property name="geometry">
     <rect>
-     <x>750</x>
-     <y>20</y>
-     <width>300</width>
-     <height>170</height>
+     <x>449</x>
+     <y>30</y>
+     <width>450</width>
+     <height>20</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="PtpHcDelayChartLayout">
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="text">
+    <string>Delay</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="PtpHcDelayChartValue" native="true">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>20</y>
+     <width>450</width>
+     <height>210</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_4">
     <property name="spacing">
-     <number>6</number>
+     <number>0</number>
     </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <layout class="QVBoxLayout" name="PtpHcDelayChartLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+     </layout>
+    </item>
    </layout>
   </widget>
+  <zorder>PtpHcVlanEnableCheckBox</zorder>
+  <zorder>PtpHcWriteValuesButton</zorder>
+  <zorder>PtpHcVlanValue</zorder>
+  <zorder>PtpHcCurrentDsGroupBox</zorder>
+  <zorder>PtpHcVlanLabel</zorder>
+  <zorder>PtpHcTimePropertiesDsGroupBox</zorder>
+  <zorder>PtpHcProfileValue</zorder>
+  <zorder>PtpHcInstanceLabel</zorder>
+  <zorder>PtpHcPortDsGroupBox</zorder>
+  <zorder>PtpHcVersionValue</zorder>
+  <zorder>PtpHcReadValuesButton</zorder>
+  <zorder>PtpHcProfileLabel</zorder>
+  <zorder>PtpHcDefaultDsGroupBox</zorder>
+  <zorder>PtpHcIpLabel</zorder>
+  <zorder>PtpHcIpValue</zorder>
+  <zorder>PtpHcEnableCheckBox</zorder>
+  <zorder>PtpHcAutoRefreshButton</zorder>
+  <zorder>PtpHcLayerValue</zorder>
+  <zorder>PtpHcVersionLabel</zorder>
+  <zorder>PtpHcParentDsGroupBox</zorder>
+  <zorder>PtpHcInstanceComboBox</zorder>
+  <zorder>PtpHcDelayMechanismValue</zorder>
+  <zorder>PtpHcOffsetChartValue</zorder>
+  <zorder>PtpHcOffsetChartLabel</zorder>
+  <zorder>PtpHcDelayChartValue</zorder>
+  <zorder>PtpHcDelayChartLabel</zorder>
  </widget>
  <resources/>
  <connections/>

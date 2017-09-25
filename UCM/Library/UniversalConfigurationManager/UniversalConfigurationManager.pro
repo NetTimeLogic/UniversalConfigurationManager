@@ -38,13 +38,14 @@ SOURCES += main.cpp\
     PpsSlaveTab/Ucm_PpsSlaveTab.cpp \
     IrigSlaveTab/Ucm_IrigSlaveTab.cpp \
     IrigMasterTab/Ucm_IrigMasterTab.cpp \
+    TodMasterTab/Ucm_TodMasterTab.cpp \
     TodSlaveTab/Ucm_TodSlaveTab.cpp \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.cpp \
     PtpHcTab/Ucm_PtpHcTab.cpp \
     PtpOcTab/Ucm_PtpOcTab.cpp \
     PtpTcTab/Ucm_PtpTcTab.cpp \
-    ConfigTab/Ucm_ConfigTab.cpp \
-    TodMasterTab/Ucm_TodMasterTab.cpp
+    TapSlaveTab/Ucm_TapSlaveTab.cpp \
+    ConfigTab/Ucm_ConfigTab.cpp
 
 HEADERS  += Ucm_UniversalConfigurationManager.h \
     CommunicationLib/Ucm_CommunicationLib.h \
@@ -58,14 +59,15 @@ HEADERS  += Ucm_UniversalConfigurationManager.h \
     PpsSlaveTab/Ucm_PpsSlaveTab.h \
     IrigSlaveTab/Ucm_IrigSlaveTab.h \
     IrigMasterTab/Ucm_IrigMasterTab.h \
+    TodMasterTab/Ucm_TodMasterTab.h \
     TodSlaveTab/Ucm_TodSlaveTab.h \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.h \
     PtpHcTab/Ucm_PtpHcTab.h \
     PtpOcTab/Ucm_PtpOcTab.h \
     PtpTcTab/Ucm_PtpTcTab.h \
+    TapSlaveTab/Ucm_TapSlaveTab.h \
     ConfigTab/Ucm_ConfigTab.h \
-    DebugStream/Ucm_DebugStream.h \
-    TodMasterTab/Ucm_TodMasterTab.h
+    DebugStream/Ucm_DebugStream.h
 
 FORMS    += Ucm_UniversalConfigurationManager.ui \
     ClkClockTab/Ucm_ClkClockTab.ui \
@@ -77,13 +79,14 @@ FORMS    += Ucm_UniversalConfigurationManager.ui \
     PpsSlaveTab/Ucm_PpsSlaveTab.ui \
     IrigSlaveTab/Ucm_IrigSlaveTab.ui \
     IrigMasterTab/Ucm_IrigMasterTab.ui \
+    TodMasterTab/Ucm_TodMasterTab.ui \
     TodSlaveTab/Ucm_TodSlaveTab.ui \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.ui \
     PtpHcTab/Ucm_PtpHcTab.ui \
     PtpOcTab/Ucm_PtpOcTab.ui \
     PtpTcTab/Ucm_PtpTcTab.ui \
-    ConfigTab/Ucm_ConfigTab.ui \
-    TodMasterTab/Ucm_TodMasterTab.ui
+    TapSlaveTab/Ucm_TapSlaveTab.ui \
+    ConfigTab/Ucm_ConfigTab.ui
 
 RC_FILE = Ucm_UniversalConfigurationManager.rc
 

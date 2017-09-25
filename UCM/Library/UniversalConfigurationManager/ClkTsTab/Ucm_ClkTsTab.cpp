@@ -45,6 +45,11 @@ Ucm_ClkTsTab::~Ucm_ClkTsTab()
     delete clk_ts_timer;
 }
 
+int Ucm_ClkTsTab::clk_ts_resize(int height, int width)
+{
+    return 0;
+}
+
 void Ucm_ClkTsTab::clk_ts_add_instance(unsigned int instance)
 {
     ui->ClkTsInstanceComboBox->addItem(QString::number(instance));
@@ -59,12 +64,15 @@ int Ucm_ClkTsTab::clk_ts_disable(void)
 {
     clk_ts_timer->stop();
     ui->ClkTsAutoRefreshButton->setText("Start Refresh");
+    ui->ClkTsInstanceComboBox->setEnabled(true);
     ui->ClkTsReadValuesButton->setEnabled(true);
     ui->ClkTsWriteValuesButton->setEnabled(true);
     ui->ClkTsInstanceComboBox->clear();
 
+    ui->ClkTsEventNrValue->setText("NA");
     ui->ClkTsInvertedCheckBox->setChecked(false);
     ui->ClkTsNewTimestampCheckBox->setChecked(false);
+    ui->ClkTsDropCheckBox->setChecked(false);
     ui->ClkTsSecondsValue->setText("NA");
     ui->ClkTsNanosecondsValue->setText("NA");
     ui->ClkTsTimestampNrValue->setText("NA");
@@ -76,8 +84,8 @@ int Ucm_ClkTsTab::clk_ts_disable(void)
 
 void Ucm_ClkTsTab::clk_ts_read_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
     unsigned int temp_data_width = 0;
 
@@ -92,8 +100,10 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
         }
         else if (i == (ucm->core_config.size()-1))
         {
+            ui->ClkTsEventNrValue->setText("NA");
             ui->ClkTsInvertedCheckBox->setChecked(false);
             ui->ClkTsNewTimestampCheckBox->setChecked(false);
+            ui->ClkTsDropCheckBox->setChecked(false);
             ui->ClkTsSecondsValue->setText("NA");
             ui->ClkTsNanosecondsValue->setText("NA");
             ui->ClkTsTimestampNrValue->setText("NA");
@@ -118,6 +128,16 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
     else
     {
         ui->ClkTsEnableCheckBox->setChecked(false);
+    }
+
+    // event nr
+    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000018, temp_data))
+    {
+        ui->ClkTsEventNrValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->ClkTsEventNrValue->setText("NA");
     }
 
     // polarity
@@ -147,6 +167,23 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
         else
         {
             ui->ClkTsNewTimestampCheckBox->setChecked(true);
+        }
+    }
+    else
+    {
+        ui->ClkTsNewTimestampCheckBox->setChecked(false);
+    }
+
+    // drop
+    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000004, temp_data))
+    {
+        if ((temp_data & 0x00000001) == 0)
+        {
+            ui->ClkTsDropCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->ClkTsDropCheckBox->setChecked(true);
         }
     }
     else
@@ -240,6 +277,18 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
         {
             cout << "ERROR: " << "irq cleaning didn't work" << endl;
         }
+
+    }
+
+    // clear drop
+    temp_data = 0x00000001;
+    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000004, temp_data))
+    {
+        // nothing drop cleared
+    }
+    else
+    {
+        cout << "ERROR: " << "drop cleaning didn't work" << endl;
     }
 
     // version
@@ -257,8 +306,8 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
 
 void Ucm_ClkTsTab::clk_ts_write_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->ClkTsInstanceComboBox->currentText();
@@ -335,6 +384,7 @@ void Ucm_ClkTsTab::clk_ts_auto_refresh_button_clicked(void)
     {
         ui->ClkTsAutoRefreshButton->setEnabled(false);
 
+        ui->ClkTsInstanceComboBox->setEnabled(false);
         ui->ClkTsReadValuesButton->setEnabled(false);
         ui->ClkTsWriteValuesButton->setEnabled(false);
 
@@ -349,6 +399,7 @@ void Ucm_ClkTsTab::clk_ts_auto_refresh_button_clicked(void)
 
         clk_ts_timer->stop();
 
+        ui->ClkTsInstanceComboBox->setEnabled(true);
         ui->ClkTsReadValuesButton->setEnabled(true);
         ui->ClkTsWriteValuesButton->setEnabled(true);
 

@@ -40,6 +40,7 @@ public:
     Ucm_IrigSlaveTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_IrigSlaveTab();
 
+    int irig_slave_resize(int height, int width);
     void irig_slave_add_instance(unsigned int instance);
     int irig_slave_disable(void);
     int irig_slave_enable(void);
@@ -50,14 +51,14 @@ private:
     Ucm_UniversalConfigurationManager* ucm;
     Ui::Ucm_IrigSlaveTab *ui;
 
-    // CLK Clock tab
+    // IRIG Slave tab
     QTimer* irig_slave_timer;
 
     void irig_slave_read_values(void);
     void irig_slave_write_values(void);
 
 private slots:
-    // CLK Clock tab
+    // IRIG Slave tab
     void irig_slave_read_values_button_clicked(void);
     void irig_slave_write_values_button_clicked(void);
     void irig_slave_auto_refresh_button_clicked(void);

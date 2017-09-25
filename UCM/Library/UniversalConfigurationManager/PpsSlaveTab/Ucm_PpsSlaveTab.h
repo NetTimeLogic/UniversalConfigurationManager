@@ -40,6 +40,7 @@ public:
     Ucm_PpsSlaveTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_PpsSlaveTab();
 
+    int pps_slave_resize(int height, int width);
     void pps_slave_add_instance(unsigned int instance);
     int pps_slave_disable(void);
     int pps_slave_enable(void);
@@ -50,14 +51,14 @@ private:
     Ucm_UniversalConfigurationManager* ucm;
     Ui::Ucm_PpsSlaveTab *ui;
 
-    // CLK Clock tab
+    // PPS Slave tab
     QTimer* pps_slave_timer;
 
     void pps_slave_read_values(void);
     void pps_slave_write_values(void);
 
 private slots:
-    // CLK Clock tab
+    // PPS Slave tab
     void pps_slave_read_values_button_clicked(void);
     void pps_slave_write_values_button_clicked(void);
     void pps_slave_auto_refresh_button_clicked(void);

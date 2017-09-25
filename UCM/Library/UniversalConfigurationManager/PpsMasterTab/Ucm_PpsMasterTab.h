@@ -40,6 +40,7 @@ public:
     Ucm_PpsMasterTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_PpsMasterTab();
 
+    int pps_master_resize(int height, int width);
     void pps_master_add_instance(unsigned int instance);
     int pps_master_disable(void);
     int pps_master_enable(void);
@@ -50,14 +51,14 @@ private:
     Ucm_UniversalConfigurationManager* ucm;
     Ui::Ucm_PpsMasterTab *ui;
 
-    // CLK Clock tab
+    // PPS Master tab
     QTimer* pps_master_timer;
 
     void pps_master_read_values(void);
     void pps_master_write_values(void);
 
 private slots:
-    // CLK Clock tab
+    // PPS Master tab
     void pps_master_read_values_button_clicked(void);
     void pps_master_write_values_button_clicked(void);
     void pps_master_auto_refresh_button_clicked(void);

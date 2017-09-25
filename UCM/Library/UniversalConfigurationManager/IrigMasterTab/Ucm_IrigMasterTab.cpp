@@ -45,6 +45,11 @@ Ucm_IrigMasterTab::~Ucm_IrigMasterTab()
     delete irig_master_timer;
 }
 
+int Ucm_IrigMasterTab::irig_master_resize(int height, int width)
+{
+    return 0;
+}
+
 void Ucm_IrigMasterTab::irig_master_add_instance(unsigned int instance)
 {
     ui->IrigMasterInstanceComboBox->addItem(QString::number(instance));
@@ -59,6 +64,7 @@ int Ucm_IrigMasterTab::irig_master_disable(void)
 {
     irig_master_timer->stop();
     ui->IrigMasterAutoRefreshButton->setText("Start Refresh");
+    ui->IrigMasterInstanceComboBox->setEnabled(true);
     ui->IrigMasterReadValuesButton->setEnabled(true);
     ui->IrigMasterWriteValuesButton->setEnabled(true);
     ui->IrigMasterInstanceComboBox->clear();
@@ -72,8 +78,8 @@ int Ucm_IrigMasterTab::irig_master_disable(void)
 
 void Ucm_IrigMasterTab::irig_master_read_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->IrigMasterInstanceComboBox->currentText();
@@ -136,8 +142,8 @@ void Ucm_IrigMasterTab::irig_master_read_values(void)
 
 void Ucm_IrigMasterTab::irig_master_write_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->IrigMasterInstanceComboBox->currentText();
@@ -207,6 +213,7 @@ void Ucm_IrigMasterTab::irig_master_auto_refresh_button_clicked(void)
     {
         ui->IrigMasterAutoRefreshButton->setEnabled(false);
 
+        ui->IrigMasterInstanceComboBox->setEnabled(false);
         ui->IrigMasterReadValuesButton->setEnabled(false);
         ui->IrigMasterWriteValuesButton->setEnabled(false);
 
@@ -221,6 +228,7 @@ void Ucm_IrigMasterTab::irig_master_auto_refresh_button_clicked(void)
 
         irig_master_timer->stop();
 
+        ui->IrigMasterInstanceComboBox->setEnabled(true);
         ui->IrigMasterReadValuesButton->setEnabled(true);
         ui->IrigMasterWriteValuesButton->setEnabled(true);
 

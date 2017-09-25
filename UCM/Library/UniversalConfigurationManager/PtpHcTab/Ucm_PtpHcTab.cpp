@@ -41,6 +41,9 @@ Ucm_PtpHcTab::Ucm_PtpHcTab(Ucm_UniversalConfigurationManager *parent) : QWidget(
     ptp_hc_offset_number_of_points = 0;
 
     ptp_hc_offset_chart = new QChart();
+    ptp_hc_offset_chart->setContentsMargins(0, 0, 0, 0);
+    ptp_hc_offset_chart->setBackgroundRoundness(0);
+    ptp_hc_offset_chart->setBackgroundBrush(Qt::white);
     ptp_hc_offset_chart->legend()->hide();
     ptp_hc_offset_chart->addSeries(ptp_hc_offset_series);
 
@@ -74,6 +77,9 @@ Ucm_PtpHcTab::Ucm_PtpHcTab(Ucm_UniversalConfigurationManager *parent) : QWidget(
     ptp_hc_delay_number_of_points = 0;
 
     ptp_hc_delay_chart = new QChart();
+    ptp_hc_delay_chart->setContentsMargins(0, 0, 0, 0);
+    ptp_hc_delay_chart->setBackgroundRoundness(0);
+    ptp_hc_delay_chart->setBackgroundBrush(Qt::white);
     ptp_hc_delay_chart->legend()->hide();
     for (int i=0; i<2; i++)
     {
@@ -124,6 +130,37 @@ Ucm_PtpHcTab::~Ucm_PtpHcTab()
     delete ptp_hc_delay_chart;
 }
 
+int Ucm_PtpHcTab::ptp_hc_resize(int height, int width)
+{
+    int height_delta = 0;
+    int width_delta = 0;
+
+    if (height <= 820)
+    {
+        height_delta = (height-820);
+    }
+    if (width <= 1380)
+    {
+        width_delta = (width-1380);
+    }
+
+    ui->PtpHcDelayChartValue->setFixedHeight(210);
+    ui->PtpHcDelayChartValue->setFixedWidth(450+(width_delta/2));
+    ui->PtpHcDelayChartLabel->setFixedWidth(450+(width_delta/2));
+
+    ui->PtpHcOffsetChartValue->move(910+(width_delta/2), 20);
+    ui->PtpHcOffsetChartLabel->move(910+(width_delta/2), 30);
+
+    ui->PtpHcOffsetChartValue->setFixedHeight(210);
+    ui->PtpHcOffsetChartValue->setFixedWidth(450+(width_delta/2));
+    ui->PtpHcOffsetChartLabel->setFixedWidth(450+(width_delta/2));
+
+
+    updateGeometry();
+
+    return 0;
+}
+
 void Ucm_PtpHcTab::ptp_hc_add_instance(unsigned int instance)
 {
     ui->PtpHcInstanceComboBox->addItem(QString::number(instance));
@@ -138,6 +175,7 @@ int Ucm_PtpHcTab::ptp_hc_disable(void)
 {
     ptp_hc_timer->stop();
     ui->PtpHcAutoRefreshButton->setText("Start Refresh");
+    ui->PtpHcInstanceComboBox->setEnabled(true);
     ui->PtpHcReadValuesButton->setEnabled(true);
     ui->PtpHcWriteValuesButton->setEnabled(true);
     ui->PtpHcInstanceComboBox->clear();
@@ -145,6 +183,7 @@ int Ucm_PtpHcTab::ptp_hc_disable(void)
     ui->PtpHcVlanValue->setText("NA");
     ui->PtpHcProfileValue->setCurrentText("NA");
     ui->PtpHcLayerValue->setCurrentText("NA");
+    ui->PtpHcDelayMechanismValue->setCurrentText("NA");
     ui->PtpHcIpValue->setText("NA");
     ui->PtpHcVersionValue->setText("NA");
 
@@ -161,6 +200,11 @@ int Ucm_PtpHcTab::ptp_hc_disable(void)
     ui->PtpHcPortDsPeerDelayValue->setText("NA");
     ui->PtpHcPortDsPortNrComboBox->clear();
     ui->PtpHcPortDsStateValue->setText("NA");
+    ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+    ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+    ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+    ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+    ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
 
     ui->PtpHcCurrentDsStepsRemovedValue->setText("NA");
     ui->PtpHcCurrentDsOffsetValue->setText("NA");
@@ -191,6 +235,15 @@ int Ucm_PtpHcTab::ptp_hc_disable(void)
     ui->PtpHcVlanEnableCheckBox->setChecked(false);
     ui->PtpHcVersionValue->setText("NA");
 
+    ptp_hc_offset_number_of_points = 0;
+    ptp_hc_offset_series-> clear();
+
+    ptp_hc_delay_number_of_points = 0;
+    for (int i=0; i<2; i++)
+    {
+        ptp_hc_delay_series.at(i)->clear();
+    }
+
     return 0;
 }
 
@@ -201,8 +254,10 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
     unsigned long long temp_offset;
     long long temp_signed_offset;
     unsigned int temp_length;
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    int temp_min = 0;
+    int temp_max = 0;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
     unsigned int nr_of_ports = 0;
 
@@ -220,6 +275,7 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
             ui->PtpHcVlanValue->setText("NA");
             ui->PtpHcProfileValue->setCurrentText("NA");
             ui->PtpHcLayerValue->setCurrentText("NA");
+            ui->PtpHcDelayMechanismValue->setCurrentText("NA");
             ui->PtpHcIpValue->setText("NA");
             ui->PtpHcVersionValue->setText("NA");
 
@@ -236,6 +292,11 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
             ui->PtpHcPortDsPeerDelayValue->setText("NA");
             ui->PtpHcPortDsPortNrComboBox->clear();
             ui->PtpHcPortDsStateValue->setText("NA");
+            ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+            ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+            ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+            ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+            ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
 
             ui->PtpHcCurrentDsStepsRemovedValue->setText("NA");
             ui->PtpHcCurrentDsOffsetValue->setText("NA");
@@ -343,11 +404,25 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
             break;
         }
 
+        switch ((temp_data >> 24) & 0x00000001)
+        {
+        case 0:
+            ui->PtpHcDelayMechanismValue->setCurrentText("P2P");
+            break;
+        case 1:
+            ui->PtpHcDelayMechanismValue->setCurrentText("E2E");
+            break;
+        default:
+            ui->PtpHcDelayMechanismValue->setCurrentText("NA");
+            break;
+        }
+
     }
     else
     {
         ui->PtpHcProfileValue->setCurrentText("NA");
         ui->PtpHcLayerValue->setCurrentText("NA");
+        ui->PtpHcDelayMechanismValue->setCurrentText("NA");
     }
 
     // ip
@@ -555,24 +630,71 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
                         ui->PtpHcPortDsStateValue->setText("NA");
                     }
 
+                    // delay req log msg interval
+                    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000210, temp_data))
+                    {
+                        ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText(QString::number((signed char)((temp_data >> 8) & 0x000000FF)));
+
+                    }
+                    else
+                    {
+                        ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                    }
+
+                    // announce log msg interval and announce receipt timeout
+                    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000214, temp_data))
+                    {
+                        ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText(QString::number((signed char)(temp_data & 0x000000FF)));
+                        ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText(QString::number(((temp_data >> 8) & 0x000000FF)));
+
+                    }
+                    else
+                    {
+                        ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                        ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                    }
+
+                    // sync log msg interval
+                    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000218, temp_data))
+                    {
+                        ui->PtpHcPortDsSyncLogMsgIntervalValue->setText(QString::number((signed char)(temp_data & 0x000000FF)));
+
+                    }
+                    else
+                    {
+                        ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
+                    }
+
                     break;
                 }
                 else if (i == 9)
                 {
                     cout << "ERROR: " << "read did not complete" << endl;
                     ui->PtpHcPortDsStateValue->setText("NA");
+                    ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                    ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                    ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                    ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
                 }
 
             }
             else
             {
                 ui->PtpHcPortDsStateValue->setText("NA");
+                ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
             }
         }
     }
     else
     {
         ui->PtpHcPortDsStateValue->setText("NA");
+        ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+        ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+        ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+        ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
     }
 
 
@@ -624,6 +746,16 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
                                 temp_signed_offset = 0;
                             }
 
+                            // limit to one second in display
+                            if (temp_signed_offset >= 1000000000)
+                            {
+                                temp_signed_offset = 1000000000;
+                            }
+                            else if (temp_signed_offset <= -1000000000)
+                            {
+                                temp_signed_offset = -1000000000;
+                            }
+
                             ui->PtpHcCurrentDsOffsetValue->setText(QString::number(temp_signed_offset));
 
                             if (true == ptp_hc_timer->isActive())
@@ -644,6 +776,35 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
                                     ptp_hc_offset_series->remove(0);
                                 }
 
+                                temp_min = 0;
+                                temp_max = 0;
+                                for (int j = 0; j < ptp_hc_offset_series->count(); j++)
+                                {
+                                    QPointF temp_point = ptp_hc_offset_series->at(j);
+                                    if (temp_min > temp_point.y())
+                                    {
+                                        temp_min = temp_point.y();
+                                    }
+                                    if (temp_max < temp_point.y())
+                                    {
+                                        temp_max = temp_point.y();
+                                    }
+                                }
+                                temp_max = (temp_max * 5) / 4;
+                                temp_max = temp_max + (100 - temp_max%100);
+                                temp_min = (temp_min * 5) / 4;
+                                temp_min = temp_min - (100 - abs(temp_min)%100);
+                                if (temp_max > 100000)
+                                {
+                                    temp_max = 100000;
+                                }
+                                if (temp_min < -100000)
+                                {
+                                    temp_min = -100000;
+                                }
+                                ptp_hc_offset_chart->axisY()->setMin(temp_min);
+                                ptp_hc_offset_chart->axisY()->setMax(temp_max);
+
                                 ptp_hc_offset_chart->show();
                             }
                         }
@@ -655,6 +816,67 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
                     else
                     {
                         ui->PtpHcCurrentDsOffsetValue->setText("NA");
+                    }
+
+                    temp_string = ui->PtpHcDelayMechanismValue->currentText();
+                    if (temp_string == "P2P")
+                    {
+                        // peer delay
+                        ui->PtpHcCurrentDsDelayValue->setText("NA");
+                    }
+                    else if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000310, temp_data))
+                    {
+                        // end to end delay
+                        temp_delay = temp_data;
+                        temp_delay = temp_delay << 32;
+                        if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000314, temp_data))
+                        {
+                            temp_delay |= temp_data;
+                            temp_delay = temp_delay >> 16;
+                            ui->PtpHcCurrentDsDelayValue->setText(QString::number(temp_delay));
+
+                            if (true == ptp_hc_timer->isActive())
+                            {
+                                ptp_hc_delay_series.at(0)->append(ptp_hc_delay_number_of_points, temp_delay);
+
+                                if (ptp_hc_delay_number_of_points < 20)
+                                {
+                                    ptp_hc_delay_number_of_points++;
+                                }
+                                else
+                                {
+                                    for (int j = 1; j < ptp_hc_delay_series.at(0)->count(); j++)
+                                    {
+                                        QPointF temp_point = ptp_hc_delay_series.at(0)->at(j);
+                                        ptp_hc_delay_series.at(0)->replace(j, (j-1), temp_point.y());
+                                    }
+                                    ptp_hc_delay_series.at(0)->remove(0);
+                                }
+
+                                temp_max = 0;
+                                for (int j = 0; j < ptp_hc_delay_series.at(0)->count(); j++)
+                                {
+                                    QPointF temp_point = ptp_hc_delay_series.at(0)->at(j);
+                                    if (temp_max < temp_point.y())
+                                    {
+                                        temp_max = temp_point.y();
+                                    }
+                                }
+                                temp_max = (temp_max * 5) / 4;
+                                temp_max = temp_max + (100 - temp_max%100);
+                                ptp_hc_delay_chart->axisY()->setMax(temp_max);
+
+                                ptp_hc_delay_chart->show();
+                            }
+                        }
+                        else
+                        {
+                            ui->PtpHcCurrentDsDelayValue->setText("NA");
+                        }
+                    }
+                    else
+                    {
+                        ui->PtpHcCurrentDsDelayValue->setText("NA");
                     }
 
                     break;
@@ -1148,9 +1370,15 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
                     if ((temp_data & 0x80000000) != 0)
                     {
 
-                        // peer delay
-                        if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000A04, temp_data))
+                        temp_string = ui->PtpHcDelayMechanismValue->currentText();
+                        if (temp_string == "E2E")
                         {
+                            // end to end delay
+                            ui->PtpHcPortDsPeerDelayValue->setText("NA");
+                        }
+                        else if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000A04, temp_data))
+                        {
+                            // peer delay
                             temp_delay = temp_data;
                             temp_delay = temp_delay << 32;
                             if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000A08, temp_data))
@@ -1169,95 +1397,131 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
                             ui->PtpHcPortDsPeerDelayValue->setText("NA");
                         }
 
+                        // pdelay log msg interval
+                        if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000A10, temp_data))
+                        {
+                            ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->setText(QString::number((signed char)(temp_data & 0x000000FF)));
+
+                        }
+                        else
+                        {
+                            ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+                        }
+
                         break;
                     }
                     else if (i == 9)
                     {
                         cout << "ERROR: " << "read did not complete" << endl;
                         ui->PtpHcPortDsPeerDelayValue->setText("NA");
+                        ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
                     }
 
                 }
                 else
                 {
                     ui->PtpHcPortDsPeerDelayValue->setText("NA");
+                    ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
                 }
             }
         }
         else
         {
             ui->PtpHcPortDsPeerDelayValue->setText("NA");
+            ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
         }
 
     }
     else
     {
         ui->PtpHcPortDsPeerDelayValue->setText("NA");
+        ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
     }
 
-    // Chart
-    if (nr_of_ports > 2) // limit to the first 2
+    if (temp_string == "E2E")
     {
-        nr_of_ports = 2;
+        // nothing here
     }
-    for (unsigned int k= 0; k < nr_of_ports; k++)
+    else
     {
-        temp_data = ((k & 0x000000FF) << 16);
-        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000A00, temp_data))
+        // Chart
+        if (nr_of_ports > 2) // limit to the first 2
         {
-            temp_data |= 0x40000000;
+            nr_of_ports = 2;
+        }
+        temp_max = 0;
+        for (unsigned int k= 0; k < nr_of_ports; k++)
+        {
+            temp_data = ((k & 0x000000FF) << 16);
             if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000A00, temp_data))
             {
-                for (int i = 0; i < 10; i++)
+                temp_data |= 0x40000000;
+                if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000A00, temp_data))
                 {
-                    if(0 == ucm->com_lib.read_reg(temp_addr + 0x00000A00, temp_data))
+                    for (int i = 0; i < 10; i++)
                     {
-                        if ((temp_data & 0x80000000) != 0)
+                        if(0 == ucm->com_lib.read_reg(temp_addr + 0x00000A00, temp_data))
                         {
-
-                            // peer delay
-                            if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000A04, temp_data))
+                            if ((temp_data & 0x80000000) != 0)
                             {
-                                temp_delay = temp_data;
-                                temp_delay = temp_delay << 32;
-                                if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000A08, temp_data))
+
+                                // peer delay
+                                if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000A04, temp_data))
                                 {
-                                    temp_delay |= temp_data;
-                                    temp_delay = temp_delay >> 16;
-
-                                    if (true == ptp_hc_timer->isActive())
+                                    temp_delay = temp_data;
+                                    temp_delay = temp_delay << 32;
+                                    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000A08, temp_data))
                                     {
-                                        ptp_hc_delay_series.at(k)->append(ptp_hc_delay_number_of_points, temp_delay);
+                                        temp_delay |= temp_data;
+                                        temp_delay = temp_delay >> 16;
 
-                                        if (ptp_hc_delay_number_of_points < 20)
+                                        if (true == ptp_hc_timer->isActive())
                                         {
-                                            if (k == (nr_of_ports-1))
+                                            ptp_hc_delay_series.at(k)->append(ptp_hc_delay_number_of_points, temp_delay);
+
+                                            if (ptp_hc_delay_number_of_points < 20)
                                             {
-                                                ptp_hc_delay_number_of_points++;
+                                                if (k == (nr_of_ports-1))
+                                                {
+                                                    ptp_hc_delay_number_of_points++;
+                                                }
                                             }
-                                        }
-                                        else
-                                        {
-                                            for (int j = 1; j < ptp_hc_delay_series.at(k)->count(); j++)
+                                            else
+                                            {
+                                                for (int j = 1; j < ptp_hc_delay_series.at(k)->count(); j++)
+                                                {
+                                                    QPointF temp_point = ptp_hc_delay_series.at(k)->at(j);
+                                                    ptp_hc_delay_series.at(k)->replace(j, (j-1), temp_point.y());
+                                                }
+                                                ptp_hc_delay_series.at(k)->remove(k);
+                                            }
+
+                                            for (int j = 0; j < ptp_hc_delay_series.at(k)->count(); j++)
                                             {
                                                 QPointF temp_point = ptp_hc_delay_series.at(k)->at(j);
-                                                ptp_hc_delay_series.at(k)->replace(j, (j-1), temp_point.y());
+                                                if (temp_max < temp_point.y())
+                                                {
+                                                    temp_max = temp_point.y();
+                                                }
                                             }
-                                            ptp_hc_delay_series.at(k)->remove(k);
-                                        }
 
-                                        if (k == (nr_of_ports-1))
-                                        {
-                                            ptp_hc_delay_chart->show();
+                                            if (k == (nr_of_ports-1))
+                                            {
+                                                temp_max = (temp_max * 5) / 4;
+                                                temp_max = temp_max + (100 - temp_max%100);
+                                                ptp_hc_delay_chart->axisY()->setMax(temp_max);
+
+                                                ptp_hc_delay_chart->show();
+                                            }
                                         }
                                     }
                                 }
+                                break;
                             }
-                            break;
-                        }
-                        else if (i == 9)
-                        {
-                            cout << "ERROR: " << "read did not complete" << endl;
+                            else if (i == 9)
+                            {
+                                cout << "ERROR: " << "read did not complete" << endl;
+                            }
                         }
                     }
                 }
@@ -1272,8 +1536,8 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
     unsigned long long temp_next_jump;
     unsigned long long temp_mac;
     unsigned long temp_ip;
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->PtpHcInstanceComboBox->currentText();
@@ -1290,6 +1554,7 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
             ui->PtpHcVlanValue->setText("NA");
             ui->PtpHcProfileValue->setCurrentText("NA");
             ui->PtpHcLayerValue->setCurrentText("NA");
+            ui->PtpHcDelayMechanismValue->setCurrentText("NA");
             ui->PtpHcIpValue->setText("NA");
             ui->PtpHcVersionValue->setText("NA");
 
@@ -1306,6 +1571,11 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
             ui->PtpHcPortDsPeerDelayValue->setText("NA");
             ui->PtpHcPortDsPortNrComboBox->clear();
             ui->PtpHcPortDsStateValue->setText("NA");
+            ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+            ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+            ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+            ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+            ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
 
             ui->PtpHcCurrentDsStepsRemovedValue->setText("NA");
             ui->PtpHcCurrentDsOffsetValue->setText("NA");
@@ -1340,41 +1610,6 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
     }
 
     // PTP OC Part
-    // vlan
-    temp_string = ui->PtpHcVlanValue->text();
-    temp_data = temp_string.toUInt(nullptr, 16);
-    temp_data &= 0x0000FFFF;
-    if(true == ui->PtpHcVlanEnableCheckBox->isChecked())
-    {
-        temp_data |= 0x00010000; // enable
-    }
-    if (temp_string == "NA")
-    {
-        //nothing
-    }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000088, temp_data))
-    {
-        temp_data &= 0x0000FFFF;
-        ui->PtpHcVlanValue->setText(QString("0x%1").arg(temp_data, 4, 16, QLatin1Char('0')));
-
-        temp_data = 0x00000002; // write
-        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000080, temp_data))
-        {
-            // nothing
-        }
-        else
-        {
-            ui->PtpHcVlanEnableCheckBox->setChecked(false);
-            ui->PtpHcVlanValue->setText("NA");
-        }
-    }
-    else
-    {
-        ui->PtpHcVlanEnableCheckBox->setChecked(false);
-        ui->PtpHcVlanValue->setText("NA");
-    }
-
-
     // profile and layer
     temp_string = ui->PtpHcProfileValue->currentText();
     if (temp_string == "Default")
@@ -1418,37 +1653,124 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
         {
             //nothing
         }
-        else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000084, temp_data))
+        else
         {
-            switch ((temp_data >> 16) & 0x00000001)
+            temp_string = ui->PtpHcDelayMechanismValue->currentText();
+            if (temp_string == "P2P")
             {
-            case 0:
-                ui->PtpHcLayerValue->setCurrentText("Layer 2");
-                break;
-            case 1:
-                ui->PtpHcLayerValue->setCurrentText("Layer 3");
-                break;
-            default:
-                ui->PtpHcLayerValue->setCurrentText("NA");
-                break;
+                temp_data |= 0x00000000;
+            }
+            else if (temp_string == "E2E")
+            {
+                temp_data |= 0x01000000;
+            }
+            else
+            {
+                temp_data |= 0x00000000;
             }
 
-            temp_data = 0x00000001; // write
-            if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000080, temp_data))
+            if (temp_string == "NA")
             {
-                // nothing
+                //nothing
+            }
+            else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000084, temp_data))
+            {
+                switch (temp_data & 0x00000003)
+                {
+                case 0:
+                    ui->PtpHcProfileValue->setCurrentText("Default");
+                    break;
+                case 1:
+                    ui->PtpHcProfileValue->setCurrentText("Power");
+                    break;
+                case 2:
+                    ui->PtpHcProfileValue->setCurrentText("Utility");
+                    break;
+                default:
+                    ui->PtpHcProfileValue->setCurrentText("NA");
+                    break;
+                }
+
+                switch ((temp_data >> 16) & 0x00000001)
+                {
+                case 0:
+                    ui->PtpHcLayerValue->setCurrentText("Layer 2");
+                    break;
+                case 1:
+                    ui->PtpHcLayerValue->setCurrentText("Layer 3");
+                    break;
+                default:
+                    ui->PtpHcLayerValue->setCurrentText("NA");
+                    break;
+                }
+
+                switch ((temp_data >> 24) & 0x00000001)
+                {
+                case 0:
+                    ui->PtpHcDelayMechanismValue->setCurrentText("P2P");
+                    break;
+                case 1:
+                    ui->PtpHcDelayMechanismValue->setCurrentText("E2E");
+                    break;
+                default:
+                    ui->PtpHcDelayMechanismValue->setCurrentText("NA");
+                    break;
+                }
+
+                temp_data = 0x00000001; // write
+                if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000080, temp_data))
+                {
+                    // nothing
+                }
+                else
+                {
+                    ui->PtpHcProfileValue->setCurrentText("NA");
+                    ui->PtpHcLayerValue->setCurrentText("NA");
+                    ui->PtpHcDelayMechanismValue->setCurrentText("NA");
+                }
             }
             else
             {
                 ui->PtpHcProfileValue->setCurrentText("NA");
+                ui->PtpHcLayerValue->setCurrentText("NA");
+                ui->PtpHcDelayMechanismValue->setCurrentText("NA");
             }
-        }
-        else
-        {
-            ui->PtpHcProfileValue->setCurrentText("NA");
         }
     }
 
+    // vlan
+    temp_string = ui->PtpHcVlanValue->text();
+    temp_data = temp_string.toUInt(nullptr, 16);
+    temp_data &= 0x0000FFFF;
+    if(true == ui->PtpHcVlanEnableCheckBox->isChecked())
+    {
+        temp_data |= 0x00010000; // enable
+    }
+    if (temp_string == "NA")
+    {
+        //nothing
+    }
+    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000088, temp_data))
+    {
+        temp_data &= 0x0000FFFF;
+        ui->PtpHcVlanValue->setText(QString("0x%1").arg(temp_data, 4, 16, QLatin1Char('0')));
+
+        temp_data = 0x00000002; // write
+        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000080, temp_data))
+        {
+            // nothing
+        }
+        else
+        {
+            ui->PtpHcVlanEnableCheckBox->setChecked(false);
+            ui->PtpHcVlanValue->setText("NA");
+        }
+    }
+    else
+    {
+        ui->PtpHcVlanEnableCheckBox->setChecked(false);
+        ui->PtpHcVlanValue->setText("NA");
+    }
 
     // ip
     temp_string = ui->PtpHcIpValue->text();
@@ -1721,7 +2043,7 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000114, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000118, temp_data))
     {
         ui->PtpHcDefaultDsInaccuracyValue->setText(QString::number(temp_data));
 
@@ -1744,7 +2066,100 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
     //********************************
     // port dataset
     //********************************
-    // all RO
+    // delay mechanism
+    temp_data = 0x00000001;
+    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000200, temp_data))
+    {
+        //nothing
+    }
+    else
+    {
+        ui->PtpHcDelayMechanismValue->setCurrentText("NA");
+    }
+
+    if ((true == ui->PtpHcPortDsSetCustomIntervalsCheckBox->isChecked()) && ("Default" == ui->PtpHcProfileValue->currentText()))
+    {
+        // delay message intervals
+        if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000210, temp_data))
+        {
+            // keep peer delay req message interval
+            temp_data &= 0x000000FF;
+            // merge with delay req message interval
+            temp_string = ui->PtpHcPortDsDelayReqLogMsgIntervalValue->text();
+            temp_data |= ((temp_string.toInt(nullptr, 10) & 0x000000FF) << 8);
+            if (temp_string == "NA")
+            {
+                //nothing
+            }
+            else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000210, temp_data))
+            {
+                // announce message intervals
+                temp_string = ui->PtpHcPortDsAnnounceReceiptTimeoutValue->text();
+                temp_data = (temp_string.toUInt(nullptr, 10) & 0x000000FF);
+                temp_data = temp_data << 8;
+                temp_string = ui->PtpHcPortDsAnnounceLogMsgIntervalValue->text();
+                temp_data |= (temp_string.toInt(nullptr, 10) & 0x000000FF);
+                if (temp_string == "NA")
+                {
+                    //nothing
+                }
+                else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000214, temp_data))
+                {
+                    // sync message interval
+                    temp_string = ui->PtpHcPortDsSyncLogMsgIntervalValue->text();
+                    temp_data = (temp_string.toInt(nullptr, 10) & 0x000000FF);
+                    if (temp_string == "NA")
+                    {
+                        //nothing
+                    }
+                    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000218, temp_data))
+                    {
+                        // set intervals
+                        temp_data = 0x00000002;
+                        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000200, temp_data))
+                        {
+                            //nothing
+                        }
+                        else
+                        {
+                            ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                            ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                            ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                            ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
+                        }
+                    }
+                    else
+                    {
+                        ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                        ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                        ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                        ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
+                    }
+                }
+                else
+                {
+                    ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                    ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                    ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                    ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
+                }
+            }
+            else
+            {
+                ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
+            }
+        }
+        else
+        {
+            ui->PtpHcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+            ui->PtpHcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+            ui->PtpHcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+            ui->PtpHcPortDsSyncLogMsgIntervalValue->setText("NA");
+        }
+    }
 
     //********************************
     // current dataset
@@ -1859,7 +2274,7 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
     }
 
     // time traceable
-    if(true == ui->PtpHcTimePropertiesDsPtpTimescaleCheckBox->isChecked())
+    if(true == ui->PtpHcTimePropertiesDsTimeTraceableCheckBox->isChecked())
     {
         temp_data = 0x00000400; // set
     }
@@ -1872,11 +2287,11 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
     {
         if ((temp_data & 0x00000400) != 0)
         {
-            ui->PtpHcTimePropertiesDsPtpTimescaleCheckBox->setChecked(true);
+            ui->PtpHcTimePropertiesDsTimeTraceableCheckBox->setChecked(true);
         }
         else
         {
-            ui->PtpHcTimePropertiesDsPtpTimescaleCheckBox->setChecked(false);
+            ui->PtpHcTimePropertiesDsTimeTraceableCheckBox->setChecked(false);
         }
 
         temp_data = 0x00000010; // write
@@ -1886,12 +2301,12 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
         }
         else
         {
-            ui->PtpHcTimePropertiesDsPtpTimescaleCheckBox->setChecked(false);
+            ui->PtpHcTimePropertiesDsTimeTraceableCheckBox->setChecked(false);
         }
     }
     else
     {
-        ui->PtpHcTimePropertiesDsPtpTimescaleCheckBox->setChecked(false);
+        ui->PtpHcTimePropertiesDsTimeTraceableCheckBox->setChecked(false);
     }
 
     // leap 61
@@ -2179,56 +2594,7 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
         }
     }
 
-    temp_data = 0x00000000; // nothing
-    if(true == ui->PtpHcEnableCheckBox->isChecked())
-    {
-        temp_data |= 0x00000001; // enable
-    }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
-    {
-        // nothing
-    }
-    else
-    {
-        ui->PtpHcEnableCheckBox->setChecked(false);
-    }
-
     // PTP TC Part
-    // vlan
-    temp_string = ui->PtpHcVlanValue->text();
-    temp_data = temp_string.toUInt(nullptr, 16);
-    temp_data &= 0x0000FFFF;
-    if(true == ui->PtpHcVlanEnableCheckBox->isChecked())
-    {
-        temp_data |= 0x00010000; // enable
-    }
-    if (temp_string == "NA")
-    {
-        //nothing
-    }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000888, temp_data))
-    {
-        temp_data &= 0x0000FFFF;
-        ui->PtpHcVlanValue->setText(QString("0x%1").arg(temp_data, 4, 16, QLatin1Char('0')));
-
-        temp_data = 0x00000002; // write
-        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000880, temp_data))
-        {
-            // nothing
-        }
-        else
-        {
-            ui->PtpHcVlanEnableCheckBox->setChecked(false);
-            ui->PtpHcVlanValue->setText("NA");
-        }
-    }
-    else
-    {
-        ui->PtpHcVlanEnableCheckBox->setChecked(false);
-        ui->PtpHcVlanValue->setText("NA");
-    }
-
-
     // profile and layer
     temp_string = ui->PtpHcProfileValue->currentText();
     if (temp_string == "Default")
@@ -2272,36 +2638,125 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
         {
             //nothing
         }
-        else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000884, temp_data))
+        else
         {
-            switch ((temp_data >> 16) & 0x00000001)
+            temp_string = ui->PtpHcDelayMechanismValue->currentText();
+            if (temp_string == "P2P")
             {
-            case 0:
-                ui->PtpHcLayerValue->setCurrentText("Layer 2");
-                break;
-            case 1:
-                ui->PtpHcLayerValue->setCurrentText("Layer 3");
-                break;
-            default:
-                ui->PtpHcLayerValue->setCurrentText("NA");
-                break;
+                temp_data |= 0x00000000;
+            }
+            else if (temp_string == "E2E")
+            {
+                temp_data |= 0x01000000;
+            }
+            else
+            {
+                temp_data |= 0x00000000;
             }
 
-            temp_data = 0x00000001; // write
-            if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000880, temp_data))
+            if (temp_string == "NA")
             {
-                // nothing
+                //nothing
+            }
+            else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000884, temp_data))
+            {
+                switch (temp_data & 0x00000003)
+                {
+                case 0:
+                    ui->PtpHcProfileValue->setCurrentText("Default");
+                    break;
+                case 1:
+                    ui->PtpHcProfileValue->setCurrentText("Power");
+                    break;
+                case 2:
+                    ui->PtpHcProfileValue->setCurrentText("Utility");
+                    break;
+                default:
+                    ui->PtpHcProfileValue->setCurrentText("NA");
+                    break;
+                }
+
+                switch ((temp_data >> 16) & 0x00000001)
+                {
+                case 0:
+                    ui->PtpHcLayerValue->setCurrentText("Layer 2");
+                    break;
+                case 1:
+                    ui->PtpHcLayerValue->setCurrentText("Layer 3");
+                    break;
+                default:
+                    ui->PtpHcLayerValue->setCurrentText("NA");
+                    break;
+                }
+
+                switch ((temp_data >> 24) & 0x00000001)
+                {
+                case 0:
+                    ui->PtpHcDelayMechanismValue->setCurrentText("P2P");
+                    break;
+                case 1:
+                    ui->PtpHcDelayMechanismValue->setCurrentText("E2E");
+                    break;
+                default:
+                    ui->PtpHcDelayMechanismValue->setCurrentText("NA");
+                    break;
+                }
+
+                temp_data = 0x00000001; // write
+                if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000880, temp_data))
+                {
+                    // nothing
+                }
+                else
+                {
+                    ui->PtpHcProfileValue->setCurrentText("NA");
+                    ui->PtpHcLayerValue->setCurrentText("NA");
+                    ui->PtpHcDelayMechanismValue->setCurrentText("NA");
+                }
             }
             else
             {
                 ui->PtpHcProfileValue->setCurrentText("NA");
+                ui->PtpHcLayerValue->setCurrentText("NA");
+                ui->PtpHcDelayMechanismValue->setCurrentText("NA");
             }
+        }
+    }
+
+    // vlan
+    temp_string = ui->PtpHcVlanValue->text();
+    temp_data = temp_string.toUInt(nullptr, 16);
+    temp_data &= 0x0000FFFF;
+    if(true == ui->PtpHcVlanEnableCheckBox->isChecked())
+    {
+        temp_data |= 0x00010000; // enable
+    }
+    if (temp_string == "NA")
+    {
+        //nothing
+    }
+    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000888, temp_data))
+    {
+        temp_data &= 0x0000FFFF;
+        ui->PtpHcVlanValue->setText(QString("0x%1").arg(temp_data, 4, 16, QLatin1Char('0')));
+
+        temp_data = 0x00000002; // write
+        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000880, temp_data))
+        {
+            // nothing
         }
         else
         {
-            ui->PtpHcProfileValue->setCurrentText("NA");
+            ui->PtpHcVlanEnableCheckBox->setChecked(false);
+            ui->PtpHcVlanValue->setText("NA");
         }
     }
+    else
+    {
+        ui->PtpHcVlanEnableCheckBox->setChecked(false);
+        ui->PtpHcVlanValue->setText("NA");
+    }
+
 
     // ip
     temp_string = ui->PtpHcIpValue->text();
@@ -2453,6 +2908,7 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
     for (unsigned int i = 0; i < (ui->PtpHcDefaultDsNrOfPortsValue->text().toUInt(nullptr, 10) + 1); i++)
     {
         temp_data = ((i & 0x000000FF) << 16);
+        temp_data |= 0x00000001; // set the delay mechanism
         if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000A00, temp_data))
         {
             temp_data = 0x00000001; // write for each port
@@ -2464,6 +2920,39 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
             {
                 ui->PtpHcDefaultDsClockIdValue->setText("NA");
             }
+
+            if ((true == ui->PtpHcPortDsSetCustomIntervalsCheckBox->isChecked()) && ("Default" == ui->PtpHcProfileValue->currentText()))
+            {
+                // only for the selected port
+                if (i == ui->PtpHcPortDsPortNrComboBox->currentText().toUInt(nullptr, 10))
+                {
+                    temp_string = ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->text();
+                    temp_data = (temp_string.toInt(nullptr, 10) & 0x0000000FF);
+                    if (temp_string == "NA")
+                    {
+                        //nothing
+                    }
+                    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000A10, temp_data))
+                    {
+                        temp_data = ((i & 0x000000FF) << 16);
+                        temp_data |= 0x00000002; // set the message interval
+                        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000A00, temp_data))
+                        {
+                            // ok
+                        }
+                        else
+                        {
+                            ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+                        }
+                    }
+                    else
+                    {
+                        ui->PtpHcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+                    }
+
+                    // port to OC always the same
+                }
+            }
         }
         else
         {
@@ -2471,12 +2960,14 @@ void Ucm_PtpHcTab::ptp_hc_write_values(void)
         }
     }
 
+    // PTP OC and PTP TC enable
     temp_data = 0x00000000; // nothing
     if(true == ui->PtpHcEnableCheckBox->isChecked())
     {
         temp_data |= 0x00000001; // enable
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000800, temp_data))
+    if ((0 == ucm->com_lib.write_reg(temp_addr + 0x00000800, temp_data)) &&
+        (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data)))
     {
         // nothing
     }
@@ -2503,6 +2994,7 @@ void Ucm_PtpHcTab::ptp_hc_auto_refresh_button_clicked(void)
     {
         ui->PtpHcAutoRefreshButton->setEnabled(false);
 
+        ui->PtpHcInstanceComboBox->setEnabled(false);
         ui->PtpHcReadValuesButton->setEnabled(false);
         ui->PtpHcWriteValuesButton->setEnabled(false);
 
@@ -2526,6 +3018,7 @@ void Ucm_PtpHcTab::ptp_hc_auto_refresh_button_clicked(void)
 
         ptp_hc_timer->stop();
 
+        ui->PtpHcInstanceComboBox->setEnabled(true);
         ui->PtpHcReadValuesButton->setEnabled(true);
         ui->PtpHcWriteValuesButton->setEnabled(true);
 

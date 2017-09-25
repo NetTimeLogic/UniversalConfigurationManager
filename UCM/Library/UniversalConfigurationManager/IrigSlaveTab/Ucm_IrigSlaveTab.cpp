@@ -45,6 +45,11 @@ Ucm_IrigSlaveTab::~Ucm_IrigSlaveTab()
     delete irig_slave_timer;
 }
 
+int Ucm_IrigSlaveTab::irig_slave_resize(int height, int width)
+{
+    return 0;
+}
+
 void Ucm_IrigSlaveTab::irig_slave_add_instance(unsigned int instance)
 {
     ui->IrigSlaveInstanceComboBox->addItem(QString::number(instance));
@@ -59,6 +64,7 @@ int Ucm_IrigSlaveTab::irig_slave_disable(void)
 {
     irig_slave_timer->stop();
     ui->IrigSlaveAutoRefreshButton->setText("Start Refresh");
+    ui->IrigSlaveInstanceComboBox->setEnabled(true);
     ui->IrigSlaveReadValuesButton->setEnabled(true);
     ui->IrigSlaveWriteValuesButton->setEnabled(true);
     ui->IrigSlaveInstanceComboBox->clear();
@@ -73,8 +79,8 @@ int Ucm_IrigSlaveTab::irig_slave_disable(void)
 
 void Ucm_IrigSlaveTab::irig_slave_read_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->IrigSlaveInstanceComboBox->currentText();
@@ -147,8 +153,8 @@ void Ucm_IrigSlaveTab::irig_slave_read_values(void)
 
 void Ucm_IrigSlaveTab::irig_slave_write_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->IrigSlaveInstanceComboBox->currentText();
@@ -235,6 +241,7 @@ void Ucm_IrigSlaveTab::irig_slave_auto_refresh_button_clicked(void)
     {
         ui->IrigSlaveAutoRefreshButton->setEnabled(false);
 
+        ui->IrigSlaveInstanceComboBox->setEnabled(false);
         ui->IrigSlaveReadValuesButton->setEnabled(false);
         ui->IrigSlaveWriteValuesButton->setEnabled(false);
 
@@ -249,6 +256,7 @@ void Ucm_IrigSlaveTab::irig_slave_auto_refresh_button_clicked(void)
 
         irig_slave_timer->stop();
 
+        ui->IrigSlaveInstanceComboBox->setEnabled(true);
         ui->IrigSlaveReadValuesButton->setEnabled(true);
         ui->IrigSlaveWriteValuesButton->setEnabled(true);
 

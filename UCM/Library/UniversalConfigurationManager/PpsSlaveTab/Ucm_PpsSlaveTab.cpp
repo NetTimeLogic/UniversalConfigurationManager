@@ -45,6 +45,11 @@ Ucm_PpsSlaveTab::~Ucm_PpsSlaveTab()
     delete pps_slave_timer;
 }
 
+int Ucm_PpsSlaveTab::pps_slave_resize(int height, int width)
+{
+    return 0;
+}
+
 void Ucm_PpsSlaveTab::pps_slave_add_instance(unsigned int instance)
 {
     ui->PpsSlaveInstanceComboBox->addItem(QString::number(instance));
@@ -59,6 +64,7 @@ int Ucm_PpsSlaveTab::pps_slave_disable(void)
 {
     pps_slave_timer->stop();
     ui->PpsSlaveAutoRefreshButton->setText("Start Refresh");
+    ui->PpsSlaveInstanceComboBox->setEnabled(true);
     ui->PpsSlaveReadValuesButton->setEnabled(true);
     ui->PpsSlaveWriteValuesButton->setEnabled(true);
     ui->PpsSlaveInstanceComboBox->clear();
@@ -74,8 +80,8 @@ int Ucm_PpsSlaveTab::pps_slave_disable(void)
 
 void Ucm_PpsSlaveTab::pps_slave_read_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->PpsSlaveInstanceComboBox->currentText();
@@ -168,8 +174,8 @@ void Ucm_PpsSlaveTab::pps_slave_read_values(void)
 
 void Ucm_PpsSlaveTab::pps_slave_write_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->PpsSlaveInstanceComboBox->currentText();
@@ -256,6 +262,7 @@ void Ucm_PpsSlaveTab::pps_slave_auto_refresh_button_clicked(void)
     {
         ui->PpsSlaveAutoRefreshButton->setEnabled(false);
 
+        ui->PpsSlaveInstanceComboBox->setEnabled(false);
         ui->PpsSlaveReadValuesButton->setEnabled(false);
         ui->PpsSlaveWriteValuesButton->setEnabled(false);
 
@@ -270,6 +277,7 @@ void Ucm_PpsSlaveTab::pps_slave_auto_refresh_button_clicked(void)
 
         pps_slave_timer->stop();
 
+        ui->PpsSlaveInstanceComboBox->setEnabled(true);
         ui->PpsSlaveReadValuesButton->setEnabled(true);
         ui->PpsSlaveWriteValuesButton->setEnabled(true);
 

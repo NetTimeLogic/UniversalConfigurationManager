@@ -47,6 +47,7 @@ public:
     Ucm_PtpHcTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_PtpHcTab();
 
+    int ptp_hc_resize(int height, int width);
     void ptp_hc_add_instance(unsigned int instance);
     int ptp_hc_disable(void);
     int ptp_hc_enable(void);
@@ -57,7 +58,7 @@ private:
     Ucm_UniversalConfigurationManager* ucm;
     Ui::Ucm_PtpHcTab *ui;
 
-    // CLK Clock tab
+    // PTP Hc tab
     QTimer* ptp_hc_timer;
 
     QLineSeries* ptp_hc_offset_series;
@@ -75,7 +76,7 @@ private:
     void ptp_hc_write_values(void);
 
 private slots:
-    // CLK Clock tab
+    // PTP Hc tab
     void ptp_hc_read_values_button_clicked(void);
     void ptp_hc_write_values_button_clicked(void);
     void ptp_hc_auto_refresh_button_clicked(void);

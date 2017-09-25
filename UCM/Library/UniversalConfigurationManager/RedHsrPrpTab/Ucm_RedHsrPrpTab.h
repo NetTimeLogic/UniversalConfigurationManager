@@ -40,6 +40,7 @@ public:
     Ucm_RedHsrPrpTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_RedHsrPrpTab();
 
+    int red_hsrprp_resize(int height, int width);
     void red_hsrprp_add_instance(unsigned int instance);
     int red_hsrprp_disable(void);
     int red_hsrprp_enable(void);
@@ -50,14 +51,14 @@ private:
     Ucm_UniversalConfigurationManager* ucm;
     Ui::Ucm_RedHsrPrpTab *ui;
 
-    // CLK Clock tab
+    // RED HsrPrp tab
     QTimer* red_hsrprp_timer;
 
     void red_hsrprp_read_values(void);
     void red_hsrprp_write_values(void);
 
 private slots:
-    // CLK Clock tab
+    // RED HsrPrp tab
     void red_hsrprp_read_values_button_clicked(void);
     void red_hsrprp_write_values_button_clicked(void);
     void red_hsrprp_auto_refresh_button_clicked(void);

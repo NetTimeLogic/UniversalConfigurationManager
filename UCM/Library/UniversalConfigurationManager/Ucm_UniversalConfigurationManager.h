@@ -23,6 +23,7 @@
 #ifndef UCM_UNIVERSALCONFIGURATIONMANAGER_H
 #define UCM_UNIVERSALCONFIGURATIONMANAGER_H
 
+#include <QScreen>
 #include <QCloseEvent>
 #include <QWidget>
 #include <QTimer>
@@ -51,6 +52,7 @@
 #include "PtpOcTab/Ucm_PtpOcTab.h"
 #include "PtpTcTab/Ucm_PtpTcTab.h"
 #include "PtpHcTab/Ucm_PtpHcTab.h"
+#include "TapSlaveTab/Ucm_TapSlaveTab.h"
 
 using namespace QtCharts;
 
@@ -70,6 +72,7 @@ class Ucm_RedHsrPrpTab;
 class Ucm_PtpOcTab;
 class Ucm_PtpTcTab;
 class Ucm_PtpHcTab;
+class Ucm_TapSlaveTab;
 
 class Ucm_UniversalConfigurationManager : public QMainWindow, public Ui::Ucm_UniversalConfigurationManager
 {
@@ -78,6 +81,8 @@ class Ucm_UniversalConfigurationManager : public QMainWindow, public Ui::Ucm_Uni
     public:
         Ucm_UniversalConfigurationManager(QMainWindow *parent = 0);
         ~Ucm_UniversalConfigurationManager();
+
+        int ucm_resize(int height, int width);
 
         Ucm_CommunicationLib com_lib;
         QList<Ucm_CoreConfig> core_config;
@@ -130,12 +135,16 @@ class Ucm_UniversalConfigurationManager : public QMainWindow, public Ui::Ucm_Uni
         // PTP Hc tab
         Ucm_PtpHcTab* ptp_hc_tab;
 
+        // TAP Slave tab
+        Ucm_TapSlaveTab* tap_slave_tab;
+
 private:
-        void closeEvent (QCloseEvent *event);
+        void resizeEvent(QResizeEvent* event);
+        void closeEvent(QCloseEvent *event);
 
 private slots:
         // File menu
-        void file_exit_clicked(void);
+        void ucm_file_exit_clicked(void);
 
 };
 

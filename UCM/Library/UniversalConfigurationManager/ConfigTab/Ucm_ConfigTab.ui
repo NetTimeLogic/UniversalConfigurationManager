@@ -85,7 +85,20 @@ p, li { white-space: pre-wrap; }
     </rect>
    </property>
    <property name="text">
-    <string>open</string>
+    <string>Open</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ConfigFullScreenButton">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>20</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Full Screen</string>
    </property>
   </widget>
  </widget>

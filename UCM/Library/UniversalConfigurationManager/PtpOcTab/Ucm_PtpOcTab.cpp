@@ -41,6 +41,9 @@ Ucm_PtpOcTab::Ucm_PtpOcTab(Ucm_UniversalConfigurationManager *parent) : QWidget(
     ptp_oc_offset_number_of_points = 0;
 
     ptp_oc_offset_chart = new QChart();
+    ptp_oc_offset_chart->setContentsMargins(0, 0, 0, 0);
+    ptp_oc_offset_chart->setBackgroundRoundness(0);
+    ptp_oc_offset_chart->setBackgroundBrush(Qt::white);
     ptp_oc_offset_chart->legend()->hide();
     ptp_oc_offset_chart->addSeries(ptp_oc_offset_series);
 
@@ -62,14 +65,15 @@ Ucm_PtpOcTab::Ucm_PtpOcTab(Ucm_UniversalConfigurationManager *parent) : QWidget(
 
     ptp_oc_offset_chart_view = new QChartView(ptp_oc_offset_chart);
     ptp_oc_offset_chart_view->setRenderHint(QPainter::Antialiasing);
-
     ui->PtpOcOffsetChartLayout->addWidget(ptp_oc_offset_chart_view, 0, 0);
-
 
     ptp_oc_delay_series = new QLineSeries();
     ptp_oc_delay_number_of_points = 0;
 
     ptp_oc_delay_chart = new QChart();
+    ptp_oc_delay_chart->setContentsMargins(0, 0, 0, 0);
+    ptp_oc_delay_chart->setBackgroundRoundness(0);
+    ptp_oc_delay_chart->setBackgroundBrush(Qt::white);
     ptp_oc_delay_chart->legend()->hide();
     ptp_oc_delay_chart->addSeries(ptp_oc_delay_series);
 
@@ -109,6 +113,37 @@ Ucm_PtpOcTab::~Ucm_PtpOcTab()
     delete ptp_oc_delay_chart;
 }
 
+int Ucm_PtpOcTab::ptp_oc_resize(int height, int width)
+{
+    int height_delta = 0;
+    int width_delta = 0;
+
+    if (height <= 820)
+    {
+        height_delta = (height-820);
+    }
+    if (width <= 1380)
+    {
+        width_delta = (width-1380);
+    }
+
+    ui->PtpOcDelayChartValue->setFixedHeight(210);
+    ui->PtpOcDelayChartValue->setFixedWidth(450+(width_delta/2));
+    ui->PtpOcDelayChartLabel->setFixedWidth(450+(width_delta/2));
+
+    ui->PtpOcOffsetChartValue->move(910+(width_delta/2), 20);
+    ui->PtpOcOffsetChartLabel->move(910+(width_delta/2), 30);
+
+    ui->PtpOcOffsetChartValue->setFixedHeight(210);
+    ui->PtpOcOffsetChartValue->setFixedWidth(450+(width_delta/2));
+    ui->PtpOcOffsetChartLabel->setFixedWidth(450+(width_delta/2));
+
+
+    updateGeometry();
+
+    return 0;
+}
+
 void Ucm_PtpOcTab::ptp_oc_add_instance(unsigned int instance)
 {
     ui->PtpOcInstanceComboBox->addItem(QString::number(instance));
@@ -123,6 +158,7 @@ int Ucm_PtpOcTab::ptp_oc_disable(void)
 {
     ptp_oc_timer->stop();
     ui->PtpOcAutoRefreshButton->setText("Start Refresh");
+    ui->PtpOcInstanceComboBox->setEnabled(true);
     ui->PtpOcReadValuesButton->setEnabled(true);
     ui->PtpOcWriteValuesButton->setEnabled(true);
     ui->PtpOcInstanceComboBox->clear();
@@ -130,6 +166,7 @@ int Ucm_PtpOcTab::ptp_oc_disable(void)
     ui->PtpOcVlanValue->setText("NA");
     ui->PtpOcProfileValue->setCurrentText("NA");
     ui->PtpOcLayerValue->setCurrentText("NA");
+    ui->PtpOcDelayMechanismValue->setCurrentText("NA");
     ui->PtpOcIpValue->setText("NA");
     ui->PtpOcVersionValue->setText("NA");
 
@@ -145,6 +182,11 @@ int Ucm_PtpOcTab::ptp_oc_disable(void)
 
     ui->PtpOcPortDsPeerDelayValue->setText("NA");
     ui->PtpOcPortDsStateValue->setText("NA");
+    ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+    ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+    ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+    ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+    ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
 
     ui->PtpOcCurrentDsStepsRemovedValue->setText("NA");
     ui->PtpOcCurrentDsOffsetValue->setText("NA");
@@ -175,6 +217,12 @@ int Ucm_PtpOcTab::ptp_oc_disable(void)
     ui->PtpOcVlanEnableCheckBox->setChecked(false);
     ui->PtpOcVersionValue->setText("NA");
 
+    ptp_oc_offset_number_of_points = 0;
+    ptp_oc_offset_series-> clear();
+
+    ptp_oc_delay_number_of_points = 0;
+    ptp_oc_delay_series->clear();
+
     return 0;
 }
 
@@ -185,8 +233,10 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
     unsigned long long temp_offset;
     long long temp_signed_offset;
     unsigned int temp_length;
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    int temp_min = 0;
+    int temp_max = 0;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->PtpOcInstanceComboBox->currentText();
@@ -203,6 +253,7 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
             ui->PtpOcVlanValue->setText("NA");
             ui->PtpOcProfileValue->setCurrentText("NA");
             ui->PtpOcLayerValue->setCurrentText("NA");
+            ui->PtpOcDelayMechanismValue->setCurrentText("NA");
             ui->PtpOcIpValue->setText("NA");
             ui->PtpOcVersionValue->setText("NA");
 
@@ -218,6 +269,11 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
 
             ui->PtpOcPortDsPeerDelayValue->setText("NA");
             ui->PtpOcPortDsStateValue->setText("NA");
+            ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+            ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
 
             ui->PtpOcCurrentDsStepsRemovedValue->setText("NA");
             ui->PtpOcCurrentDsOffsetValue->setText("NA");
@@ -324,11 +380,24 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
             break;
         }
 
+        switch ((temp_data >> 24) & 0x00000001)
+        {
+        case 0:
+            ui->PtpOcDelayMechanismValue->setCurrentText("P2P");
+            break;
+        case 1:
+            ui->PtpOcDelayMechanismValue->setCurrentText("E2E");
+            break;
+        default:
+            ui->PtpOcDelayMechanismValue->setCurrentText("NA");
+            break;
+        }
     }
     else
     {
         ui->PtpOcProfileValue->setCurrentText("NA");
         ui->PtpOcLayerValue->setCurrentText("NA");
+        ui->PtpOcDelayMechanismValue->setCurrentText("NA");
     }
 
     // ip
@@ -508,9 +577,15 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
             {
                 if ((temp_data & 0x80000000) != 0)
                 {
-                    // peer delay
-                    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000204, temp_data))
+                    temp_string = ui->PtpOcDelayMechanismValue->currentText();
+                    if (temp_string == "E2E")
                     {
+                        // end to end delay
+                        ui->PtpOcPortDsPeerDelayValue->setText("NA");
+                    }
+                    else if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000204, temp_data))
+                    {
+                        // peer delay
                         temp_delay = temp_data;
                         temp_delay = temp_delay << 32;
                         if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000208, temp_data))
@@ -536,6 +611,19 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                                     }
                                     ptp_oc_delay_series->remove(0);
                                 }
+
+                                temp_max = 0;
+                                for (int j = 0; j < ptp_oc_delay_series->count(); j++)
+                                {
+                                    QPointF temp_point = ptp_oc_delay_series->at(j);
+                                    if (temp_max < temp_point.y())
+                                    {
+                                        temp_max = temp_point.y();
+                                    }
+                                }
+                                temp_max = (temp_max * 5) / 4;
+                                temp_max = temp_max + (100 - temp_max%100);
+                                ptp_oc_delay_chart->axisY()->setMax(temp_max);
 
                                 ptp_oc_delay_chart->show();
                             }
@@ -591,6 +679,43 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                         ui->PtpOcPortDsStateValue->setText("NA");
                     }
 
+                    // pdelay and delay req log msg interval
+                    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000210, temp_data))
+                    {
+                        ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText(QString::number((signed char)(temp_data & 0x000000FF)));
+                        ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText(QString::number((signed char)((temp_data >> 8) & 0x000000FF)));
+
+                    }
+                    else
+                    {
+                        ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+                        ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                    }
+
+                    // announce log msg interval and announce receipt timeout
+                    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000214, temp_data))
+                    {
+                        ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText(QString::number((signed char)(temp_data & 0x000000FF)));
+                        ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText(QString::number(((temp_data >> 8) & 0x000000FF)));
+
+                    }
+                    else
+                    {
+                        ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                        ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                    }
+
+                    // sync log msg interval
+                    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000218, temp_data))
+                    {
+                        ui->PtpOcPortDsSyncLogMsgIntervalValue->setText(QString::number((signed char)(temp_data & 0x000000FF)));
+
+                    }
+                    else
+                    {
+                        ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+                    }
+
                     break;
                 }
                 else if (i == 9)
@@ -598,6 +723,11 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                     cout << "ERROR: " << "read did not complete" << endl;
                     ui->PtpOcPortDsPeerDelayValue->setText("NA");
                     ui->PtpOcPortDsStateValue->setText("NA");
+                    ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+                    ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                    ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                    ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                    ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
                 }
 
             }
@@ -605,6 +735,11 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
             {
                 ui->PtpOcPortDsPeerDelayValue->setText("NA");
                 ui->PtpOcPortDsStateValue->setText("NA");
+                ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+                ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
             }
         }
     }
@@ -612,6 +747,11 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
     {
         ui->PtpOcPortDsPeerDelayValue->setText("NA");
         ui->PtpOcPortDsStateValue->setText("NA");
+        ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+        ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+        ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+        ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+        ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
     }
 
     //********************************
@@ -662,10 +802,21 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                                 temp_signed_offset = 0;
                             }
 
+                            // limit to one second in display
+                            if (temp_signed_offset >= 1000000000)
+                            {
+                                temp_signed_offset = 1000000000;
+                            }
+                            else if (temp_signed_offset <= -1000000000)
+                            {
+                                temp_signed_offset = -1000000000;
+                            }
+
                             ui->PtpOcCurrentDsOffsetValue->setText(QString::number(temp_signed_offset));
 
                             if (true == ptp_oc_timer->isActive())
                             {
+
                                 ptp_oc_offset_series->append(ptp_oc_offset_number_of_points, temp_signed_offset);
 
                                 if (ptp_oc_offset_number_of_points < 20)
@@ -682,6 +833,35 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                                     ptp_oc_offset_series->remove(0);
                                 }
 
+                                temp_min = 0;
+                                temp_max = 0;
+                                for (int j = 0; j < ptp_oc_offset_series->count(); j++)
+                                {
+                                    QPointF temp_point = ptp_oc_offset_series->at(j);
+                                    if (temp_min > temp_point.y())
+                                    {
+                                        temp_min = temp_point.y();
+                                    }
+                                    if (temp_max < temp_point.y())
+                                    {
+                                        temp_max = temp_point.y();
+                                    }
+                                }
+                                temp_max = (temp_max * 5) / 4;
+                                temp_max = temp_max + (100 - temp_max%100);
+                                temp_min = (temp_min * 5) / 4;
+                                temp_min = temp_min - (100 - abs(temp_min)%100);
+                                if (temp_max > 100000)
+                                {
+                                    temp_max = 100000;
+                                }
+                                if (temp_min < -100000)
+                                {
+                                    temp_min = -100000;
+                                }
+                                ptp_oc_offset_chart->axisY()->setMin(temp_min);
+                                ptp_oc_offset_chart->axisY()->setMax(temp_max);
+
                                 ptp_oc_offset_chart->show();
                             }
                         }
@@ -693,6 +873,68 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                     else
                     {
                         ui->PtpOcCurrentDsOffsetValue->setText("NA");
+                    }
+
+
+                    temp_string = ui->PtpOcDelayMechanismValue->currentText();
+                    if (temp_string == "P2P")
+                    {
+                        // peer delay
+                        ui->PtpOcCurrentDsDelayValue->setText("NA");
+                    }
+                    else if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000310, temp_data))
+                    {
+                        // end to end delay
+                        temp_delay = temp_data;
+                        temp_delay = temp_delay << 32;
+                        if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000314, temp_data))
+                        {
+                            temp_delay |= temp_data;
+                            temp_delay = temp_delay >> 16;
+                            ui->PtpOcCurrentDsDelayValue->setText(QString::number(temp_delay));
+
+                            if (true == ptp_oc_timer->isActive())
+                            {
+                                ptp_oc_delay_series->append(ptp_oc_delay_number_of_points, temp_delay);
+
+                                if (ptp_oc_delay_number_of_points < 20)
+                                {
+                                    ptp_oc_delay_number_of_points++;
+                                }
+                                else
+                                {
+                                    for (int j = 1; j < ptp_oc_delay_series->count(); j++)
+                                    {
+                                        QPointF temp_point = ptp_oc_delay_series->at(j);
+                                        ptp_oc_delay_series->replace(j, (j-1), temp_point.y());
+                                    }
+                                    ptp_oc_delay_series->remove(0);
+                                }
+
+                                temp_max = 0;
+                                for (int j = 0; j < ptp_oc_delay_series->count(); j++)
+                                {
+                                    QPointF temp_point = ptp_oc_delay_series->at(j);
+                                    if (temp_max < temp_point.y())
+                                    {
+                                        temp_max = temp_point.y();
+                                    }
+                                }
+                                temp_max = (temp_max * 5) / 4;
+                                temp_max = temp_max + (100 - temp_max%100);
+                                ptp_oc_delay_chart->axisY()->setMax(temp_max);
+
+                                ptp_oc_delay_chart->show();
+                            }
+                        }
+                        else
+                        {
+                            ui->PtpOcCurrentDsDelayValue->setText("NA");
+                        }
+                    }
+                    else
+                    {
+                        ui->PtpOcCurrentDsDelayValue->setText("NA");
                     }
 
                     break;
@@ -1117,8 +1359,8 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
     unsigned long long temp_next_jump;
     unsigned long long temp_mac;
     unsigned long temp_ip;
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->PtpOcInstanceComboBox->currentText();
@@ -1135,6 +1377,7 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
             ui->PtpOcVlanValue->setText("NA");
             ui->PtpOcProfileValue->setCurrentText("NA");
             ui->PtpOcLayerValue->setCurrentText("NA");
+            ui->PtpOcDelayMechanismValue->setCurrentText("NA");
             ui->PtpOcIpValue->setText("NA");
             ui->PtpOcVersionValue->setText("NA");
 
@@ -1150,6 +1393,11 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
 
             ui->PtpOcPortDsPeerDelayValue->setText("NA");
             ui->PtpOcPortDsStateValue->setText("NA");
+            ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+            ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
 
             ui->PtpOcCurrentDsStepsRemovedValue->setText("NA");
             ui->PtpOcCurrentDsOffsetValue->setText("NA");
@@ -1182,41 +1430,6 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
             return;
         }
     }
-
-    // vlan
-    temp_string = ui->PtpOcVlanValue->text();
-    temp_data = temp_string.toUInt(nullptr, 16);
-    temp_data &= 0x0000FFFF;
-    if(true == ui->PtpOcVlanEnableCheckBox->isChecked())
-    {
-        temp_data |= 0x00010000; // enable
-    }
-    if (temp_string == "NA")
-    {
-        //nothing
-    }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000088, temp_data))
-    {
-        temp_data &= 0x0000FFFF;
-        ui->PtpOcVlanValue->setText(QString("0x%1").arg(temp_data, 4, 16, QLatin1Char('0')));
-
-        temp_data = 0x00000002; // write
-        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000080, temp_data))
-        {
-            // nothing
-        }
-        else
-        {
-            ui->PtpOcVlanEnableCheckBox->setChecked(false);
-            ui->PtpOcVlanValue->setText("NA");
-        }
-    }
-    else
-    {
-        ui->PtpOcVlanEnableCheckBox->setChecked(false);
-        ui->PtpOcVlanValue->setText("NA");
-    }
-
 
     // profile and layer
     temp_string = ui->PtpOcProfileValue->currentText();
@@ -1261,37 +1474,125 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
         {
             //nothing
         }
-        else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000084, temp_data))
+        else
         {
-            switch ((temp_data >> 16) & 0x00000001)
+            temp_string = ui->PtpOcDelayMechanismValue->currentText();
+            if (temp_string == "P2P")
             {
-            case 0:
-                ui->PtpOcLayerValue->setCurrentText("Layer 2");
-                break;
-            case 1:
-                ui->PtpOcLayerValue->setCurrentText("Layer 3");
-                break;
-            default:
-                ui->PtpOcLayerValue->setCurrentText("NA");
-                break;
+                temp_data |= 0x00000000;
+            }
+            else if (temp_string == "E2E")
+            {
+                temp_data |= 0x01000000;
+            }
+            else
+            {
+                temp_data |= 0x00000000;
             }
 
-            temp_data = 0x00000001; // write
-            if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000080, temp_data))
+            if (temp_string == "NA")
             {
-                // nothing
+                //nothing
+            }
+            else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000084, temp_data))
+            {
+                switch (temp_data & 0x00000003)
+                {
+                case 0:
+                    ui->PtpOcProfileValue->setCurrentText("Default");
+                    break;
+                case 1:
+                    ui->PtpOcProfileValue->setCurrentText("Power");
+                    break;
+                case 2:
+                    ui->PtpOcProfileValue->setCurrentText("Utility");
+                    break;
+                default:
+                    ui->PtpOcProfileValue->setCurrentText("NA");
+                    break;
+                }
+
+                switch ((temp_data >> 16) & 0x00000001)
+                {
+                case 0:
+                    ui->PtpOcLayerValue->setCurrentText("Layer 2");
+                    break;
+                case 1:
+                    ui->PtpOcLayerValue->setCurrentText("Layer 3");
+                    break;
+                default:
+                    ui->PtpOcLayerValue->setCurrentText("NA");
+                    break;
+                }
+
+                switch ((temp_data >> 24) & 0x00000001)
+                {
+                case 0:
+                    ui->PtpOcDelayMechanismValue->setCurrentText("P2P");
+                    break;
+                case 1:
+                    ui->PtpOcDelayMechanismValue->setCurrentText("E2E");
+                    break;
+                default:
+                    ui->PtpOcDelayMechanismValue->setCurrentText("NA");
+                    break;
+                }
+
+                temp_data = 0x00000001; // write
+                if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000080, temp_data))
+                {
+                    // nothing
+                }
+                else
+                {
+                    ui->PtpOcProfileValue->setCurrentText("NA");
+                    ui->PtpOcLayerValue->setCurrentText("NA");
+                    ui->PtpOcDelayMechanismValue->setCurrentText("NA");
+                }
             }
             else
             {
                 ui->PtpOcProfileValue->setCurrentText("NA");
+                ui->PtpOcLayerValue->setCurrentText("NA");
+                ui->PtpOcDelayMechanismValue->setCurrentText("NA");
             }
-        }
-        else
-        {
-            ui->PtpOcProfileValue->setCurrentText("NA");
         }
     }
 
+
+    // vlan
+    temp_string = ui->PtpOcVlanValue->text();
+    temp_data = temp_string.toUInt(nullptr, 16);
+    temp_data &= 0x0000FFFF;
+    if(true == ui->PtpOcVlanEnableCheckBox->isChecked())
+    {
+        temp_data |= 0x00010000; // enable
+    }
+    if (temp_string == "NA")
+    {
+        //nothing
+    }
+    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000088, temp_data))
+    {
+        temp_data &= 0x0000FFFF;
+        ui->PtpOcVlanValue->setText(QString("0x%1").arg(temp_data, 4, 16, QLatin1Char('0')));
+
+        temp_data = 0x00000002; // write
+        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000080, temp_data))
+        {
+            // nothing
+        }
+        else
+        {
+            ui->PtpOcVlanEnableCheckBox->setChecked(false);
+            ui->PtpOcVlanValue->setText("NA");
+        }
+    }
+    else
+    {
+        ui->PtpOcVlanEnableCheckBox->setChecked(false);
+        ui->PtpOcVlanValue->setText("NA");
+    }
 
     // ip
     temp_string = ui->PtpOcIpValue->text();
@@ -1336,6 +1637,7 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
     {
         ui->PtpOcIpValue->setText("NA");
     }
+
 
     //********************************
     // default dataset
@@ -1564,7 +1866,7 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000114, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000118, temp_data))
     {
         ui->PtpOcDefaultDsInaccuracyValue->setText(QString::number(temp_data));
 
@@ -1587,7 +1889,94 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
     //********************************
     // port dataset
     //********************************
-    // all RO
+    // delay mechanism
+    temp_data = 0x00000001;
+    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000200, temp_data))
+    {
+        //nothing
+    }
+    else
+    {
+        ui->PtpOcDelayMechanismValue->setCurrentText("NA");
+    }
+
+    if ((true == ui->PtpOcPortDsSetCustomIntervalsCheckBox->isChecked()) && ("Default" == ui->PtpOcProfileValue->currentText()))
+    {
+        // delay message intervals
+        temp_string = ui->PtpOcPortDsDelayReqLogMsgIntervalValue->text();
+        temp_data = (temp_string.toInt(nullptr, 10) & 0x000000FF);
+        temp_data = temp_data << 8;
+        temp_string = ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->text();
+        temp_data |= (temp_string.toInt(nullptr, 10) & 0x000000FF);
+        if (temp_string == "NA")
+        {
+            //nothing
+        }
+        else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000210, temp_data))
+        {
+            // announce message intervals
+            temp_string = ui->PtpOcPortDsAnnounceReceiptTimeoutValue->text();
+            temp_data = (temp_string.toUInt(nullptr, 10) & 0x000000FF);
+            temp_data = temp_data << 8;
+            temp_string = ui->PtpOcPortDsAnnounceLogMsgIntervalValue->text();
+            temp_data |= (temp_string.toInt(nullptr, 10) & 0x000000FF);
+            if (temp_string == "NA")
+            {
+                //nothing
+            }
+            else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000214, temp_data))
+            {
+                // sync message interval
+                temp_string = ui->PtpOcPortDsSyncLogMsgIntervalValue->text();
+                temp_data = (temp_string.toInt(nullptr, 10) & 0x000000FF);
+                if (temp_string == "NA")
+                {
+                    //nothing
+                }
+                else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000218, temp_data))
+                {
+                    // set intervals
+                    temp_data = 0x00000002;
+                    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000200, temp_data))
+                    {
+                        //nothing
+                    }
+                    else
+                    {
+                        ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+                        ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                        ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                        ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                        ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+                    }
+                }
+                else
+                {
+                    ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+                    ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                    ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                    ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                    ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+                }
+            }
+            else
+            {
+                ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+                ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+                ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+                ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+                ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+            }
+        }
+        else
+        {
+            ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
+            ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+        }
+    }
 
     //********************************
     // current dataset
@@ -1702,7 +2091,7 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
     }
 
     // time traceable
-    if(true == ui->PtpOcTimePropertiesDsPtpTimescaleCheckBox->isChecked())
+    if(true == ui->PtpOcTimePropertiesDsTimeTraceableCheckBox->isChecked())
     {
         temp_data = 0x00000400; // set
     }
@@ -1715,11 +2104,11 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
     {
         if ((temp_data & 0x00000400) != 0)
         {
-            ui->PtpOcTimePropertiesDsPtpTimescaleCheckBox->setChecked(true);
+            ui->PtpOcTimePropertiesDsTimeTraceableCheckBox->setChecked(true);
         }
         else
         {
-            ui->PtpOcTimePropertiesDsPtpTimescaleCheckBox->setChecked(false);
+            ui->PtpOcTimePropertiesDsTimeTraceableCheckBox->setChecked(false);
         }
 
         temp_data = 0x00000010; // write
@@ -1729,12 +2118,12 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
         }
         else
         {
-            ui->PtpOcTimePropertiesDsPtpTimescaleCheckBox->setChecked(false);
+            ui->PtpOcTimePropertiesDsTimeTraceableCheckBox->setChecked(false);
         }
     }
     else
     {
-        ui->PtpOcTimePropertiesDsPtpTimescaleCheckBox->setChecked(false);
+        ui->PtpOcTimePropertiesDsTimeTraceableCheckBox->setChecked(false);
     }
 
     // leap 61
@@ -2054,6 +2443,7 @@ void Ucm_PtpOcTab::ptp_oc_auto_refresh_button_clicked(void)
     {
         ui->PtpOcAutoRefreshButton->setEnabled(false);
 
+        ui->PtpOcInstanceComboBox->setEnabled(false);
         ui->PtpOcReadValuesButton->setEnabled(false);
         ui->PtpOcWriteValuesButton->setEnabled(false);
 
@@ -2074,6 +2464,7 @@ void Ucm_PtpOcTab::ptp_oc_auto_refresh_button_clicked(void)
 
         ptp_oc_timer->stop();
 
+        ui->PtpOcInstanceComboBox->setEnabled(true);
         ui->PtpOcReadValuesButton->setEnabled(true);
         ui->PtpOcWriteValuesButton->setEnabled(true);
 

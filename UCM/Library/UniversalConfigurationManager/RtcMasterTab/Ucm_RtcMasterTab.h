@@ -40,6 +40,7 @@ public:
     Ucm_RtcMasterTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_RtcMasterTab();
 
+    int rtc_master_resize(int height, int width);
     void rtc_master_add_instance(unsigned int instance);
     int rtc_master_disable(void);
     int rtc_master_enable(void);
@@ -50,14 +51,14 @@ private:
     Ucm_UniversalConfigurationManager* ucm;
     Ui::Ucm_RtcMasterTab *ui;
 
-    // CLK Clock tab
+    // RTC Master tab
     QTimer* rtc_master_timer;
 
     void rtc_master_read_values(void);
     void rtc_master_write_values(void);
 
 private slots:
-    // CLK Clock tab
+    // RTC Master tab
     void rtc_master_read_values_button_clicked(void);
     void rtc_master_write_values_button_clicked(void);
     void rtc_master_auto_refresh_button_clicked(void);

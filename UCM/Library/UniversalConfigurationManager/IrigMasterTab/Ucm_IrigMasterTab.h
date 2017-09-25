@@ -40,6 +40,7 @@ public:
     Ucm_IrigMasterTab(Ucm_UniversalConfigurationManager* parent);
     ~Ucm_IrigMasterTab();
 
+    int irig_master_resize(int height, int width);
     void irig_master_add_instance(unsigned int instance);
     int irig_master_disable(void);
     int irig_master_enable(void);
@@ -50,14 +51,14 @@ private:
     Ucm_UniversalConfigurationManager* ucm;
     Ui::Ucm_IrigMasterTab *ui;
 
-    // CLK Clock tab
+    // IRIG Master tab
     QTimer* irig_master_timer;
 
     void irig_master_read_values(void);
     void irig_master_write_values(void);
 
 private slots:
-    // CLK Clock tab
+    // IRIG Master tab
     void irig_master_read_values_button_clicked(void);
     void irig_master_write_values_button_clicked(void);
     void irig_master_auto_refresh_button_clicked(void);

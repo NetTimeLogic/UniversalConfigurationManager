@@ -45,6 +45,11 @@ Ucm_ClkClockTab::~Ucm_ClkClockTab()
     delete clk_clock_timer;
 }
 
+int Ucm_ClkClockTab::clk_clock_resize(int height, int width)
+{
+    return 0;
+}
+
 void Ucm_ClkClockTab::clk_clock_add_instance(unsigned int instance)
 {
     ui->ClkClockInstanceComboBox->addItem(QString::number(instance));
@@ -59,25 +64,33 @@ int Ucm_ClkClockTab::clk_clock_disable(void)
 {
     clk_clock_timer->stop();
     ui->ClkClockAutoRefreshButton->setText("Start Refresh");
+    ui->ClkClockInstanceComboBox->setEnabled(true);
     ui->ClkClockReadValuesButton->setEnabled(true);
     ui->ClkClockWriteValuesButton->setEnabled(true);
     ui->ClkClockInstanceComboBox->clear();
 
     ui->ClkClockSecondsValue->setText("NA");
     ui->ClkClockNanosecondsValue->setText("NA");
+    ui->ClkClockTimeAdjCheckBox->setChecked(false);
     ui->ClkClockInSyncValue->setText("NA");
     ui->ClkClockInSyncThresholdValue->setText("NA");
     ui->ClkClockSourceValue->setCurrentText("NA");
     ui->ClkClockEnableCheckBox->setChecked(false);
     ui->ClkClockVersionValue->setText("NA");
+    ui->ClkClockDriftValue->setText("NA");
+    ui->ClkClockDriftIntervalValue->setText("NA");
+    ui->ClkClockDriftAdjCheckBox->setChecked(false);
+    ui->ClkClockOffsetValue->setText("NA");
+    ui->ClkClockOffsetIntervalValue->setText("NA");
+    ui->ClkClockOffsetAdjCheckBox->setChecked(false);
 
     return 0;
 }
 
 void Ucm_ClkClockTab::clk_clock_read_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->ClkClockInstanceComboBox->currentText();
@@ -93,11 +106,18 @@ void Ucm_ClkClockTab::clk_clock_read_values(void)
         {
             ui->ClkClockSecondsValue->setText("NA");
             ui->ClkClockNanosecondsValue->setText("NA");
+            ui->ClkClockTimeAdjCheckBox->setChecked(false);
             ui->ClkClockInSyncValue->setText("NA");
             ui->ClkClockInSyncThresholdValue->setText("NA");
             ui->ClkClockSourceValue->setCurrentText("NA");
             ui->ClkClockEnableCheckBox->setChecked(false);
             ui->ClkClockVersionValue->setText("NA");
+            ui->ClkClockDriftValue->setText("NA");
+            ui->ClkClockDriftIntervalValue->setText("NA");
+            ui->ClkClockDriftAdjCheckBox->setChecked(false);
+            ui->ClkClockOffsetValue->setText("NA");
+            ui->ClkClockOffsetIntervalValue->setText("NA");
+            ui->ClkClockOffsetAdjCheckBox->setChecked(false);
             return;
         }
     }
@@ -202,6 +222,62 @@ void Ucm_ClkClockTab::clk_clock_read_values(void)
         ui->ClkClockInSyncThresholdValue->setText("NA");
     }
 
+    // offset
+    if (0 ==  ucm->com_lib.read_reg(temp_addr + 0x00000030, temp_data))
+    {
+        int temp_offset = temp_data & 0x7FFFFFFF;
+        if ((temp_data & 0x80000000) != 0)
+        {
+            temp_offset = -1 * temp_offset;
+        }
+        ui->ClkClockOffsetValue->setText(QString::number(temp_offset));
+
+        if (0 ==  ucm->com_lib.read_reg(temp_addr + 0x00000034, temp_data))
+        {
+            ui->ClkClockOffsetIntervalValue->setText(QString::number(temp_data));
+        }
+        else
+        {
+            ui->ClkClockOffsetValue->setText("NA");
+            ui->ClkClockOffsetIntervalValue->setText("NA");
+            ui->ClkClockOffsetAdjCheckBox->setChecked(false);
+        }
+    }
+    else
+    {
+        ui->ClkClockOffsetValue->setText("NA");
+        ui->ClkClockOffsetIntervalValue->setText("NA");
+        ui->ClkClockOffsetAdjCheckBox->setChecked(false);
+    }
+
+    // drift
+    if (0 ==  ucm->com_lib.read_reg(temp_addr + 0x00000040, temp_data))
+    {
+        int temp_drift = temp_data & 0x7FFFFFFF;
+        if ((temp_data & 0x80000000) != 0)
+        {
+            temp_drift = -1 * temp_drift;
+        }
+        ui->ClkClockDriftValue->setText(QString::number(temp_drift));
+
+        if (0 ==  ucm->com_lib.read_reg(temp_addr + 0x00000044, temp_data))
+        {
+            ui->ClkClockDriftIntervalValue->setText(QString::number(temp_data));
+        }
+        else
+        {
+            ui->ClkClockDriftValue->setText("NA");
+            ui->ClkClockDriftIntervalValue->setText("NA");
+            ui->ClkClockDriftAdjCheckBox->setChecked(false);
+        }
+    }
+    else
+    {
+        ui->ClkClockDriftValue->setText("NA");
+        ui->ClkClockDriftIntervalValue->setText("NA");
+        ui->ClkClockDriftAdjCheckBox->setChecked(false);
+    }
+
     // source
     if (0 ==  ucm->com_lib.read_reg(temp_addr + 0x00000008, temp_data))
     {
@@ -256,8 +332,8 @@ void Ucm_ClkClockTab::clk_clock_read_values(void)
 
 void Ucm_ClkClockTab::clk_clock_write_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->ClkClockInstanceComboBox->currentText();
@@ -273,11 +349,18 @@ void Ucm_ClkClockTab::clk_clock_write_values(void)
         {
             ui->ClkClockSecondsValue->setText("NA");
             ui->ClkClockNanosecondsValue->setText("NA");
+            ui->ClkClockTimeAdjCheckBox->setChecked(false);
             ui->ClkClockInSyncValue->setText("NA");
             ui->ClkClockInSyncThresholdValue->setText("NA");
             ui->ClkClockSourceValue->setCurrentText("NA");
             ui->ClkClockEnableCheckBox->setChecked(false);
             ui->ClkClockVersionValue->setText("NA");
+            ui->ClkClockDriftValue->setText("NA");
+            ui->ClkClockDriftIntervalValue->setText("NA");
+            ui->ClkClockDriftAdjCheckBox->setChecked(false);
+            ui->ClkClockOffsetValue->setText("NA");
+            ui->ClkClockOffsetIntervalValue->setText("NA");
+            ui->ClkClockOffsetAdjCheckBox->setChecked(false);
             return;
         }
     }
@@ -394,6 +477,7 @@ void Ucm_ClkClockTab::clk_clock_write_values(void)
     }
     else
     {
+        ui->ClkClockTimeAdjCheckBox->setChecked(false);
         ui->ClkClockSecondsValue->setText("NA");
     }
 
@@ -410,14 +494,128 @@ void Ucm_ClkClockTab::clk_clock_write_values(void)
     }
     else
     {
+        ui->ClkClockTimeAdjCheckBox->setChecked(false);
         ui->ClkClockNanosecondsValue->setText("NA");
     }
 
-    temp_data = 0x00000002; // set time
+
+    // offset
+    temp_string = ui->ClkClockOffsetValue->text();
+    int temp_offset = temp_string.toInt(nullptr, 10);
+    if (temp_offset < 0)
+    {
+        temp_data = abs(temp_offset) | 0x80000000;
+    }
+    else
+    {
+       temp_data = abs(temp_offset);
+    }
+
+    if (temp_string == "NA")
+    {
+        //nothing
+    }
+    else if (0 ==  ucm->com_lib.write_reg(temp_addr + 0x00000030, temp_data))
+    {
+
+        temp_offset = temp_data & 0x7FFFFFFF;
+        if ((temp_data & 0x80000000) != 0)
+        {
+            temp_offset = -1 * temp_offset;
+        }
+        ui->ClkClockOffsetValue->setText(QString::number(temp_offset));
+
+        temp_string = ui->ClkClockOffsetIntervalValue->text();
+        temp_data = temp_string.toUInt(nullptr, 10);
+        if (temp_string == "NA")
+        {
+            //nothing
+        }
+        else if (0 ==  ucm->com_lib.write_reg(temp_addr + 0x00000034, temp_data))
+        {
+            ui->ClkClockOffsetIntervalValue->setText(QString::number(temp_data));
+        }
+        else
+        {
+            ui->ClkClockOffsetValue->setText("NA");
+            ui->ClkClockOffsetIntervalValue->setText("NA");
+            ui->ClkClockOffsetAdjCheckBox->setChecked(false);
+        }
+    }
+    else
+    {
+        ui->ClkClockOffsetValue->setText("NA");
+        ui->ClkClockOffsetIntervalValue->setText("NA");
+        ui->ClkClockOffsetAdjCheckBox->setChecked(false);
+    }
+
+    // drift
+    temp_string = ui->ClkClockDriftValue->text();
+    int temp_drift = temp_string.toInt(nullptr, 10);
+    if (temp_drift < 0)
+    {
+        temp_data = abs(temp_drift) | 0x80000000;
+    }
+    else
+    {
+       temp_data = abs(temp_drift);
+    }
+
+    if (temp_string == "NA")
+    {
+        //nothing
+    }
+    else if (0 ==  ucm->com_lib.write_reg(temp_addr + 0x00000040, temp_data))
+    {
+        temp_drift = temp_data & 0x7FFFFFFF;
+        if ((temp_data & 0x80000000) != 0)
+        {
+            temp_drift = -1 * temp_drift;
+        }
+        ui->ClkClockDriftValue->setText(QString::number(temp_drift));
+
+        temp_string = ui->ClkClockDriftIntervalValue->text();
+        temp_data = temp_string.toUInt(nullptr, 10);
+        if (temp_string == "NA")
+        {
+            //nothing
+        }
+        else if (0 ==  ucm->com_lib.write_reg(temp_addr + 0x00000044, temp_data))
+        {
+            ui->ClkClockDriftIntervalValue->setText(QString::number(temp_data));
+        }
+        else
+        {
+            ui->ClkClockDriftValue->setText("NA");
+            ui->ClkClockDriftIntervalValue->setText("NA");
+            ui->ClkClockDriftAdjCheckBox->setChecked(false);
+        }
+    }
+    else
+    {
+        ui->ClkClockDriftValue->setText("NA");
+        ui->ClkClockDriftIntervalValue->setText("NA");
+        ui->ClkClockDriftAdjCheckBox->setChecked(false);
+    }
+
+    temp_data = 0x00000000;
     if(true == ui->ClkClockEnableCheckBox->isChecked())
     {
         temp_data |= 0x00000001; // enable
     }
+    if(true == ui->ClkClockTimeAdjCheckBox->isChecked())
+    {
+        temp_data |= 0x00000002; // set time
+    }
+    if(true == ui->ClkClockOffsetAdjCheckBox->isChecked())
+    {
+        temp_data |= 0x00000004; // set offset
+    }
+    if(true == ui->ClkClockDriftAdjCheckBox->isChecked())
+    {
+        temp_data |= 0x00000008; // set drift
+    }
+
     if (0 ==  ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
     {
         // nothing
@@ -427,6 +625,11 @@ void Ucm_ClkClockTab::clk_clock_write_values(void)
         ui->ClkClockSecondsValue->setText("NA");
         ui->ClkClockNanosecondsValue->setText("NA");
     }
+
+    ui->ClkClockTimeAdjCheckBox->setChecked(false);
+    ui->ClkClockOffsetAdjCheckBox->setChecked(false);
+    ui->ClkClockDriftAdjCheckBox->setChecked(false);
+
 }
 
 void Ucm_ClkClockTab::clk_clock_read_values_button_clicked(void)
@@ -446,6 +649,7 @@ void Ucm_ClkClockTab::clk_clock_auto_refresh_button_clicked(void)
     {
         ui->ClkClockAutoRefreshButton->setEnabled(false);
 
+        ui->ClkClockInstanceComboBox->setEnabled(false);
         ui->ClkClockReadValuesButton->setEnabled(false);
         ui->ClkClockWriteValuesButton->setEnabled(false);
 
@@ -460,6 +664,7 @@ void Ucm_ClkClockTab::clk_clock_auto_refresh_button_clicked(void)
 
         clk_clock_timer->stop();
 
+        ui->ClkClockInstanceComboBox->setEnabled(true);
         ui->ClkClockReadValuesButton->setEnabled(true);
         ui->ClkClockWriteValuesButton->setEnabled(true);
 

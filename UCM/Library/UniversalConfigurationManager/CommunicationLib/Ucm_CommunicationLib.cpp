@@ -173,6 +173,119 @@ Ucm_CommunicationLib::open_port(QString port_name)
     return 0;
 }
 
+
+Ucm_CommunicationLib::check_port()
+{
+    int data_length;
+    QByteArray read_data;
+    QByteArray write_data;
+    unsigned char checksum;
+    QString temp_string;
+
+    cout << "INFO: " << "Checking Port:" << endl;
+
+    com_lock->lock();
+    if (is_open == false)
+    {
+        cout << "ERROR: " << "port is not open" << endl;
+        com_lock->unlock();
+        return -1;
+    }
+
+    write_data.append("$CC");
+    checksum = 0;
+    for (int i = 1; i < write_data.size(); i++)
+    {
+        checksum = checksum ^ write_data[i];
+    }
+    write_data.append('*');
+    write_data.append(QString("%1").arg(checksum, 2, 16, QLatin1Char('0')));
+    write_data.append(0x0D);
+    write_data.append(0x0A);
+
+    temp_string = write_data.constData();
+    temp_string.chop(2);
+    cout << "VERBOSE: " << "sent command: " << temp_string.toLatin1().constData() << endl;
+
+    data_length = com_port.write(write_data);
+
+    if (data_length == -1)
+    {
+        com_port.close();
+        cout << "ERROR: " << "write failed" << endl;
+        com_lock->unlock();
+        return -1;
+    }
+    else if (data_length != write_data.size())
+    {
+        com_port.close();
+        cout << "ERROR: " << "write failed to send all data" << endl;
+        com_lock->unlock();
+        return -1;
+    }
+    else if (false == com_port.waitForBytesWritten(500))
+    {
+        com_port.close();
+        cout << "ERROR: " << "write timed out" << endl;
+        com_lock->unlock();
+        return -1;
+    }
+
+    // check response
+    read_data = com_port.readAll();
+    com_port.waitForReadyRead(50);
+    for (int i=0; i < 32; i++)
+    {
+        if (read_data.endsWith(0x0A))
+        {
+            break;
+        }
+
+        if(0 != com_port.bytesAvailable())
+        {
+            read_data.append(com_port.readAll());
+        }
+        else
+        {
+            com_port.waitForReadyRead(1);
+        }
+    }
+
+    if (com_port.error() == QSerialPort::ReadError)
+    {
+        com_port.close();
+        cout << "ERROR: " << "read failed" << endl;
+        com_lock->unlock();
+        return -1;
+    }
+    else if (com_port.error() == QSerialPort::TimeoutError && read_data.isEmpty())
+    {
+        com_port.close();
+        cout << "ERROR: " << "no response received" << endl;
+        com_lock->unlock();
+        return -1;
+    }
+
+    temp_string = read_data.constData();
+    temp_string.chop(2);
+    cout << "VERBOSE: " << "received command: " << temp_string.toLatin1().constData() << endl;
+
+    if (false == read_data.startsWith("$CR"))
+    {
+        com_port.close();
+        cout << "WARNING " << "no correct response received (not our device?)" << endl;
+        com_lock->unlock();
+        return -1;
+    }
+
+    cout << "INFO: " << "connection io" << endl;
+    cout << endl;
+    com_lock->unlock();
+
+    return 0;
+}
+
+
 Ucm_CommunicationLib::close_port()
 {
     cout << "INFO: " << "Closing Port:" << endl;

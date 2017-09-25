@@ -42,6 +42,7 @@ using namespace std;
 #define Ucm_CoreConfig_RtcMasterCoreType                14
 #define Ucm_CoreConfig_TodSlaveCoreType                 15
 #define Ucm_CoreConfig_TodMasterCoreType                16
+#define Ucm_CoreConfig_TapSlaveCoreType                 17
 
 class Ucm_CoreConfig
 {

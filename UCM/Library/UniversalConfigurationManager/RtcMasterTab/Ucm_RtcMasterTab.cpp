@@ -45,6 +45,11 @@ Ucm_RtcMasterTab::~Ucm_RtcMasterTab()
     delete rtc_master_timer;
 }
 
+int Ucm_RtcMasterTab::rtc_master_resize(int height, int width)
+{
+    return 0;
+}
+
 void Ucm_RtcMasterTab::rtc_master_add_instance(unsigned int instance)
 {
     ui->RtcMasterInstanceComboBox->addItem(QString::number(instance));
@@ -59,6 +64,7 @@ int Ucm_RtcMasterTab::rtc_master_disable(void)
 {
     rtc_master_timer->stop();
     ui->RtcMasterAutoRefreshButton->setText("Start Refresh");
+    ui->RtcMasterInstanceComboBox->setEnabled(true);
     ui->RtcMasterReadValuesButton->setEnabled(true);
     ui->RtcMasterWriteValuesButton->setEnabled(true);
     ui->RtcMasterInstanceComboBox->clear();
@@ -74,8 +80,8 @@ int Ucm_RtcMasterTab::rtc_master_disable(void)
 
 void Ucm_RtcMasterTab::rtc_master_read_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->RtcMasterInstanceComboBox->currentText();
@@ -203,8 +209,8 @@ void Ucm_RtcMasterTab::rtc_master_read_values(void)
 
 void Ucm_RtcMasterTab::rtc_master_write_values(void)
 {
-    unsigned int temp_data;
-    unsigned int temp_addr;
+    unsigned int temp_data = 0;
+    unsigned int temp_addr = 0;
     QString temp_string;
 
     temp_string = ui->RtcMasterInstanceComboBox->currentText();
@@ -307,6 +313,7 @@ void Ucm_RtcMasterTab::rtc_master_auto_refresh_button_clicked(void)
     {
         ui->RtcMasterAutoRefreshButton->setEnabled(false);
 
+        ui->RtcMasterInstanceComboBox->setEnabled(false);
         ui->RtcMasterReadValuesButton->setEnabled(false);
         ui->RtcMasterWriteValuesButton->setEnabled(false);
 
@@ -321,6 +328,7 @@ void Ucm_RtcMasterTab::rtc_master_auto_refresh_button_clicked(void)
 
         rtc_master_timer->stop();
 
+        ui->RtcMasterInstanceComboBox->setEnabled(true);
         ui->RtcMasterReadValuesButton->setEnabled(true);
         ui->RtcMasterWriteValuesButton->setEnabled(true);
 
