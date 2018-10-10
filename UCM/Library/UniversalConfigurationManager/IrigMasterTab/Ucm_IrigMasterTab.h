@@ -28,6 +28,12 @@
 
 class Ucm_UniversalConfigurationManager;
 
+#define Ucm_IrigMaster_ControlReg                       0x00000000
+#define Ucm_IrigMaster_StatusReg                        0x00000004
+#define Ucm_IrigMaster_VersionReg                       0x0000000C
+#define Ucm_IrigMaster_CorrectionReg                    0x00000010
+#define Ucm_IrigMaster_ControlBitsReg                   0x00000014
+
 namespace Ui {
 class Ucm_IrigMasterTab;
 }

@@ -53,8 +53,8 @@ int Ucm_AdvancedTab::advanced_resize(int height, int width)
     int height_delta = 0;
     int width_delta = 0;
 
-    height_delta = (height-820);
-    width_delta = (width-1380);
+    height_delta = (height-Ucm_MainHeight);
+    width_delta = (width-Ucm_MainWidth);
 
     ui->AdvancedDebugConsole->setFixedHeight(580+height_delta);
     ui->AdvancedDebugConsole->setFixedWidth(1340+width_delta);

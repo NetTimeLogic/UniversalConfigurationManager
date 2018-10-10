@@ -29,6 +29,13 @@
 
 class Ucm_UniversalConfigurationManager;
 
+#define Ucm_Config_BlockSize                            16
+
+#define Ucm_Config_TypeInstanceReg                      0x00000000
+#define Ucm_Config_BaseAddrLReg                         0x00000004
+#define Ucm_Config_BaseAddrHReg                         0x00000008
+#define Ucm_Config_IrqMaskReg                           0x0000000C
+
 namespace Ui {
 class Ucm_ConfigTab;
 }
@@ -48,12 +55,14 @@ private:
     Ui::Ucm_ConfigTab *ui;
 
     // Config tab
+    void config_port_button_clicked(int open);
     QTimer* config_timer;
 
 private slots:
     void config_com_port_button_clicked(void);
+    void config_eth_port_button_clicked(void);
     void config_full_screen_button_clicked(void);
-    void config_com_port_check_timer(void);
+    void config_port_check_timer(void);
 };
 
 #endif // UCM_CONFIGTAB_H

@@ -71,6 +71,7 @@ int Ucm_IrigSlaveTab::irig_slave_disable(void)
 
     ui->IrigSlaveCorrectionValue->setText("NA");
     ui->IrigSlaveCableDelayValue->setText("NA");
+    ui->IrigSlaveControlBitsValue->setText("NA");
     ui->IrigSlaveEnableCheckBox->setChecked(false);
     ui->IrigSlaveVersionValue->setText("NA");
 
@@ -96,6 +97,7 @@ void Ucm_IrigSlaveTab::irig_slave_read_values(void)
         {
             ui->IrigSlaveCorrectionValue->setText("NA");
             ui->IrigSlaveCableDelayValue->setText("NA");
+            ui->IrigSlaveControlBitsValue->setText("NA");
             ui->IrigSlaveEnableCheckBox->setChecked(false);
             ui->IrigSlaveVersionValue->setText("NA");
             return;
@@ -103,7 +105,7 @@ void Ucm_IrigSlaveTab::irig_slave_read_values(void)
     }
 
     // enabled
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_IrigSlave_ControlReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -120,7 +122,7 @@ void Ucm_IrigSlaveTab::irig_slave_read_values(void)
     }
 
     // correction
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000010, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_IrigSlave_CorrectionReg, temp_data))
     {
         ui->IrigSlaveCorrectionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
     }
@@ -130,7 +132,7 @@ void Ucm_IrigSlaveTab::irig_slave_read_values(void)
     }
 
     // cable delay
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000020, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_IrigSlave_CableDelayReg, temp_data))
     {
         ui->IrigSlaveCableDelayValue->setText(QString::number(temp_data));
     }
@@ -139,8 +141,18 @@ void Ucm_IrigSlaveTab::irig_slave_read_values(void)
         ui->IrigSlaveCableDelayValue->setText("NA");
     }
 
+    // control bits
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_IrigSlave_ControlBitsReg, temp_data))
+    {
+        ui->IrigSlaveControlBitsValue->setText(QString("0x%1").arg(temp_data, 7, 16, QLatin1Char('0')));
+    }
+    else
+    {
+        ui->IrigSlaveControlBitsValue->setText("NA");
+    }
+
     // version
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_IrigSlave_VersionReg, temp_data))
     {
         ui->IrigSlaveVersionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
 
@@ -170,6 +182,7 @@ void Ucm_IrigSlaveTab::irig_slave_write_values(void)
         {
             ui->IrigSlaveCorrectionValue->setText("NA");
             ui->IrigSlaveCableDelayValue->setText("NA");
+            ui->IrigSlaveControlBitsValue->setText("NA");
             ui->IrigSlaveEnableCheckBox->setChecked(false);
             ui->IrigSlaveVersionValue->setText("NA");
             return;
@@ -184,7 +197,7 @@ void Ucm_IrigSlaveTab::irig_slave_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000010, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_IrigSlave_CorrectionReg, temp_data))
     {
         ui->IrigSlaveCorrectionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
     }
@@ -200,7 +213,7 @@ void Ucm_IrigSlaveTab::irig_slave_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000020, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_IrigSlave_CableDelayReg, temp_data))
     {
         ui->IrigSlaveCableDelayValue->setText(QString::number(temp_data));
     }
@@ -214,7 +227,7 @@ void Ucm_IrigSlaveTab::irig_slave_write_values(void)
     {
         temp_data |= 0x00000001; // enable
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_IrigSlave_ControlReg, temp_data))
     {
         // nothing
     }

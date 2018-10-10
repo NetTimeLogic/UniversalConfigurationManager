@@ -24,6 +24,8 @@
 
 #include <string>
 #include <iostream>
+#include <QThread>
+#include <QNetworkInterface>
 using namespace std;
 
 Ucm_CommunicationLib::Ucm_CommunicationLib()
@@ -31,6 +33,7 @@ Ucm_CommunicationLib::Ucm_CommunicationLib()
     com_lock = new QMutex(QMutex::Recursive);
     com_lock->lock();
     is_open = false;
+    port_type = 0;
     com_lock->unlock();
 }
 
@@ -44,9 +47,136 @@ Ucm_CommunicationLib::~Ucm_CommunicationLib()
     com_lock->unlock();
 }
 
-Ucm_CommunicationLib::open_port(QString port_name)
+int Ucm_CommunicationLib::detect_baudrate(void)
 {
+    int data_length;
+    QByteArray read_data;
+    QByteArray write_data;
+    unsigned char checksum;
+    QString temp_string;
     int baud_rate;
+    int test_index;
+
+    write_data.append("$CC");
+    checksum = 0;
+    for (int i = 1; i < write_data.size(); i++)
+    {
+        checksum = checksum ^ write_data[i];
+    }
+    write_data.append('*');
+    write_data.append(QString("%1").arg(checksum, 2, 16, QLatin1Char('0')));
+    write_data.append(0x0D);
+    write_data.append(0x0A);
+
+    // detect baud rate
+    if (port_type == Ucm_CommunicationLib_ComType)
+    {
+        for (test_index = 0; test_index < 4; test_index++)
+        {
+            switch (test_index)
+            {
+                case 0:
+                    baud_rate = 1000000;
+                    break;
+                case 1:
+                    baud_rate = 500000;
+                    break;
+                case 2:
+                    baud_rate = 460800;
+                    break;
+                default:
+                    baud_rate = 115200;
+                    break;
+            }
+
+            // clear the port before we do this
+            com_port.clear();
+
+            if (false == com_port.setBaudRate(baud_rate))
+            {
+                cout << "ERROR: could not set baudrate to: " << baud_rate << endl;
+                continue;
+            }
+
+            // send
+            data_length = com_port.write(write_data);
+
+            if (data_length == -1)
+            {
+                cout << "VERBOSE: " << "write failed" << endl;
+                continue;
+            }
+            else if (data_length != write_data.size())
+            {
+                cout << "VERBOSE: " << "write failed to send all data" << endl;
+                continue;
+            }
+            else if (false == com_port.waitForBytesWritten(500))
+            {
+                cout << "VERBOSE: " << "write timed out" << endl;
+                continue;
+            }
+
+            // receive
+            read_data = com_port.readAll();
+            com_port.waitForReadyRead(50);
+            for (int i=0; i < 32; i++)
+            {
+                if (read_data.endsWith(0x0A))
+                {
+                    break;
+                }
+
+                if(0 != com_port.bytesAvailable())
+                {
+                    read_data.append(com_port.readAll());
+                }
+                else
+                {
+                    com_port.waitForReadyRead(1);
+                }
+            }
+
+            if (com_port.error() == QSerialPort::ReadError)
+            {
+                cout << "VERBOSE: " << "read failed" << endl;
+                continue;
+            }
+            else if (com_port.error() == QSerialPort::TimeoutError && read_data.isEmpty())
+            {
+                cout << "VERBOSE: " << "no response received" << endl;
+                continue;
+            }
+
+            temp_string = read_data.constData();
+            temp_string.chop(2);
+            cout << "VERBOSE: " << "received command: " << temp_string.toLatin1().constData() << endl;
+
+            if (false == read_data.startsWith("$"))
+            {
+                cout << "WARNING " << "no correct response received (not our device?)" << endl;
+                continue;
+            }
+            else
+            {
+                cout << "INFO: baudrate detected at: " << baud_rate << endl;
+                return baud_rate;
+            }
+        }
+
+        cout << "ERROR: no valid baudrate detected" << endl;
+        return -1;
+
+    }
+    else
+    {
+        cout << "ERROR: not a serial port" << endl;
+        return -1;
+    }
+}
+
+Ucm_CommunicationLib::open_port(QString name)
+{
     int data_length;
     QByteArray read_data;
     QByteArray write_data;
@@ -63,19 +193,49 @@ Ucm_CommunicationLib::open_port(QString port_name)
         return -1;
     }
 
-    com_port.setPortName(port_name);
-    baud_rate = QSerialPort::Baud115200;
-    com_port.setBaudRate(baud_rate);
+    if (true == name.startsWith("COM"))
+    {
+        port_name = name;
+        com_port.setPortName(port_name);
+        int baud_rate = QSerialPort::Baud115200;
+        com_port.setBaudRate(baud_rate);
 
-    if (false == com_port.open(QIODevice::ReadWrite))
-    {
-        cout << "ERROR: " << "opening port failed" << endl;
-        com_lock->unlock();
-        return -1;
+        if (false == com_port.open(QIODevice::ReadWrite))
+        {
+            cout << "ERROR: " << "opening port failed" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else
+        {
+            cout << "INFO: " << "opening port: " << port_name.toLatin1().constData() << " successful" << endl;
+        }
+
+        port_type = Ucm_CommunicationLib_ComType;
+
+        // now test the port rate
+        if (detect_baudrate() < 0)
+        {
+            com_port.close();
+            com_lock->unlock();
+            return -1;
+        }
     }
-    else
+    else 
     {
-        cout << "INFO: " << "opening port: " << port_name.toLatin1().constData() << " successful" << endl;
+        port_name = name;
+        if (false == eth_port.bind(QHostAddress::AnyIPv4, 0xBEEF, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint))
+        {
+            cout << "ERROR: " << "bind port failed" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else
+        {
+            cout << "INFO: " << "binding port: " << port_name.toLatin1().constData() << " successful" << endl;
+        }
+
+        port_type = Ucm_CommunicationLib_EthType;
     }
 
     write_data.append("$CC");
@@ -92,62 +252,143 @@ Ucm_CommunicationLib::open_port(QString port_name)
     temp_string = write_data.constData();
     temp_string.chop(2);
     cout << "VERBOSE: " << "sent command: " << temp_string.toLatin1().constData() << endl;
+    
+    if (port_type == Ucm_CommunicationLib_ComType)
+    {
+        data_length = com_port.write(write_data);
 
-    data_length = com_port.write(write_data);
+        if (data_length == -1)
+        {
+            com_port.close();
+            cout << "ERROR: " << "write failed" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (data_length != write_data.size())
+        {
+            com_port.close();
+            cout << "ERROR: " << "write failed to send all data" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (false == com_port.waitForBytesWritten(500))
+        {
+            com_port.close();
+            cout << "ERROR: " << "write timed out" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+    }
+    else if (port_type == Ucm_CommunicationLib_EthType)
+    {
+        for (int i = write_data.size(); i < 18; i++)
+        {
+            write_data.append((char)0x00);
+        }
 
-    if (data_length == -1)
-    {
-        com_port.close();
-        cout << "ERROR: " << "write failed" << endl;
-        com_lock->unlock();
-        return -1;
+        data_length = eth_port.writeDatagram(write_data.data(), write_data.size(), QHostAddress(port_name), 0xBEEF);
+        if (data_length == -1)
+        {
+            eth_port.close();
+            cout << "ERROR: " << "write failed" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (data_length != write_data.size())
+        {
+            eth_port.close();
+            cout << "ERROR: " << "write failed to send all data" << endl;
+            com_lock->unlock();
+            return -1;
+        }
     }
-    else if (data_length != write_data.size())
+    else
     {
-        com_port.close();
-        cout << "ERROR: " << "write failed to send all data" << endl;
-        com_lock->unlock();
-        return -1;
-    }
-    else if (false == com_port.waitForBytesWritten(500))
-    {
-        com_port.close();
-        cout << "ERROR: " << "write timed out" << endl;
+        cout << "ERROR: " << "unknown com type" << endl;
         com_lock->unlock();
         return -1;
     }
 
     // check response
-    read_data = com_port.readAll();
-    com_port.waitForReadyRead(50);
-    for (int i=0; i < 32; i++)
+    if (port_type == Ucm_CommunicationLib_ComType)
     {
-        if (read_data.endsWith(0x0A))
+        read_data = com_port.readAll();
+        com_port.waitForReadyRead(50);
+        for (int i=0; i < 32; i++)
         {
-            break;
+            if (read_data.endsWith(0x0A))
+            {
+                break;
+            }
+
+            if(0 != com_port.bytesAvailable())
+            {
+                read_data.append(com_port.readAll());
+            }
+            else
+            {
+                com_port.waitForReadyRead(1);
+            }
         }
 
-        if(0 != com_port.bytesAvailable())
+        if (com_port.error() == QSerialPort::ReadError)
         {
-            read_data.append(com_port.readAll());
+            com_port.close();
+            cout << "ERROR: " << "read failed" << endl;
+            com_lock->unlock();
+            return -1;
         }
-        else
+        else if (com_port.error() == QSerialPort::TimeoutError && read_data.isEmpty())
         {
-            com_port.waitForReadyRead(1);
+            com_port.close();
+            cout << "ERROR: " << "no response received" << endl;
+            com_lock->unlock();
+            return -1;
         }
     }
+    else if (port_type == Ucm_CommunicationLib_EthType)
+    {
+        while (1)
+        {
+            if (false == eth_port.waitForReadyRead(50))
+            {
+                eth_port.close();
+                cout << "ERROR: " << "no response received" << endl;
+                com_lock->unlock();
+                return -1;
+            }
 
-    if (com_port.error() == QSerialPort::ReadError)
-    {
-        com_port.close();
-        cout << "ERROR: " << "read failed" << endl;
-        com_lock->unlock();
-        return -1;
+            if (true == eth_port.hasPendingDatagrams())
+            {
+                QHostAddress src_addr;
+                quint16 src_port;
+
+                read_data.resize(eth_port.pendingDatagramSize());
+                eth_port.readDatagram(read_data.data(), read_data.size(), &src_addr, &src_port);
+
+                if (src_addr == QHostAddress(port_name))
+                {
+                    break;
+                }
+                else
+                {
+                    read_data.clear();
+                    //cout << "VERBOSE: " << "frame received from an unexpected source:" << src_addr.toString().constData() << endl;
+                    continue;
+                }
+            }
+            else
+            {
+                eth_port.close();
+                cout << "ERROR: " << "no packet available" << endl;
+                com_lock->unlock();
+                return -1;
+            }
+        }
     }
-    else if (com_port.error() == QSerialPort::TimeoutError && read_data.isEmpty())
+    else
     {
-        com_port.close();
-        cout << "ERROR: " << "no response received" << endl;
+        cout << "ERROR: " << "unknown com type" << endl;
         com_lock->unlock();
         return -1;
     }
@@ -158,13 +399,20 @@ Ucm_CommunicationLib::open_port(QString port_name)
 
     if (false == read_data.startsWith("$CR"))
     {
-        com_port.close();
+        if (port_type == Ucm_CommunicationLib_ComType)
+        {
+            com_port.close();
+        }
+        else if (port_type == Ucm_CommunicationLib_EthType)
+        {
+            eth_port.close();
+        }
         cout << "WARNING " << "no correct response received (not our device?)" << endl;
         com_lock->unlock();
         return -1;
     }
 
-    cout << "INFO: " << "connected correctly to target on: " << port_name.toLatin1().constData() << endl;
+    cout << "INFO: " << "connected correctly to target on: " << name.toLatin1().constData() << endl;
     cout << endl;
 
     is_open = true;
@@ -207,61 +455,142 @@ Ucm_CommunicationLib::check_port()
     temp_string.chop(2);
     cout << "VERBOSE: " << "sent command: " << temp_string.toLatin1().constData() << endl;
 
-    data_length = com_port.write(write_data);
+    if (port_type == Ucm_CommunicationLib_ComType)
+    {
+        data_length = com_port.write(write_data);
 
-    if (data_length == -1)
-    {
-        com_port.close();
-        cout << "ERROR: " << "write failed" << endl;
-        com_lock->unlock();
-        return -1;
+        if (data_length == -1)
+        {
+            com_port.close();
+            cout << "ERROR: " << "write failed" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (data_length != write_data.size())
+        {
+            com_port.close();
+            cout << "ERROR: " << "write failed to send all data" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (false == com_port.waitForBytesWritten(500))
+        {
+            com_port.close();
+            cout << "ERROR: " << "write timed out" << endl;
+            com_lock->unlock();
+            return -1;
+        }
     }
-    else if (data_length != write_data.size())
+    else if (port_type == Ucm_CommunicationLib_EthType)
     {
-        com_port.close();
-        cout << "ERROR: " << "write failed to send all data" << endl;
-        com_lock->unlock();
-        return -1;
+        for (int i = write_data.size(); i < 18; i++)
+        {
+            write_data.append((char)0x00);
+        }
+
+        data_length = eth_port.writeDatagram(write_data.data(), write_data.size(), QHostAddress(port_name), 0xBEEF);
+        if (data_length == -1)
+        {
+            eth_port.close();
+            cout << "ERROR: " << "write failed" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (data_length != write_data.size())
+        {
+            eth_port.close();
+            cout << "ERROR: " << "write failed to send all data" << endl;
+            com_lock->unlock();
+            return -1;
+        }
     }
-    else if (false == com_port.waitForBytesWritten(500))
+    else
     {
-        com_port.close();
-        cout << "ERROR: " << "write timed out" << endl;
+        cout << "ERROR: " << "unknown com type" << endl;
         com_lock->unlock();
         return -1;
     }
 
     // check response
-    read_data = com_port.readAll();
-    com_port.waitForReadyRead(50);
-    for (int i=0; i < 32; i++)
+    if (port_type == Ucm_CommunicationLib_ComType)
     {
-        if (read_data.endsWith(0x0A))
+        read_data = com_port.readAll();
+        com_port.waitForReadyRead(50);
+        for (int i=0; i < 32; i++)
         {
-            break;
+            if (read_data.endsWith(0x0A))
+            {
+                break;
+            }
+
+            if(0 != com_port.bytesAvailable())
+            {
+                read_data.append(com_port.readAll());
+            }
+            else
+            {
+                com_port.waitForReadyRead(1);
+            }
         }
 
-        if(0 != com_port.bytesAvailable())
+        if (com_port.error() == QSerialPort::ReadError)
         {
-            read_data.append(com_port.readAll());
+            com_port.close();
+            cout << "ERROR: " << "read failed" << endl;
+            com_lock->unlock();
+            return -1;
         }
-        else
+        else if (com_port.error() == QSerialPort::TimeoutError && read_data.isEmpty())
         {
-            com_port.waitForReadyRead(1);
+            com_port.close();
+            cout << "ERROR: " << "no response received" << endl;
+            com_lock->unlock();
+            return -1;
         }
     }
+    else if (port_type == Ucm_CommunicationLib_EthType)
+    {
+        while (1)
+        {
+            if (false == eth_port.waitForReadyRead(50))
+            {
+                eth_port.close();
+                cout << "ERROR: " << "no response received" << endl;
+                com_lock->unlock();
+                return -1;
+            }
 
-    if (com_port.error() == QSerialPort::ReadError)
-    {
-        com_port.close();
-        cout << "ERROR: " << "read failed" << endl;
-        com_lock->unlock();
-        return -1;
+            if (true == eth_port.hasPendingDatagrams())
+            {
+                QHostAddress src_addr;
+                quint16 src_port;
+
+                read_data.resize(eth_port.pendingDatagramSize());
+                eth_port.readDatagram(read_data.data(), read_data.size(), &src_addr, &src_port);
+
+                if (src_addr == QHostAddress(port_name))
+                {
+                    break;
+                }
+                else
+                {
+                    read_data.clear();
+                    //cout << "VERBOSE: " << "frame received from an unexpected source:" << src_addr.toString().constData() << endl;
+                    continue;
+                }
+            }
+            else
+            {
+                eth_port.close();
+                cout << "ERROR: " << "no packet available" << endl;
+                com_lock->unlock();
+                return -1;
+            }
+        }
     }
-    else if (com_port.error() == QSerialPort::TimeoutError && read_data.isEmpty())
+    else
     {
-        com_port.close();
-        cout << "ERROR: " << "no response received" << endl;
+        cout << "ERROR: " << "unknown com type" << endl;
         com_lock->unlock();
         return -1;
     }
@@ -272,7 +601,14 @@ Ucm_CommunicationLib::check_port()
 
     if (false == read_data.startsWith("$CR"))
     {
-        com_port.close();
+        if (port_type == Ucm_CommunicationLib_ComType)
+        {
+            com_port.close();
+        }
+        else if (port_type == Ucm_CommunicationLib_EthType)
+        {
+            eth_port.close();
+        }
         cout << "WARNING " << "no correct response received (not our device?)" << endl;
         com_lock->unlock();
         return -1;
@@ -298,7 +634,14 @@ Ucm_CommunicationLib::close_port()
         return -1;
     }
 
-    com_port.close();
+    if (port_type == Ucm_CommunicationLib_ComType)
+    {
+        com_port.close();
+    }
+    else if (port_type == Ucm_CommunicationLib_EthType)
+    {
+        eth_port.close();
+    }
 
     cout << "INFO: " << "closing port successful" << endl;
     cout << endl;
@@ -346,59 +689,136 @@ Ucm_CommunicationLib::write_reg(const unsigned int addr, unsigned int& data)
     temp_string.chop(2);
     cout << "VERBOSE: " << "sent command: " << temp_string.toLatin1().constData() << endl;
 
-    data_length = com_port.write(write_data);
+    if (port_type == Ucm_CommunicationLib_ComType)
+    {
+        data_length = com_port.write(write_data);
 
-    if (data_length == -1)
-    {
-        cout << "ERROR: " << "write failed" << endl;
-        com_lock->unlock();
-        return -1;
+        if (data_length == -1)
+        {
+            cout << "ERROR: " << "write failed" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (data_length != write_data.size())
+        {
+            cout << "ERROR: " << "write failed to send all data" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (false == com_port.waitForBytesWritten(500))
+        {
+            cout << "ERROR: " << "write timed out" << endl;
+            com_lock->unlock();
+            return -1;
+        }
     }
-    else if (data_length != write_data.size())
+    else if (port_type == Ucm_CommunicationLib_EthType)
     {
-        cout << "ERROR: " << "write failed to send all data" << endl;
-        com_lock->unlock();
-        return -1;
+        for (int i = write_data.size(); i < 18; i++)
+        {
+            write_data.append((char)0x00);
+        }
+
+        data_length = eth_port.writeDatagram(write_data.data(), write_data.size(), QHostAddress(port_name), 0xBEEF);
+        if (data_length == -1)
+        {
+            cout << "ERROR: " << "write failed" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (data_length != write_data.size())
+        {
+            cout << "ERROR: " << "write failed to send all data" << endl;
+            com_lock->unlock();
+            return -1;
+        }
     }
-    else if (false == com_port.waitForBytesWritten(500))
+    else
     {
-        cout << "ERROR: " << "write timed out" << endl;
+        cout << "ERROR: " << "unknown com type" << endl;
         com_lock->unlock();
         return -1;
     }
 
     // check response
-    read_data = com_port.readAll();
-    com_port.waitForReadyRead(50);
-    for (int i=0; i < 32; i++)
+    if (port_type == Ucm_CommunicationLib_ComType)
     {
-        if (read_data.endsWith(0x0A))
+        read_data = com_port.readAll();
+        com_port.waitForReadyRead(50);
+        for (int i=0; i < 32; i++)
         {
-            break;
+            if (read_data.endsWith(0x0A))
+            {
+                break;
+            }
+
+            if(0 != com_port.bytesAvailable())
+            {
+                read_data.append(com_port.readAll());
+            }
+            else
+            {
+                com_port.waitForReadyRead(1);
+            }
         }
 
-        if(0 != com_port.bytesAvailable())
+        if (com_port.error() == QSerialPort::ReadError)
         {
-            read_data.append(com_port.readAll());
+            cout << "ERROR: " << "read failed" << endl;
+            com_lock->unlock();
+            return -1;
         }
-        else
+        else if (com_port.error() == QSerialPort::TimeoutError && read_data.isEmpty())
         {
-            com_port.waitForReadyRead(1);
+            cout << "ERROR: " << "no response received" << endl;
+            com_lock->unlock();
+            return -1;
         }
     }
+    else if (port_type == Ucm_CommunicationLib_EthType)
+    {
+        while (1)
+        {
+            if (false == eth_port.waitForReadyRead(50))
+            {
+                cout << "ERROR: " << "no response received" << endl;
+                com_lock->unlock();
+                return -1;
+            }
 
-    if (com_port.error() == QSerialPort::ReadError)
+            if (true == eth_port.hasPendingDatagrams())
+            {
+                QHostAddress src_addr;
+                quint16 src_port;
+
+                read_data.resize(eth_port.pendingDatagramSize());
+                eth_port.readDatagram(read_data.data(), read_data.size(), &src_addr, &src_port);
+
+                if (src_addr == QHostAddress(port_name))
+                {
+                    break;
+                }
+                else
+                {
+                    read_data.clear();
+                    //cout << "VERBOSE: " << "frame received from an unexpected source:" << src_addr.toString().constData() << endl;
+                    continue;
+                }
+            }
+            else
+            {
+                cout << "ERROR: " << "no packet available" << endl;
+                com_lock->unlock();
+                return -1;
+            }
+        }
+    }
+    else
     {
-        cout << "ERROR: " << "read failed" << endl;
+        cout << "ERROR: " << "unknown com type" << endl;
         com_lock->unlock();
         return -1;
-    }
-    else if (com_port.error() == QSerialPort::TimeoutError && read_data.isEmpty())
-    {
-        cout << "ERROR: " << "no response received" << endl;
-        com_lock->unlock();
-        return -1;
-    }
+    }    
 
     temp_string = read_data.constData();
     temp_string.chop(2);
@@ -481,59 +901,136 @@ Ucm_CommunicationLib::read_reg(const unsigned int addr, unsigned int& data)
     temp_string.chop(2);
     cout << "VERBOSE: " << "sent command: " << temp_string.toLatin1().constData() << endl;
 
-    data_length = com_port.write(write_data);
+    if (port_type == Ucm_CommunicationLib_ComType)
+    {
+        data_length = com_port.write(write_data);
 
-    if (data_length == -1)
-    {
-        cout << "ERROR: " << "write failed" << endl;
-        com_lock->unlock();
-        return -1;
+        if (data_length == -1)
+        {
+            cout << "ERROR: " << "write failed" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (data_length != write_data.size())
+        {
+            cout << "ERROR: " << "write failed to send all data" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (false == com_port.waitForBytesWritten(500))
+        {
+            cout << "ERROR: " << "write timed out" << endl;
+            com_lock->unlock();
+            return -1;
+        }
     }
-    else if (data_length != write_data.size())
+    else if (port_type == Ucm_CommunicationLib_EthType)
     {
-        cout << "ERROR: " << "write failed to send all data" << endl;
-        com_lock->unlock();
-        return -1;
+        for (int i = write_data.size(); i < 18; i++)
+        {
+            write_data.append((char)0x00);
+        }
+
+        data_length = eth_port.writeDatagram(write_data.data(), write_data.size(), QHostAddress(port_name), 0xBEEF);
+        if (data_length == -1)
+        {
+            cout << "ERROR: " << "write failed" << endl;
+            com_lock->unlock();
+            return -1;
+        }
+        else if (data_length != write_data.size())
+        {
+            cout << "ERROR: " << "write failed to send all data" << endl;
+            com_lock->unlock();
+            return -1;
+        }
     }
-    else if (false == com_port.waitForBytesWritten(500))
+    else
     {
-        cout << "ERROR: " << "write timed out" << endl;
+        cout << "ERROR: " << "unknown com type" << endl;
         com_lock->unlock();
         return -1;
     }
 
     // check response
-    read_data = com_port.readAll();
-    com_port.waitForReadyRead(50);
-    for (int i=0; i < 32; i++)
+    if (port_type == Ucm_CommunicationLib_ComType)
     {
-        if (read_data.endsWith(0x0A))
+        read_data = com_port.readAll();
+        com_port.waitForReadyRead(50);
+        for (int i=0; i < 32; i++)
         {
-            break;
+            if (read_data.endsWith(0x0A))
+            {
+                break;
+            }
+
+            if(0 != com_port.bytesAvailable())
+            {
+                read_data.append(com_port.readAll());
+            }
+            else
+            {
+                com_port.waitForReadyRead(1);
+            }
         }
 
-        if(0 != com_port.bytesAvailable())
+        if (com_port.error() == QSerialPort::ReadError)
         {
-            read_data.append(com_port.readAll());
+            cout << "ERROR: " << "read failed" << endl;
+            com_lock->unlock();
+            return -1;
         }
-        else
+        else if (com_port.error() == QSerialPort::TimeoutError && read_data.isEmpty())
         {
-            com_port.waitForReadyRead(1);
+            cout << "ERROR: " << "no response received" << endl;
+            com_lock->unlock();
+            return -1;
         }
     }
+    else if (port_type == Ucm_CommunicationLib_EthType)
+    {
+        while (1)
+        {
+            if (false == eth_port.waitForReadyRead(50))
+            {
+                cout << "ERROR: " << "no response received" << endl;
+                com_lock->unlock();
+                return -1;
+            }
 
-    if (com_port.error() == QSerialPort::ReadError)
+            if (true == eth_port.hasPendingDatagrams())
+            {
+                QHostAddress src_addr;
+                quint16 src_port;
+
+                read_data.resize(eth_port.pendingDatagramSize());
+                eth_port.readDatagram(read_data.data(), read_data.size(), &src_addr, &src_port);
+
+                if (src_addr == QHostAddress(port_name))
+                {
+                    break;
+                }
+                else
+                {
+                    read_data.clear();
+                    //cout << "VERBOSE: " << "frame received from an unexpected source:" << src_addr.toString().constData() << endl;
+                    continue;
+                }
+            }
+            else
+            {
+                cout << "ERROR: " << "no packet available" << endl;
+                com_lock->unlock();
+                return -1;
+            }
+        }
+    }
+    else
     {
-        cout << "ERROR: " << "read failed" << endl;
+        cout << "ERROR: " << "unknown com type" << endl;
         com_lock->unlock();
         return -1;
-    }
-    else if (com_port.error() == QSerialPort::TimeoutError && read_data.isEmpty())
-    {
-        cout << "ERROR: " << "no response received" << endl;
-        com_lock->unlock();
-        return -1;
-    }
+    }    
 
     temp_string = read_data.constData();
     temp_string.chop(2);

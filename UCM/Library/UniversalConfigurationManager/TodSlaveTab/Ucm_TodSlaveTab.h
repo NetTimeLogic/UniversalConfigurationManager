@@ -28,6 +28,12 @@
 
 class Ucm_UniversalConfigurationManager;
 
+#define Ucm_TodSlave_ControlReg                         0x00000000
+#define Ucm_TodSlave_StatusReg                          0x00000004
+#define Ucm_TodSlave_VersionReg                         0x0000000C
+#define Ucm_TodSlave_CorrectionReg                      0x00000010
+#define Ucm_TodSlave_UartBaudRateReg                    0x00000020
+
 namespace Ui {
 class Ucm_TodSlaveTab;
 }

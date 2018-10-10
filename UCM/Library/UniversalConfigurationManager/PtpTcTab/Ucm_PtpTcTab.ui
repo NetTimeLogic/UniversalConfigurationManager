@@ -194,6 +194,32 @@
      <string>Nr of Ports</string>
     </property>
    </widget>
+   <widget class="QLabel" name="PtpTcDefaultDsTwoStepLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>110</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Two Step</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="PtpTcDefaultDsTwoStepCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>110</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="PtpTcReadValuesButton">
    <property name="geometry">
@@ -311,6 +337,11 @@
      <string>Utility</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>TSN</string>
+    </property>
+   </item>
   </widget>
   <widget class="QGroupBox" name="PtpTcPortDsGroupBox">
    <property name="geometry">
@@ -334,7 +365,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Peer Delay</string>
+     <string>Peer Delay [ns]</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="PtpTcPortDsPeerDelayValue">
@@ -386,7 +417,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>110</y>
+      <y>140</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -402,7 +433,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>110</y>
+      <y>140</y>
       <width>150</width>
       <height>20</height>
      </rect>
@@ -415,13 +446,45 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>140</y>
+      <y>170</y>
       <width>200</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string> Set Custom Intervals</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpTcPortDsAsymmetryLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Asymmetry [ns]</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpTcPortDsAsymmetryValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>80</y>
+      <width>120</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -534,7 +597,7 @@
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="text">
-    <string>Delay</string>
+    <string>Delay [ns]</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

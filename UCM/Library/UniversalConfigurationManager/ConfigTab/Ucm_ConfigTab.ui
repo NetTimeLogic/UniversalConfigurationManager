@@ -91,7 +91,7 @@ p, li { white-space: pre-wrap; }
   <widget class="QPushButton" name="ConfigFullScreenButton">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>690</x>
      <y>20</y>
      <width>100</width>
      <height>20</height>
@@ -99,6 +99,45 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Full Screen</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ConfigEthPortLabel">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>20</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ETH Port</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ConfigEthPortButton">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>20</y>
+     <width>75</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="ConfigEthPortValue">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>20</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>192.168.1.128</string>
    </property>
   </widget>
  </widget>

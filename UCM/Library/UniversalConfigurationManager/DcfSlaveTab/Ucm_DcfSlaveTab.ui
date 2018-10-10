@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Ucm_IrigSlaveTab</class>
- <widget class="QWidget" name="Ucm_IrigSlaveTab">
+ <class>Ucm_DcfSlaveTab</class>
+ <widget class="QWidget" name="Ucm_DcfSlaveTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="IrigSlaveVersionLabel">
+  <widget class="QLabel" name="DcfSlaveVersionLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -26,7 +26,7 @@
     <string>Version</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="IrigSlaveInstanceComboBox">
+  <widget class="QComboBox" name="DcfSlaveInstanceComboBox">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -36,27 +36,27 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="IrigSlaveCableDelayLabel">
+  <widget class="QLabel" name="DcfSlaveAirDelayLabel">
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>50</y>
+     <y>80</y>
      <width>80</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Cable Delay</string>
+    <string>Air Delay</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="IrigSlaveCorrectionValue">
+  <widget class="QLineEdit" name="DcfSlaveCorrectionValue">
    <property name="enabled">
     <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>20</y>
+     <y>50</y>
      <width>120</width>
      <height>20</height>
     </rect>
@@ -68,7 +68,7 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QCheckBox" name="IrigSlaveEnableCheckBox">
+  <widget class="QCheckBox" name="DcfSlaveEnableCheckBox">
    <property name="geometry">
     <rect>
      <x>300</x>
@@ -81,7 +81,7 @@
     <string>Enabled</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="IrigSlaveReadValuesButton">
+  <widget class="QPushButton" name="DcfSlaveReadValuesButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -94,7 +94,7 @@
     <string>Read Values</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="IrigSlaveAutoRefreshButton">
+  <widget class="QPushButton" name="DcfSlaveAutoRefreshButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -107,7 +107,7 @@
     <string>Start Refresh</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="IrigSlaveVersionValue">
+  <widget class="QLineEdit" name="DcfSlaveVersionValue">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -126,11 +126,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="IrigSlaveCableDelayValue">
+  <widget class="QLineEdit" name="DcfSlaveAirDelayValue">
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>50</y>
+     <y>80</y>
      <width>120</width>
      <height>20</height>
     </rect>
@@ -139,7 +139,7 @@
     <string>NA</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="IrigSlaveWriteValuesButton">
+  <widget class="QPushButton" name="DcfSlaveWriteValuesButton">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -152,11 +152,11 @@
     <string>Write Values</string>
    </property>
   </widget>
-  <widget class="QLabel" name="IrigSlaveCorrectionLabel">
+  <widget class="QLabel" name="DcfSlaveCorrectionLabel">
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>20</y>
+     <y>50</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -165,7 +165,7 @@
     <string>Correction</string>
    </property>
   </widget>
-  <widget class="QLabel" name="IrigSlaveInstanceLabel">
+  <widget class="QLabel" name="DcfSlaveInstanceLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -178,27 +178,24 @@
     <string>Instance Nr</string>
    </property>
   </widget>
-  <widget class="QLabel" name="IrigSlaveControlBitsLabel">
+  <widget class="QLabel" name="DcfSlaveBitPositionLabel">
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>80</y>
+     <y>20</y>
      <width>80</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Contol Bits</string>
+    <string>Bit Position</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="IrigSlaveControlBitsValue">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
+  <widget class="QLineEdit" name="DcfSlaveBitPositionValue">
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>80</y>
+     <y>20</y>
      <width>120</width>
      <height>20</height>
     </rect>

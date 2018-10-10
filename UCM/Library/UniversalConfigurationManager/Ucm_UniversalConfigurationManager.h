@@ -42,6 +42,8 @@
 #include "ClkTsTab/Ucm_ClkTsTab.h"
 #include "ClkSgTab/Ucm_ClkSgTab.h"
 #include "RtcMasterTab/Ucm_RtcMasterTab.h"
+#include "DcfSlaveTab/Ucm_DcfSlaveTab.h"
+#include "DcfMasterTab/Ucm_DcfMasterTab.h"
 #include "PpsSlaveTab/Ucm_PpsSlaveTab.h"
 #include "PpsMasterTab/Ucm_PpsMasterTab.h"
 #include "IrigSlaveTab/Ucm_IrigSlaveTab.h"
@@ -49,6 +51,7 @@
 #include "TodSlaveTab/Ucm_TodSlaveTab.h"
 #include "TodMasterTab/Ucm_TodMasterTab.h"
 #include "RedHsrPrpTab/Ucm_RedHsrPrpTab.h"
+#include "RedTsnTab/Ucm_RedTsnTab.h"
 #include "PtpOcTab/Ucm_PtpOcTab.h"
 #include "PtpTcTab/Ucm_PtpTcTab.h"
 #include "PtpHcTab/Ucm_PtpHcTab.h"
@@ -62,6 +65,8 @@ class Ucm_ClkClockTab;
 class Ucm_ClkTsTab;
 class Ucm_ClkSgTab;
 class Ucm_RtcMasterTab;
+class Ucm_DcfSlaveTab;
+class Ucm_DcfMasterTab;
 class Ucm_PpsSlaveTab;
 class Ucm_PpsMasterTab;
 class Ucm_IrigSlaveTab;
@@ -69,10 +74,14 @@ class Ucm_IrigMasterTab;
 class Ucm_TodSlaveTab;
 class Ucm_TodMasterTab;
 class Ucm_RedHsrPrpTab;
+class Ucm_RedTsnTab;
 class Ucm_PtpOcTab;
 class Ucm_PtpTcTab;
 class Ucm_PtpHcTab;
 class Ucm_TapSlaveTab;
+
+#define Ucm_MainHeight               820
+#define Ucm_MainWidth                1380
 
 class Ucm_UniversalConfigurationManager : public QMainWindow, public Ui::Ucm_UniversalConfigurationManager
 {
@@ -105,6 +114,12 @@ class Ucm_UniversalConfigurationManager : public QMainWindow, public Ui::Ucm_Uni
         // RTC Master tab
         Ucm_RtcMasterTab* rtc_master_tab;
 
+        // DCF Slave tab
+        Ucm_DcfSlaveTab* dcf_slave_tab;
+
+        // DCF Master tab
+        Ucm_DcfMasterTab* dcf_master_tab;
+
         // PPS Slave tab
         Ucm_PpsSlaveTab* pps_slave_tab;
 
@@ -125,6 +140,9 @@ class Ucm_UniversalConfigurationManager : public QMainWindow, public Ui::Ucm_Uni
 
         // RED HsrPrp tab
         Ucm_RedHsrPrpTab* red_hsrprp_tab;
+
+        // RED Tsn tab
+        Ucm_RedTsnTab* red_tsn_tab;
 
         // PTP Oc tab
         Ucm_PtpOcTab* ptp_oc_tab;

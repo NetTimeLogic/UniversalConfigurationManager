@@ -109,7 +109,7 @@ void Ucm_TodMasterTab::tod_master_read_values(void)
     }
 
     // enabled
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodMaster_ControlReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -127,7 +127,7 @@ void Ucm_TodMasterTab::tod_master_read_values(void)
 
 
     // correction
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000010, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodMaster_CorrectionReg, temp_data))
     {
         ui->TodMasterCorrectionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
     }
@@ -138,7 +138,7 @@ void Ucm_TodMasterTab::tod_master_read_values(void)
 
 
     // local time
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000014, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodMaster_LocalReg, temp_data))
     {
         ui->TodMasterLocalMinutesValue->setText(QString::number((temp_data & 0x0000003F)));
         temp_data = temp_data >> 16;
@@ -161,7 +161,7 @@ void Ucm_TodMasterTab::tod_master_read_values(void)
     }
 
     // baud rate
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000020, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodMaster_UartBaudRateReg, temp_data))
     {
         switch (temp_data)
         {
@@ -215,7 +215,7 @@ void Ucm_TodMasterTab::tod_master_read_values(void)
     }
 
     // version
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodMaster_VersionReg, temp_data))
     {
         ui->TodMasterVersionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
 
@@ -263,7 +263,7 @@ void Ucm_TodMasterTab::tod_master_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000010, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_TodMaster_CorrectionReg, temp_data))
     {
         ui->TodMasterCorrectionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
     }
@@ -292,7 +292,7 @@ void Ucm_TodMasterTab::tod_master_write_values(void)
         {
             //nothing
         }
-        else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000014, temp_data))
+        else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_TodMaster_LocalReg, temp_data))
         {
             ui->TodMasterLocalMinutesValue->setText(QString::number((temp_data & 0x0000003F)));
             temp_data = temp_data >> 16;
@@ -378,7 +378,7 @@ void Ucm_TodMasterTab::tod_master_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000020, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_TodMaster_UartBaudRateReg, temp_data))
     {
         switch (temp_data)
         {
@@ -436,7 +436,7 @@ void Ucm_TodMasterTab::tod_master_write_values(void)
     {
         temp_data |= 0x00000001; // enable
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_TodMaster_ControlReg, temp_data))
     {
         // nothing
     }

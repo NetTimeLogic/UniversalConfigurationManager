@@ -7,6 +7,7 @@
 QT       += core gui
 QT       += serialport
 QT       += charts
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -35,6 +36,8 @@ SOURCES += main.cpp\
     ClkTsTab/Ucm_ClkTsTab.cpp \
     AdvancedTab/Ucm_AdvancedTab.cpp \
     RtcMasterTab/Ucm_RtcMasterTab.cpp \
+    DcfMasterTab/Ucm_DcfMasterTab.cpp \
+    DcfSlaveTab/Ucm_DcfSlaveTab.cpp \
     PpsMasterTab/Ucm_PpsMasterTab.cpp \
     PpsSlaveTab/Ucm_PpsSlaveTab.cpp \
     IrigSlaveTab/Ucm_IrigSlaveTab.cpp \
@@ -42,6 +45,7 @@ SOURCES += main.cpp\
     TodMasterTab/Ucm_TodMasterTab.cpp \
     TodSlaveTab/Ucm_TodSlaveTab.cpp \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.cpp \
+    RedTsnTab/Ucm_RedTsnTab.cpp \
     PtpHcTab/Ucm_PtpHcTab.cpp \
     PtpOcTab/Ucm_PtpOcTab.cpp \
     PtpTcTab/Ucm_PtpTcTab.cpp \
@@ -56,6 +60,8 @@ HEADERS  += Ucm_UniversalConfigurationManager.h \
     ClkTsTab/Ucm_ClkTsTab.h \
     AdvancedTab/Ucm_AdvancedTab.h \
     RtcMasterTab/Ucm_RtcMasterTab.h \
+    DcfMasterTab/Ucm_DcfMasterTab.h \
+    DcfSlaveTab/Ucm_DcfSlaveTab.h \
     PpsMasterTab/Ucm_PpsMasterTab.h \
     PpsSlaveTab/Ucm_PpsSlaveTab.h \
     IrigSlaveTab/Ucm_IrigSlaveTab.h \
@@ -63,6 +69,7 @@ HEADERS  += Ucm_UniversalConfigurationManager.h \
     TodMasterTab/Ucm_TodMasterTab.h \
     TodSlaveTab/Ucm_TodSlaveTab.h \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.h \
+    RedTsnTab/Ucm_RedTsnTab.h \
     PtpHcTab/Ucm_PtpHcTab.h \
     PtpOcTab/Ucm_PtpOcTab.h \
     PtpTcTab/Ucm_PtpTcTab.h \
@@ -76,6 +83,8 @@ FORMS    += Ucm_UniversalConfigurationManager.ui \
     ClkTsTab/Ucm_ClkTsTab.ui \
     AdvancedTab/Ucm_AdvancedTab.ui \
     RtcMasterTab/Ucm_RtcMasterTab.ui \
+    DcfMasterTab/Ucm_DcfMasterTab.ui \
+    DcfSlaveTab/Ucm_DcfSlaveTab.ui \
     PpsMasterTab/Ucm_PpsMasterTab.ui \
     PpsSlaveTab/Ucm_PpsSlaveTab.ui \
     IrigSlaveTab/Ucm_IrigSlaveTab.ui \
@@ -83,6 +92,7 @@ FORMS    += Ucm_UniversalConfigurationManager.ui \
     TodMasterTab/Ucm_TodMasterTab.ui \
     TodSlaveTab/Ucm_TodSlaveTab.ui \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.ui \
+    RedTsnTab/Ucm_RedTsnTab.ui \
     PtpHcTab/Ucm_PtpHcTab.ui \
     PtpOcTab/Ucm_PtpOcTab.ui \
     PtpTcTab/Ucm_PtpTcTab.ui \

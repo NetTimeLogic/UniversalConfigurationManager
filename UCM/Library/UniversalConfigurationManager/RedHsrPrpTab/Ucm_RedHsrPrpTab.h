@@ -28,6 +28,29 @@
 
 class Ucm_UniversalConfigurationManager;
 
+#define Ucm_RedHsrPrp_ControlReg                        0x00000000
+#define Ucm_RedHsrPrp_StatusReg                         0x00000004
+#define Ucm_RedHsrPrp_VersionReg                        0x0000000C
+#define Ucm_RedHsrPrp_FrameCountControlReg              0x00000010
+#define Ucm_RedHsrPrp_RxFrameCountAReg                  0x00000020
+#define Ucm_RedHsrPrp_RxErrCountAReg                    0x00000024
+#define Ucm_RedHsrPrp_TxFrameCountAReg                  0x00000030
+#define Ucm_RedHsrPrp_TxErrCountAReg                    0x00000034
+#define Ucm_RedHsrPrp_RxFrameCountBReg                  0x00000040
+#define Ucm_RedHsrPrp_RxErrCountBReg                    0x00000044
+#define Ucm_RedHsrPrp_TxFrameCountBReg                  0x00000050
+#define Ucm_RedHsrPrp_TxErrCountBReg                    0x00000054
+#define Ucm_RedHsrPrp_RxFrameCountCReg                  0x00000060
+#define Ucm_RedHsrPrp_RxErrCountCReg                    0x00000064
+#define Ucm_RedHsrPrp_TxFrameCountCReg                  0x00000070
+#define Ucm_RedHsrPrp_TxErrCountCReg                    0x00000074
+#define Ucm_RedHsrPrp_ConfigControlReg                  0x00000080
+#define Ucm_RedHsrPrp_ConfigModeReg                     0x00000084
+#define Ucm_RedHsrPrp_ConfigVlanReg                     0x00000088
+#define Ucm_RedHsrPrp_MacControlReg                     0x00000100
+#define Ucm_RedHsrPrp_Mac1_RegReg                       0x00000104
+#define Ucm_RedHsrPrp_Mac2_RegReg                       0x00000108
+
 namespace Ui {
 class Ucm_RedHsrPrpTab;
 }

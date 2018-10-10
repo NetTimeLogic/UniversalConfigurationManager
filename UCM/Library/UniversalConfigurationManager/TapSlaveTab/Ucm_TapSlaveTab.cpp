@@ -86,13 +86,13 @@ int Ucm_TapSlaveTab::tap_slave_resize(int height, int width)
     int height_delta = 0;
     int width_delta = 0;
 
-    if (height <= 820)
+    if (height <= Ucm_MainHeight)
     {
-        height_delta = (height-820);
+        height_delta = (height-Ucm_MainHeight);
     }
-    if (width <= 1380)
+    if (width <= Ucm_MainWidth)
     {
-        width_delta = (width-1380);
+        width_delta = (width-Ucm_MainWidth);
     }
 
     ui->TapSlaveFrameRateChartValue->setFixedHeight(210);
@@ -162,7 +162,7 @@ void Ucm_TapSlaveTab::tap_slave_read_values(void)
     }
 
     // enabled
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TapSlave_ControlReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -179,7 +179,7 @@ void Ucm_TapSlaveTab::tap_slave_read_values(void)
     }
 
     // ptp only
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000008, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TapSlave_FilterModeReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -196,7 +196,7 @@ void Ucm_TapSlaveTab::tap_slave_read_values(void)
     }
 
     // nr of frames
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000010, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TapSlave_NrOfFramesReg, temp_data))
     {
         ui->TapSlaveNrOfFramesValue->setText(QString::number(temp_data));
 
@@ -248,7 +248,7 @@ void Ucm_TapSlaveTab::tap_slave_read_values(void)
     }
 
     // version
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TapSlave_VersionReg, temp_data))
     {
         ui->TapSlaveVersionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
 
@@ -290,7 +290,7 @@ void Ucm_TapSlaveTab::tap_slave_write_values(void)
     {
         temp_data |= 0x00000001; // ptp filter only
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000008, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_TapSlave_FilterModeReg, temp_data))
     {
         // nothing
     }
@@ -304,7 +304,7 @@ void Ucm_TapSlaveTab::tap_slave_write_values(void)
     {
         temp_data |= 0x00000001; // enable
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_TapSlave_ControlReg, temp_data))
     {
         // nothing
     }

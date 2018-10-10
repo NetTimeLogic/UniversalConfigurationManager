@@ -28,6 +28,21 @@
 
 class Ucm_UniversalConfigurationManager;
 
+#define Ucm_ClkSg_ControlReg                            0x00000000
+#define Ucm_ClkSg_StatusReg                             0x00000004
+#define Ucm_ClkSg_PolarityReg                           0x00000008
+#define Ucm_ClkSg_VersionReg                            0x0000000C
+#define Ucm_ClkSg_CableDelayReg                         0x00000020
+#define Ucm_ClkSg_IrqReg                                0x00000030
+#define Ucm_ClkSg_IrqMaskReg                            0x00000034
+#define Ucm_ClkSg_StartTimeValueLReg                    0x00000040
+#define Ucm_ClkSg_StartTimeValueHReg                    0x00000044
+#define Ucm_ClkSg_PulseWidthValueLReg                   0x00000048
+#define Ucm_ClkSg_PulseWidthValueHReg                   0x0000004C
+#define Ucm_ClkSg_PeriodValueLReg                       0x00000050
+#define Ucm_ClkSg_PeriodValueHReg                       0x00000054
+#define Ucm_ClkSg_RepeatCountReg                        0x00000058
+
 namespace Ui {
 class Ucm_ClkSgTab;
 }

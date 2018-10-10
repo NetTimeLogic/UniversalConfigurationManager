@@ -28,6 +28,12 @@
 
 class Ucm_UniversalConfigurationManager;
 
+#define Ucm_TapSlave_ControlReg                         0x00000000
+#define Ucm_TapSlave_StatusReg                          0x00000004
+#define Ucm_TapSlave_FilterModeReg                      0x00000008
+#define Ucm_TapSlave_VersionReg                         0x0000000C
+#define Ucm_TapSlave_NrOfFramesReg                      0x00000010
+
 namespace Ui {
 class Ucm_TapSlaveTab;
 }

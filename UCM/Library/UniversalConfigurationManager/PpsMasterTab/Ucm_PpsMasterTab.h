@@ -28,6 +28,12 @@
 
 class Ucm_UniversalConfigurationManager;
 
+#define Ucm_PpsMaster_ControlReg                        0x00000000
+#define Ucm_PpsMaster_StatusReg                         0x00000004
+#define Ucm_PpsMaster_PolarityReg                       0x00000008
+#define Ucm_PpsMaster_VersionReg                        0x0000000C
+#define Ucm_PpsMaster_PulseWidthReg                     0x00000010
+
 namespace Ui {
 class Ucm_PpsMasterTab;
 }

@@ -28,6 +28,13 @@
 
 class Ucm_UniversalConfigurationManager;
 
+#define Ucm_IrigSlave_ControlReg                        0x00000000
+#define Ucm_IrigSlave_StatusReg                         0x00000004
+#define Ucm_IrigSlave_VersionReg                        0x0000000C
+#define Ucm_IrigSlave_CorrectionReg                     0x00000010
+#define Ucm_IrigSlave_ControlBitsReg                    0x00000014
+#define Ucm_IrigSlave_CableDelayReg                     0x00000020
+
 namespace Ui {
 class Ucm_IrigSlaveTab;
 }

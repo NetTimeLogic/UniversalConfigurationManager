@@ -109,7 +109,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Offset</string>
+     <string>Offset [ns]</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="PtpHcCurrentDsOffsetValue">
@@ -160,7 +160,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Delay</string>
+     <string>Delay [ns]</string>
     </property>
    </widget>
   </widget>
@@ -552,6 +552,11 @@
      <string>Utility</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>TSN</string>
+    </property>
+   </item>
   </widget>
   <widget class="QLabel" name="PtpHcInstanceLabel">
    <property name="geometry">
@@ -588,7 +593,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Peer Delay</string>
+     <string>Peer Delay [ns]</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="PtpHcPortDsPeerDelayValue">
@@ -652,7 +657,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="PtpOcPortDsStateLabel">
+   <widget class="QLabel" name="PtpHcPortDsStateLabel">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -672,7 +677,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>140</y>
+      <y>170</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -688,7 +693,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>140</y>
+      <y>170</y>
       <width>150</width>
       <height>20</height>
      </rect>
@@ -704,7 +709,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>170</y>
+      <y>200</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -720,7 +725,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>170</y>
+      <y>200</y>
       <width>150</width>
       <height>20</height>
      </rect>
@@ -736,7 +741,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>260</y>
+      <y>290</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -752,7 +757,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>260</y>
+      <y>290</y>
       <width>150</width>
       <height>20</height>
      </rect>
@@ -768,7 +773,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>200</y>
+      <y>230</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -784,7 +789,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>200</y>
+      <y>230</y>
       <width>150</width>
       <height>20</height>
      </rect>
@@ -800,7 +805,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>230</y>
+      <y>260</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -816,7 +821,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>230</y>
+      <y>260</y>
       <width>150</width>
       <height>20</height>
      </rect>
@@ -829,13 +834,45 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>290</y>
+      <y>320</y>
       <width>200</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string> Set Custom Intervals</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpHcPortDsAsymmetryLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>110</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Asymmetry [ns]</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpHcPortDsAsymmetryValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>110</y>
+      <width>120</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -1074,7 +1111,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>200</y>
+      <y>230</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1090,7 +1127,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>200</y>
+      <y>230</y>
       <width>120</width>
       <height>20</height>
      </rect>
@@ -1106,7 +1143,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>230</y>
+      <y>260</y>
       <width>120</width>
       <height>20</height>
      </rect>
@@ -1119,7 +1156,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>230</y>
+      <y>260</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1135,7 +1172,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>260</y>
+      <y>290</y>
       <width>120</width>
       <height>20</height>
      </rect>
@@ -1151,13 +1188,94 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>260</y>
+      <y>290</y>
       <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>Nr of Ports</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="PtpHcDefaultDsTwoStepCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>320</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpHcDefaultDsTwoStepLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>320</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Two Step</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpHcDefaultDsSignalingLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>350</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Signaling</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="PtpHcDefaultDsSignalingCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>350</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpHcDefaultDsVarianceLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>200</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Variance</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpHcDefaultDsVarianceValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>200</y>
+      <width>120</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
     </property>
    </widget>
   </widget>
@@ -1465,7 +1583,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>200</y>
+      <y>230</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1481,7 +1599,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>200</y>
+      <y>230</y>
       <width>120</width>
       <height>20</height>
      </rect>
@@ -1500,7 +1618,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>230</y>
+      <y>260</y>
       <width>120</width>
       <height>20</height>
      </rect>
@@ -1516,7 +1634,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>230</y>
+      <y>260</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1532,7 +1650,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>260</y>
+      <y>290</y>
       <width>120</width>
       <height>20</height>
      </rect>
@@ -1548,13 +1666,45 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>260</y>
+      <y>290</y>
       <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>NW Inaccuracy</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PtpHcParentDsGmVarianceValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>200</y>
+      <width>120</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PtpHcParentDsGmVarianceLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>200</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>GM Variance</string>
     </property>
    </widget>
   </widget>
@@ -1646,7 +1796,7 @@
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="text">
-    <string>Offset</string>
+    <string>Offset [ns]</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -1665,7 +1815,7 @@
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="text">
-    <string>Delay</string>
+    <string>Delay [ns]</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

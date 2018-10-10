@@ -79,6 +79,7 @@ int Ucm_ClkSgTab::clk_sg_disable(void)
     ui->ClkSgPeriodSecondsValue->setText("NA");
     ui->ClkSgPeriodNanosecondsValue->setText("NA");
     ui->ClkSgRepeatCountValue->setText("NA");
+    ui->ClkSgCableDelayValue->setText("NA");
     ui->ClkSgEnableCheckBox->setChecked(false);
     ui->ClkSgVersionValue->setText("NA");
 
@@ -112,6 +113,7 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
             ui->ClkSgPeriodSecondsValue->setText("NA");
             ui->ClkSgPeriodNanosecondsValue->setText("NA");
             ui->ClkSgRepeatCountValue->setText("NA");
+            ui->ClkSgCableDelayValue->setText("NA");
             ui->ClkSgEnableCheckBox->setChecked(false);
             ui->ClkSgVersionValue->setText("NA");
             return;
@@ -119,7 +121,7 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
     }
 
     // enabled
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkSg_ControlReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -136,7 +138,7 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
     }
 
     // polarity
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000008, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkSg_PolarityReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -180,7 +182,7 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
     }
 
     // start seconds
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000014, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkSg_StartTimeValueHReg, temp_data))
     {
         ui->ClkSgStartSecondsValue->setText(QString::number(temp_data));
     }
@@ -190,7 +192,7 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
     }
 
     // start nanoseconds
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000010, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkSg_StartTimeValueLReg, temp_data))
     {
         ui->ClkSgStartNanosecondsValue->setText(QString::number(temp_data));
     }
@@ -200,7 +202,7 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
     }
 
     // pulse seconds
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000001C, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkSg_PulseWidthValueHReg, temp_data))
     {
         ui->ClkSgPulseSecondsValue->setText(QString::number(temp_data));
     }
@@ -210,7 +212,7 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
     }
 
     // pulse nanoseconds
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000018, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkSg_PulseWidthValueLReg, temp_data))
     {
         ui->ClkSgPulseNanosecondsValue->setText(QString::number(temp_data));
     }
@@ -220,7 +222,7 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
     }
 
     // pulse seconds
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000024, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkSg_PeriodValueHReg, temp_data))
     {
         ui->ClkSgPeriodSecondsValue->setText(QString::number(temp_data));
     }
@@ -230,7 +232,7 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
     }
 
     // period nanoseconds
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000020, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkSg_PeriodValueLReg, temp_data))
     {
         ui->ClkSgPeriodNanosecondsValue->setText(QString::number(temp_data));
     }
@@ -240,7 +242,7 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
     }
 
     // repeat count
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000028, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkSg_RepeatCountReg, temp_data))
     {
         ui->ClkSgRepeatCountValue->setText(QString::number(temp_data));
     }
@@ -249,9 +251,20 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
         ui->ClkSgRepeatCountValue->setText("NA");
     }
 
+    // cable delay
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkSg_CableDelayReg, temp_data))
+    {
+        ui->ClkSgCableDelayValue->setText(QString::number(temp_data));
+
+    }
+    else
+    {
+        ui->ClkSgCableDelayValue->setText("NA");
+    }
+
     // clear time jump and gen error
     temp_data = 0x00000003;
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000004, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkSg_StatusReg, temp_data))
     {
         // nothing time jump and gen error cleared
     }
@@ -261,7 +274,7 @@ void Ucm_ClkSgTab::clk_sg_read_values(void)
     }
 
     // version
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkSg_VersionReg, temp_data))
     {
         ui->ClkSgVersionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
 
@@ -297,6 +310,7 @@ void Ucm_ClkSgTab::clk_sg_write_values(void)
             ui->ClkSgPeriodSecondsValue->setText("NA");
             ui->ClkSgPeriodNanosecondsValue->setText("NA");
             ui->ClkSgRepeatCountValue->setText("NA");
+            ui->ClkSgCableDelayValue->setText("NA");
             ui->ClkSgEnableCheckBox->setChecked(false);
             ui->ClkSgVersionValue->setText("NA");
             return;
@@ -310,7 +324,7 @@ void Ucm_ClkSgTab::clk_sg_write_values(void)
     {
         temp_data |= 0x00000001; // no inversion
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000008, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkSg_PolarityReg, temp_data))
     {
         // nothing
     }
@@ -326,7 +340,7 @@ void Ucm_ClkSgTab::clk_sg_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000014, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkSg_StartTimeValueHReg, temp_data))
     {
         ui->ClkSgStartSecondsValue->setText(QString::number(temp_data));
     }
@@ -342,7 +356,7 @@ void Ucm_ClkSgTab::clk_sg_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000010, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkSg_StartTimeValueLReg, temp_data))
     {
         ui->ClkSgStartNanosecondsValue->setText(QString::number(temp_data));
     }
@@ -358,7 +372,7 @@ void Ucm_ClkSgTab::clk_sg_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x0000001C, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkSg_PulseWidthValueHReg, temp_data))
     {
         ui->ClkSgPulseSecondsValue->setText(QString::number(temp_data));
     }
@@ -374,7 +388,7 @@ void Ucm_ClkSgTab::clk_sg_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000018, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkSg_PulseWidthValueLReg, temp_data))
     {
         ui->ClkSgPulseNanosecondsValue->setText(QString::number(temp_data));
     }
@@ -390,7 +404,7 @@ void Ucm_ClkSgTab::clk_sg_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000024, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkSg_PeriodValueHReg, temp_data))
     {
         ui->ClkSgPeriodSecondsValue->setText(QString::number(temp_data));
     }
@@ -406,7 +420,7 @@ void Ucm_ClkSgTab::clk_sg_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000020, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkSg_PeriodValueLReg, temp_data))
     {
         ui->ClkSgPeriodNanosecondsValue->setText(QString::number(temp_data));
     }
@@ -422,7 +436,7 @@ void Ucm_ClkSgTab::clk_sg_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000028, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkSg_RepeatCountReg, temp_data))
     {
         ui->ClkSgRepeatCountValue->setText(QString::number(temp_data));
     }
@@ -431,12 +445,25 @@ void Ucm_ClkSgTab::clk_sg_write_values(void)
         ui->ClkSgRepeatCountValue->setText("NA");
     }
 
+    // cable delay
+    temp_string = ui->ClkSgCableDelayValue->text();
+    temp_data = temp_string.toUInt(nullptr, 10);
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkSg_CableDelayReg, temp_data))
+    {
+        ui->ClkSgCableDelayValue->setText(QString::number(temp_data));
+
+    }
+    else
+    {
+        ui->ClkSgCableDelayValue->setText("NA");
+    }
+
     temp_data = 0x00000002; // set time
     if(true == ui->ClkSgEnableCheckBox->isChecked())
     {
         temp_data |= 0x00000001; // enable
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkSg_ControlReg, temp_data))
     {
         // nothing
     }

@@ -33,6 +33,24 @@
 
 class Ucm_UniversalConfigurationManager;
 
+#define Ucm_PtpTc_ControlReg                            0x00000000
+#define Ucm_PtpTc_StatusReg                             0x00000004
+#define Ucm_PtpTc_VersionReg                            0x0000000C
+#define Ucm_PtpTc_ConfigControlReg                      0x00000080
+#define Ucm_PtpTc_ConfigProfileReg                      0x00000084
+#define Ucm_PtpTc_ConfigVlanReg                         0x00000088
+#define Ucm_PtpTc_ConfigIpReg                           0x0000008C
+#define Ucm_PtpTc_DefaultDsControlReg                   0x00000100
+#define Ucm_PtpTc_DefaultDs1Reg                         0x00000104
+#define Ucm_PtpTc_DefaultDs2Reg                         0x00000108
+#define Ucm_PtpTc_DefaultDs3Reg                         0x0000010C
+#define Ucm_PtpTc_DefaultDs4Reg                         0x0000011C
+#define Ucm_PtpTc_PortDsControlReg                      0x00000200
+#define Ucm_PtpTc_PortDs1Reg                            0x00000204
+#define Ucm_PtpTc_PortDs2Reg                            0x00000208
+#define Ucm_PtpTc_PortDs3Reg                            0x00000210
+#define Ucm_PtpTc_PortDs4Reg                            0x0000021C
+
 namespace Ui {
 class Ucm_PtpTcTab;
 }

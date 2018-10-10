@@ -25,28 +25,36 @@
 
 #include <QSerialPortInfo>
 #include <QSerialPort>
+#include <QUdpSocket>
 #include <QMutex>
 
 #include <string>
 using namespace std;
+
+#define Ucm_CommunicationLib_ComType    1
+#define Ucm_CommunicationLib_EthType    2
 
 class Ucm_CommunicationLib
 {
     private:
         bool is_open;
         QSerialPort com_port;
+        QUdpSocket eth_port;
+        QString port_name;
         QMutex* com_lock;
+        int detect_baudrate(void);
 
     public:
         Ucm_CommunicationLib();
         ~Ucm_CommunicationLib();
 
-        int open_port(QString port_name);
+        int port_type;
+
+        int open_port(QString name);
         int close_port();
         int check_port();
         int write_reg(const unsigned int addr, unsigned int& data);
         int read_reg(const unsigned int addr, unsigned int& data);
-
 };
 
 #endif // Ucm_CommunicationLib_H

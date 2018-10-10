@@ -73,8 +73,28 @@ int Ucm_RedHsrPrpTab::red_hsrprp_disable(void)
     ui->RedHsrPrpVlanEnableCheckBox->setChecked(false);
     ui->RedHsrPrpVlanValue->setText("NA");
     ui->RedHsrPrpModeValue->setCurrentText("NA");
-    ui->RedHsrPrpEnableCheckBox->setChecked(true);
     ui->RedHsrPrpVersionValue->setText("NA");
+    ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
+    ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+    ui->RedHsrPrpEnableCheckBox->setChecked(false);
+    ui->RedHsrPrpLanACheckBox->setChecked(false);
+    ui->RedHsrPrpLanBCheckBox->setChecked(false);
+
+    ui->RedHsrPrpRxFrameAValue->setText("NA");
+    ui->RedHsrPrpRxErrorAValue->setText("NA");
+    ui->RedHsrPrpTxFrameAValue->setText("NA");
+    ui->RedHsrPrpTxErrorAValue->setText("NA");
+    ui->RedHsrPrpRxFrameBValue->setText("NA");
+    ui->RedHsrPrpRxErrorBValue->setText("NA");
+    ui->RedHsrPrpTxFrameBValue->setText("NA");
+    ui->RedHsrPrpTxErrorBValue->setText("NA");
+    ui->RedHsrPrpRxFrameCValue->setText("NA");
+    ui->RedHsrPrpRxErrorCValue->setText("NA");
+    ui->RedHsrPrpTxFrameCValue->setText("NA");
+    ui->RedHsrPrpTxErrorCValue->setText("NA");
+    ui->RedHsrPrpClearCountersCheckBox->setChecked(false);
+
+
 
     return 0;
 }
@@ -100,14 +120,32 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
             ui->RedHsrPrpVlanEnableCheckBox->setChecked(false);
             ui->RedHsrPrpVlanValue->setText("NA");
             ui->RedHsrPrpModeValue->setCurrentText("NA");
-            ui->RedHsrPrpEnableCheckBox->setChecked(true);
             ui->RedHsrPrpVersionValue->setText("NA");
+            ui->RedHsrPrpEnableCheckBox->setChecked(false);
+            ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
+            ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+            ui->RedHsrPrpLanACheckBox->setChecked(false);
+            ui->RedHsrPrpLanBCheckBox->setChecked(false);
+
+            ui->RedHsrPrpRxFrameAValue->setText("NA");
+            ui->RedHsrPrpRxErrorAValue->setText("NA");
+            ui->RedHsrPrpTxFrameAValue->setText("NA");
+            ui->RedHsrPrpTxErrorAValue->setText("NA");
+            ui->RedHsrPrpRxFrameBValue->setText("NA");
+            ui->RedHsrPrpRxErrorBValue->setText("NA");
+            ui->RedHsrPrpTxFrameBValue->setText("NA");
+            ui->RedHsrPrpTxErrorBValue->setText("NA");
+            ui->RedHsrPrpRxFrameCValue->setText("NA");
+            ui->RedHsrPrpRxErrorCValue->setText("NA");
+            ui->RedHsrPrpTxFrameCValue->setText("NA");
+            ui->RedHsrPrpTxErrorCValue->setText("NA");
+            ui->RedHsrPrpClearCountersCheckBox->setChecked(false);
             return;
         }
     }
 
     // enabled
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_ControlReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -126,7 +164,7 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
 
     // mac
     temp_string.clear();
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000104, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_Mac1_RegReg, temp_data))
     {
         temp_string.append(QString("%1").arg(((temp_data >> 0) & 0x000000FF), 2, 16, QLatin1Char('0')));
         temp_string.append(":");
@@ -136,7 +174,7 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
         temp_string.append(":");
         temp_string.append(QString("%1").arg(((temp_data >> 24) & 0x000000FF), 2, 16, QLatin1Char('0')));
         temp_string.append(":");
-        if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000108, temp_data))
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_Mac2_RegReg, temp_data))
         {
             temp_string.append(QString("%1").arg(((temp_data >> 0) & 0x000000FF), 2, 16, QLatin1Char('0')));
             temp_string.append(":");
@@ -155,7 +193,7 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
     }
 
     // vlan
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000088, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_ConfigVlanReg, temp_data))
     {
         if ((temp_data & 0x00010000) == 0)
         {
@@ -178,9 +216,9 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
 
 
     // mode
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000084, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_ConfigModeReg, temp_data))
     {
-        switch (temp_data)
+        switch (temp_data & 0x0000000F)
         {
         case 0:
             ui->RedHsrPrpModeValue->setCurrentText("NO");
@@ -195,17 +233,38 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
             ui->RedHsrPrpModeValue->setCurrentText("NA");
             break;
         }
+
+        if ((temp_data & 0x00010000) == 0)
+        {
+            ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(true);
+        }
+
+        if ((temp_data & 0x00020000) == 0)
+        {
+            ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedHsrPrpNoForwardingCheckBox->setChecked(true);
+        }
+
     }
     else
     {
         ui->RedHsrPrpModeValue->setCurrentText("NA");
+        ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
+        ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
     }
 
 
     // lan status
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000004, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_StatusReg, temp_data))
     {
-        if ((temp_data & 0x00000001) == 0)
+        if ((temp_data & 0x00000101) == 0x00000100)
         {
             ui->RedHsrPrpLanACheckBox->setChecked(true);
         }
@@ -214,7 +273,7 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
             ui->RedHsrPrpLanACheckBox->setChecked(false);
         }
 
-        if ((temp_data & 0x00000002) == 0)
+        if ((temp_data & 0x00000202) == 0x00000200)
         {
             ui->RedHsrPrpLanBCheckBox->setChecked(true);
         }
@@ -224,7 +283,7 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
         }
 
         temp_data &= 0x00000003;
-        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000004, temp_data))
+        if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_StatusReg, temp_data))
         {
             // nothing just cleared the values
         }
@@ -235,10 +294,124 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
         ui->RedHsrPrpLanBCheckBox->setChecked(false);
     }
 
+    // status counter
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_RxFrameCountAReg, temp_data))
+    {
+        ui->RedHsrPrpRxFrameAValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpRxFrameAValue->setText("NA");
+    }
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_RxErrCountAReg, temp_data))
+    {
+        ui->RedHsrPrpRxErrorAValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpRxErrorAValue->setText("NA");
+    }
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_TxFrameCountAReg, temp_data))
+    {
+        ui->RedHsrPrpTxFrameAValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpTxFrameAValue->setText("NA");
+    }
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_TxErrCountAReg, temp_data))
+    {
+        ui->RedHsrPrpTxErrorAValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpTxErrorAValue->setText("NA");
+    }
 
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_RxFrameCountBReg, temp_data))
+    {
+        ui->RedHsrPrpRxFrameBValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpRxFrameBValue->setText("NA");
+    }
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_RxErrCountBReg, temp_data))
+    {
+        ui->RedHsrPrpRxErrorBValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpRxErrorBValue->setText("NA");
+    }
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_TxFrameCountBReg, temp_data))
+    {
+        ui->RedHsrPrpTxFrameBValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpTxFrameBValue->setText("NA");
+    }
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_TxErrCountBReg, temp_data))
+    {
+        ui->RedHsrPrpTxErrorBValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpTxErrorBValue->setText("NA");
+    }
+
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_RxFrameCountCReg, temp_data))
+    {
+        ui->RedHsrPrpRxFrameCValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpRxFrameCValue->setText("NA");
+    }
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_RxErrCountCReg, temp_data))
+    {
+        ui->RedHsrPrpRxErrorCValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpRxErrorCValue->setText("NA");
+    }
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_TxFrameCountCReg, temp_data))
+    {
+        ui->RedHsrPrpTxFrameCValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpTxFrameCValue->setText("NA");
+    }
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_TxErrCountCReg, temp_data))
+    {
+        ui->RedHsrPrpTxErrorCValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedHsrPrpTxErrorCValue->setText("NA");
+    }
+
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_FrameCountControlReg, temp_data))
+    {
+        if ((temp_data & 0x00000001) == 0)
+        {
+            ui->RedHsrPrpClearCountersCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedHsrPrpClearCountersCheckBox->setChecked(true);
+        }
+    }
+    else
+    {
+        ui->RedHsrPrpClearCountersCheckBox->setChecked(false);
+    }
 
     // version
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedHsrPrp_VersionReg, temp_data))
     {
         ui->RedHsrPrpVersionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
 
@@ -271,8 +444,26 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
             ui->RedHsrPrpVlanEnableCheckBox->setChecked(false);
             ui->RedHsrPrpVlanValue->setText("NA");
             ui->RedHsrPrpModeValue->setCurrentText("NA");
-            ui->RedHsrPrpEnableCheckBox->setChecked(true);
             ui->RedHsrPrpVersionValue->setText("NA");
+            ui->RedHsrPrpEnableCheckBox->setChecked(true);
+            ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
+            ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+            ui->RedHsrPrpLanACheckBox->setChecked(false);
+            ui->RedHsrPrpLanBCheckBox->setChecked(false);
+
+            ui->RedHsrPrpRxFrameAValue->setText("NA");
+            ui->RedHsrPrpRxErrorAValue->setText("NA");
+            ui->RedHsrPrpTxFrameAValue->setText("NA");
+            ui->RedHsrPrpTxErrorAValue->setText("NA");
+            ui->RedHsrPrpRxFrameBValue->setText("NA");
+            ui->RedHsrPrpRxErrorBValue->setText("NA");
+            ui->RedHsrPrpTxFrameBValue->setText("NA");
+            ui->RedHsrPrpTxErrorBValue->setText("NA");
+            ui->RedHsrPrpRxFrameCValue->setText("NA");
+            ui->RedHsrPrpRxErrorCValue->setText("NA");
+            ui->RedHsrPrpTxFrameCValue->setText("NA");
+            ui->RedHsrPrpTxErrorCValue->setText("NA");
+            ui->RedHsrPrpClearCountersCheckBox->setChecked(false);
             return;
         }
     }
@@ -292,7 +483,7 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
     temp_data = temp_data << 8;
     temp_data |= (temp_mac >> 40) & 0x000000FF;
 
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000104, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_Mac1_RegReg, temp_data))
     {
         temp_string.append(QString("%1").arg(((temp_data >> 0) & 0x000000FF), 2, 16, QLatin1Char('0')));
         temp_string.append(":");
@@ -307,14 +498,14 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
         temp_data |= (temp_mac >> 0) & 0x000000FF;
         temp_data = temp_data << 8;
         temp_data |= (temp_mac >> 8) & 0x000000FF;
-        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000108, temp_data))
+        if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_Mac2_RegReg, temp_data))
         {
             temp_string.append(QString("%1").arg(((temp_data >> 0) & 0x000000FF), 2, 16, QLatin1Char('0')));
             temp_string.append(":");
             temp_string.append(QString("%1").arg(((temp_data >> 8) & 0x000000FF), 2, 16, QLatin1Char('0')));
 
             temp_data = 0x00000001; // write
-            if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000100, temp_data))
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_MacControlReg, temp_data))
             {
                 ui->RedHsrPrpMacValue->setText(temp_string);
             }
@@ -346,13 +537,13 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000088, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_ConfigVlanReg, temp_data))
     {
         temp_data &= 0x0000FFFF;
         ui->RedHsrPrpVlanValue->setText(QString("0x%1").arg(temp_data, 4, 16, QLatin1Char('0')));
 
         temp_data = 0x00000002; // write
-        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000080, temp_data))
+        if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_ConfigControlReg, temp_data))
         {
             // nothing
         }
@@ -387,13 +578,23 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
         temp_data = 0x00000000;
     }
 
+    if(true == ui->RedHsrPrpPromiscuousModeCheckBox->isChecked())
+    {
+        temp_data |= 0x00010000;
+    }
+
+    if(true == ui->RedHsrPrpNoForwardingCheckBox->isChecked())
+    {
+        temp_data |= 0x00020000;
+    }
+
     if (temp_string == "NA")
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000084, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_ConfigModeReg, temp_data))
     {
-        switch (temp_data)
+        switch (temp_data & 0x0000000F)
         {
         case 0:
             ui->RedHsrPrpModeValue->setCurrentText("NO");
@@ -408,19 +609,57 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
             ui->RedHsrPrpModeValue->setCurrentText("NA");
             break;
         }
+
+        if ((temp_data & 0x00010000) == 0)
+        {
+            ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(true);
+        }
+
+        if ((temp_data & 0x00020000) == 0)
+        {
+            ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedHsrPrpNoForwardingCheckBox->setChecked(true);
+        }
+
         temp_data = 0x00000001; // write
-        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000080, temp_data))
+        if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_ConfigControlReg, temp_data))
         {
             // nothing
         }
         else
         {
             ui->RedHsrPrpModeValue->setCurrentText("NA");
+            ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
+            ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
         }
     }
     else
     {
         ui->RedHsrPrpModeValue->setCurrentText("NA");
+        ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
+        ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+    }
+
+    // status counter
+    temp_data = 0x00000000; // nothing
+    if(true == ui->RedHsrPrpClearCountersCheckBox->isChecked())
+    {
+        temp_data |= 0x00000001; // clear
+    }
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_FrameCountControlReg, temp_data))
+    {
+        // nothing
+    }
+    else
+    {
+        ui->RedHsrPrpClearCountersCheckBox->setChecked(false);
     }
 
     temp_data = 0x00000000; // nothing
@@ -428,7 +667,7 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
     {
         temp_data |= 0x00000001; // enable
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_ControlReg, temp_data))
     {
         // nothing
     }

@@ -61,6 +61,12 @@ Ucm_UniversalConfigurationManager::Ucm_UniversalConfigurationManager(QMainWindow
     // RTC Master Tab
     rtc_master_tab = new Ucm_RtcMasterTab(this);
 
+    // DCF Slave Tab
+    dcf_slave_tab = new Ucm_DcfSlaveTab(this);
+
+    // DCF Master Tab
+    dcf_master_tab = new Ucm_DcfMasterTab(this);
+
     // PPS Slave Tab
     pps_slave_tab = new Ucm_PpsSlaveTab(this);
 
@@ -82,6 +88,9 @@ Ucm_UniversalConfigurationManager::Ucm_UniversalConfigurationManager(QMainWindow
     // RED HsrPrp Tab
     red_hsrprp_tab = new Ucm_RedHsrPrpTab(this);
 
+    // RED Tsn Tab
+    red_tsn_tab = new Ucm_RedTsnTab(this);
+
     // PTP Oc Tab
     ptp_oc_tab = new Ucm_PtpOcTab(this);
 
@@ -94,13 +103,13 @@ Ucm_UniversalConfigurationManager::Ucm_UniversalConfigurationManager(QMainWindow
     // TAP Slave Tab
     tap_slave_tab = new Ucm_TapSlaveTab(this);
 
-    if (height > 822)
+    if (height > (Ucm_MainHeight+2))
     {
-        height = 822;
+        height = (Ucm_MainHeight+2);
     }
-    if (width > 1380)
+    if (width > Ucm_MainWidth)
     {
-        width = 1380;
+        width = Ucm_MainWidth;
     }
     this->resize(width, height);
 }
@@ -114,6 +123,8 @@ Ucm_UniversalConfigurationManager::~Ucm_UniversalConfigurationManager()
     delete clk_ts_tab;
     delete clk_sg_tab;
     delete rtc_master_tab;
+    delete dcf_slave_tab;
+    delete dcf_master_tab;
     delete pps_slave_tab;
     delete pps_master_tab;
     delete irig_slave_tab;
@@ -121,6 +132,7 @@ Ucm_UniversalConfigurationManager::~Ucm_UniversalConfigurationManager()
     delete tod_slave_tab;
     delete tod_master_tab;
     delete red_hsrprp_tab;
+    delete red_tsn_tab;
     delete ptp_oc_tab;
     delete ptp_tc_tab;
     delete ptp_hc_tab;
@@ -135,13 +147,13 @@ int Ucm_UniversalConfigurationManager::ucm_resize(int height, int width)
 
     cout << "INFO: " << "Resize to: " << width << "x" << height << endl;
 
-    height_delta = (height-820);
-    width_delta = (width-1380);
+    height_delta = (height-Ucm_MainHeight);
+    width_delta = (width-Ucm_MainWidth);
 
-    Ucm_MainTab->setFixedHeight(800+height_delta);
-    Ucm_MainTab->setFixedWidth(1380+width_delta);
+    Ucm_MainTab->setFixedHeight(Ucm_MainHeight-20+height_delta);
+    Ucm_MainTab->setFixedWidth(Ucm_MainWidth+width_delta);
 
-    Ucm_MainMenu->setFixedWidth(1380+width_delta);
+    Ucm_MainMenu->setFixedWidth(Ucm_MainWidth+width_delta);
 
     // Config Tab
     config_tab->config_resize(height, width);
@@ -160,6 +172,12 @@ int Ucm_UniversalConfigurationManager::ucm_resize(int height, int width)
 
     // RTC Master Tab
     rtc_master_tab->rtc_master_resize(height, width);
+
+    // DCF Slave Tab
+    dcf_slave_tab->dcf_slave_resize(height, width);
+
+    // DCF Master Tab
+    dcf_master_tab->dcf_master_resize(height, width);
 
     // PPS Slave Tab
     pps_slave_tab->pps_slave_resize(height, width);
@@ -181,6 +199,9 @@ int Ucm_UniversalConfigurationManager::ucm_resize(int height, int width)
 
     // RED HsrPrp Tab
     red_hsrprp_tab->red_hsrprp_resize(height, width);
+
+    // RED Tsn Tab
+    red_tsn_tab->red_tsn_resize(height, width);
 
     // PTP Oc Tab
     ptp_oc_tab->ptp_oc_resize(height, width);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Ucm_IrigMasterTab</class>
- <widget class="QWidget" name="Ucm_IrigMasterTab">
+ <class>Ucm_DcfMasterTab</class>
+ <widget class="QWidget" name="Ucm_DcfMasterTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLineEdit" name="IrigMasterCorrectionValue">
+  <widget class="QLineEdit" name="DcfMasterCorrectionValue">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -29,7 +29,7 @@
     <string>NA</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="IrigMasterVersionValue">
+  <widget class="QLineEdit" name="DcfMasterVersionValue">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -48,7 +48,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="IrigMasterAutoRefreshButton">
+  <widget class="QPushButton" name="DcfMasterAutoRefreshButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -61,7 +61,7 @@
     <string>Start Refresh</string>
    </property>
   </widget>
-  <widget class="QLabel" name="IrigMasterInstanceLabel">
+  <widget class="QLabel" name="DcfMasterInstanceLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -74,7 +74,7 @@
     <string>Instance Nr</string>
    </property>
   </widget>
-  <widget class="QLabel" name="IrigMasterCorrectionLabel">
+  <widget class="QLabel" name="DcfMasterCorrectionLabel">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -87,7 +87,7 @@
     <string>Correction</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="IrigMasterWriteValuesButton">
+  <widget class="QPushButton" name="DcfMasterWriteValuesButton">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -100,7 +100,7 @@
     <string>Write Values</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="IrigMasterInstanceComboBox">
+  <widget class="QComboBox" name="DcfMasterInstanceComboBox">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -110,7 +110,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="IrigMasterVersionLabel">
+  <widget class="QLabel" name="DcfMasterVersionLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -123,7 +123,7 @@
     <string>Version</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="IrigMasterReadValuesButton">
+  <widget class="QPushButton" name="DcfMasterReadValuesButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -136,114 +136,17 @@
     <string>Read Values</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="IrigMasterEnableCheckBox">
+  <widget class="QCheckBox" name="DcfMasterEnableCheckBox">
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>110</y>
+     <y>50</y>
      <width>80</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
     <string>Enabled</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="IrigMasterModeComboBox">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>50</y>
-     <width>120</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>NA</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>B000</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>B001</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>B002</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>B003</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>B004</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>B005</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>B006</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>B007</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLabel" name="IrigMasterModeLabel">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>50</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>IRIG Mode</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="IrigMasterControlBitsLabel">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>80</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Contol Bits</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="IrigMasterControlBitsValue">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>80</y>
-     <width>120</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>NA</string>
    </property>
   </widget>
  </widget>

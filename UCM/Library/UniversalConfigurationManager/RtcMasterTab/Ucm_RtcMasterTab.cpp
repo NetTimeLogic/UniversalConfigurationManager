@@ -105,7 +105,7 @@ void Ucm_RtcMasterTab::rtc_master_read_values(void)
     }
 
     // enabled
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RtcMaster_ControlReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -126,16 +126,16 @@ void Ucm_RtcMasterTab::rtc_master_read_values(void)
     {
         temp_data |= 0x00000001;
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RtcMaster_ControlReg, temp_data))
     {
         for (int i = 0; i < 100; i++)
         {
-            if(0 == ucm->com_lib.read_reg(temp_addr + 0x00000000, temp_data))
+            if(0 == ucm->com_lib.read_reg(temp_addr + Ucm_RtcMaster_ControlReg, temp_data))
             {
                 if ((temp_data & 0x80000000) != 0)
                 {
                     // seconds
-                    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000014, temp_data))
+                    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RtcMaster_TimeReadValueHReg, temp_data))
                     {
                         ui->RtcMasterSecondsValue->setText(QString::number(temp_data));
                     }
@@ -145,7 +145,7 @@ void Ucm_RtcMasterTab::rtc_master_read_values(void)
                     }
 
                     // nanoseconds
-                    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000010, temp_data))
+                    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RtcMaster_TimeReadValueLReg, temp_data))
                     {
                         ui->RtcMasterNanosecondsValue->setText(QString::number(temp_data));
                     }
@@ -179,7 +179,7 @@ void Ucm_RtcMasterTab::rtc_master_read_values(void)
 
 
     // polarity
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000008, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RtcMaster_PolarityReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -196,7 +196,7 @@ void Ucm_RtcMasterTab::rtc_master_read_values(void)
     }
 
     // version
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RtcMaster_VersionReg, temp_data))
     {
         ui->RtcMasterVersionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
 
@@ -240,7 +240,7 @@ void Ucm_RtcMasterTab::rtc_master_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000024, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RtcMaster_TimeWriteValueHReg, temp_data))
     {
         ui->RtcMasterSecondsValue->setText(QString::number(temp_data));
     }
@@ -256,7 +256,7 @@ void Ucm_RtcMasterTab::rtc_master_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000020, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RtcMaster_TimeWriteValueLReg, temp_data))
     {
         ui->RtcMasterNanosecondsValue->setText(QString::number(temp_data));
     }
@@ -271,7 +271,7 @@ void Ucm_RtcMasterTab::rtc_master_write_values(void)
     {
         temp_data |= 0x00000001; // no inversion
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000008, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RtcMaster_PolarityReg, temp_data))
     {
         // nothing
     }
@@ -285,7 +285,7 @@ void Ucm_RtcMasterTab::rtc_master_write_values(void)
     {
         temp_data |= 0x00000001; // enable
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RtcMaster_ControlReg, temp_data))
     {
         // nothing
     }

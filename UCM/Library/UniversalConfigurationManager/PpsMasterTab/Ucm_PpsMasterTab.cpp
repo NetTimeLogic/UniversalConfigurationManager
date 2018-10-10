@@ -103,7 +103,7 @@ void Ucm_PpsMasterTab::pps_master_read_values(void)
     }
 
     // enabled
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_PpsMaster_ControlReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -121,7 +121,7 @@ void Ucm_PpsMasterTab::pps_master_read_values(void)
 
 
     // polarity
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000008, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_PpsMaster_PolarityReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -138,7 +138,7 @@ void Ucm_PpsMasterTab::pps_master_read_values(void)
     }
 
     // pulse width
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000010, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_PpsMaster_PulseWidthReg, temp_data))
     {
         ui->PpsMasterPulseWidthValue->setText(QString::number((temp_data)));
     }
@@ -148,7 +148,7 @@ void Ucm_PpsMasterTab::pps_master_read_values(void)
     }
 
     // version
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_PpsMaster_VersionReg, temp_data))
     {
         ui->PpsMasterVersionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
 
@@ -192,7 +192,7 @@ void Ucm_PpsMasterTab::pps_master_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000010, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_PpsMaster_PulseWidthReg, temp_data))
     {
         ui->PpsMasterPulseWidthValue->setText(QString::number(temp_data));
     }
@@ -207,7 +207,7 @@ void Ucm_PpsMasterTab::pps_master_write_values(void)
     {
         temp_data |= 0x00000001; // no inversion
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000008, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_PpsMaster_PolarityReg, temp_data))
     {
         // nothing
     }
@@ -221,7 +221,7 @@ void Ucm_PpsMasterTab::pps_master_write_values(void)
     {
         temp_data |= 0x00000001; // enable
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_PpsMaster_ControlReg, temp_data))
     {
         // nothing
     }

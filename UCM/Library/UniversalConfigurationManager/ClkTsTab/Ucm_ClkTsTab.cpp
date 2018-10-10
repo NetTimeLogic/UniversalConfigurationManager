@@ -76,6 +76,7 @@ int Ucm_ClkTsTab::clk_ts_disable(void)
     ui->ClkTsSecondsValue->setText("NA");
     ui->ClkTsNanosecondsValue->setText("NA");
     ui->ClkTsTimestampNrValue->setText("NA");
+    ui->ClkTsCableDelayValue->setText("NA");
     ui->ClkTsEnableCheckBox->setChecked(false);
     ui->ClkTsVersionValue->setText("NA");
 
@@ -107,6 +108,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
             ui->ClkTsSecondsValue->setText("NA");
             ui->ClkTsNanosecondsValue->setText("NA");
             ui->ClkTsTimestampNrValue->setText("NA");
+            ui->ClkTsCableDelayValue->setText("NA");
             ui->ClkTsEnableCheckBox->setChecked(false);
             ui->ClkTsVersionValue->setText("NA");
             return;
@@ -114,7 +116,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
     }
 
     // enabled
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_ControlReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -131,7 +133,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
     }
 
     // event nr
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000018, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_EvtCountReg, temp_data))
     {
         ui->ClkTsEventNrValue->setText(QString::number(temp_data));
     }
@@ -141,7 +143,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
     }
 
     // polarity
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000008, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_PolarityReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -158,7 +160,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
     }
 
     // new timestamp (irq)
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000010, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_IrqReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -175,7 +177,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
     }
 
     // drop
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000004, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_StatusReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -194,7 +196,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
     if (true == ui->ClkTsNewTimestampCheckBox->isChecked())
     {
         // timestamp nr
-        if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000020, temp_data))
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_CountReg, temp_data))
         {
             ui->ClkTsTimestampNrValue->setText(QString::number(temp_data));
         }
@@ -204,7 +206,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
         }
 
         // seconds
-        if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000028, temp_data))
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_TimeValueHReg, temp_data))
         {
             ui->ClkTsSecondsValue->setText(QString::number(temp_data));
         }
@@ -214,7 +216,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
         }
 
         // nanoseconds
-        if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000024, temp_data))
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_TimeValueLReg, temp_data))
         {
             ui->ClkTsNanosecondsValue->setText(QString::number(temp_data));
         }
@@ -224,7 +226,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
         }
 
         // data width
-        if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000002C, temp_data))
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_DataWidthReg, temp_data))
         {
             temp_data_width = temp_data;
             ui->ClkTsDataWidthValue->setText(QString::number(temp_data));
@@ -238,7 +240,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
         temp_string.clear();
         for (unsigned int i = 0; i < (temp_data_width/8); i++)
         {
-            if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000030 + ((i/4)*4), temp_data))
+            if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_DataReg + ((i/4)*4), temp_data))
             {
                 if (i == 0)
                 {
@@ -269,7 +271,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
 
         // clear irq
         temp_data = 0x00000001;
-        if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000010, temp_data))
+        if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkTs_IrqReg, temp_data))
         {
             // nothing irq cleared
         }
@@ -278,6 +280,17 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
             cout << "ERROR: " << "irq cleaning didn't work" << endl;
         }
 
+    }
+
+    // cable delay
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_CableDelayReg, temp_data))
+    {
+        ui->ClkTsCableDelayValue->setText(QString::number(temp_data));
+
+    }
+    else
+    {
+        ui->ClkTsCableDelayValue->setText("NA");
     }
 
     // clear drop
@@ -292,7 +305,7 @@ void Ucm_ClkTsTab::clk_ts_read_values(void)
     }
 
     // version
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkTs_VersionReg, temp_data))
     {
         ui->ClkTsVersionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
 
@@ -322,6 +335,7 @@ void Ucm_ClkTsTab::clk_ts_write_values(void)
         else if (i == (ucm->core_config.size()-1))
         {
             ui->ClkTsInvertedCheckBox->setChecked(false);
+            ui->ClkTsCableDelayValue->setText("NA");
             ui->ClkTsEnableCheckBox->setChecked(false);
             ui->ClkTsVersionValue->setText("NA");
             return;
@@ -334,7 +348,7 @@ void Ucm_ClkTsTab::clk_ts_write_values(void)
     {
         temp_data |= 0x00000001; // no inversion
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000008, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkTs_PolarityReg, temp_data))
     {
         // nothing
     }
@@ -343,13 +357,26 @@ void Ucm_ClkTsTab::clk_ts_write_values(void)
         ui->ClkTsInvertedCheckBox->setChecked(false);
     }
 
+    // cable delay
+    temp_string = ui->ClkTsCableDelayValue->text();
+    temp_data = temp_string.toUInt(nullptr, 10);
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkTs_CableDelayReg, temp_data))
+    {
+        ui->ClkTsCableDelayValue->setText(QString::number(temp_data));
+
+    }
+    else
+    {
+        ui->ClkTsCableDelayValue->setText("NA");
+    }
+
     temp_data = 0x00000000; // nothing
     if(true == ui->ClkTsEnableCheckBox->isChecked())
     {
         temp_data |= 0x00000001; // enable
     }
     // irq mask
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000014, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkTs_IrqMaskReg, temp_data))
     {
         // nothing
     }
@@ -357,7 +384,7 @@ void Ucm_ClkTsTab::clk_ts_write_values(void)
     {
         ui->ClkTsEnableCheckBox->setChecked(false);
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_ClkTs_ControlReg, temp_data))
     {
         // nothing
     }

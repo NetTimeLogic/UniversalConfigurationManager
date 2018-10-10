@@ -46,14 +46,16 @@ Ucm_ConfigTab::Ucm_ConfigTab(Ucm_UniversalConfigurationManager *parent) : QWidge
     cout << endl;
 
     connect(ui->ConfigComPortButton, SIGNAL(clicked()), this, SLOT(config_com_port_button_clicked()));
+    connect(ui->ConfigEthPortButton, SIGNAL(clicked()), this, SLOT(config_eth_port_button_clicked()));
     connect(ui->ConfigFullScreenButton, SIGNAL(clicked()), this, SLOT(config_full_screen_button_clicked()));
-    connect(config_timer, SIGNAL(timeout()), this, SLOT(config_com_port_check_timer()));
+    connect(config_timer, SIGNAL(timeout()), this, SLOT(config_port_check_timer()));
 }
 
 Ucm_ConfigTab::~Ucm_ConfigTab()
 {
     config_timer->stop();
     delete ui;
+    delete config_timer;
 }
 
 int Ucm_ConfigTab::config_resize(int height, int width)
@@ -61,8 +63,8 @@ int Ucm_ConfigTab::config_resize(int height, int width)
     int height_delta = 0;
     int width_delta = 0;
 
-    height_delta = (height-820);
-    width_delta = (width-1380);
+    height_delta = (height-Ucm_MainHeight);
+    width_delta = (width-Ucm_MainWidth);
 
     ui->ConfigAddressMapValue->setFixedHeight(630+height_delta);
     ui->ConfigAddressMapValue->setFixedWidth(1340+width_delta);
@@ -74,24 +76,98 @@ int Ucm_ConfigTab::config_resize(int height, int width)
 
 void Ucm_ConfigTab::config_com_port_button_clicked(void)
 {
-    unsigned int temp_data = 0;
-    Ucm_CoreConfig temp_config;
-    QString temp_string;
-
     if (ui->ConfigComPortButton->text() == "Open")
     {
         ui->ConfigComPortButton->setEnabled(false);
         ui->ConfigComPortComboBox->setEnabled(false);
         if (0 == ucm->com_lib.open_port(ui->ConfigComPortComboBox->currentText()))
         {
+            config_port_button_clicked(1);
+            config_timer->start(2000);
+            ui->ConfigComPortButton->setText("Close");
+            ui->ConfigComPortComboBox->setEnabled(false);
+            ui->ConfigEthPortButton->setEnabled(false);
+            ui->ConfigEthPortValue->setEnabled(false);
+        }
+        else
+        {
+            QMessageBox::information(this, tr("Open COM Port"), tr("Opening COM Port failed"));
+            ui->ConfigComPortComboBox->setEnabled(true);
+        }
+        ui->ConfigComPortButton->setEnabled(true);
+    }
+    else
+    {
+        ui->ConfigComPortButton->setEnabled(false);
+        if (0 == ucm->com_lib.close_port())
+        {
+            config_port_button_clicked(0);
+            config_timer->stop();
+            ui->ConfigComPortButton->setText("Open");
+            ui->ConfigComPortComboBox->setEnabled(true);
+            ui->ConfigEthPortValue->setEnabled(true);
+            ui->ConfigComPortButton->setEnabled(true);
+        }
+        ui->ConfigEthPortButton->setEnabled(true);
+    }
+}
+
+void Ucm_ConfigTab::config_eth_port_button_clicked(void)
+{
+    if (ui->ConfigEthPortButton->text() == "Open")
+    {
+            ui->ConfigEthPortButton->setEnabled(false);
+            ui->ConfigEthPortValue->setEnabled(false);
+        if (0 == ucm->com_lib.open_port(ui->ConfigEthPortValue->text()))
+        {
+            config_port_button_clicked(1);
+            config_timer->start(2000);
+            ui->ConfigEthPortButton->setText("Close");
+            ui->ConfigEthPortValue->setEnabled(false);
+            ui->ConfigComPortButton->setEnabled(false);
+            ui->ConfigComPortComboBox->setEnabled(false);
+        }
+        else
+        {
+            QMessageBox::information(this, tr("Open ETH Port"), tr("Opening ETH Port failed"));
+            ui->ConfigEthPortValue->setEnabled(true);
+        }
+        ui->ConfigEthPortButton->setEnabled(true);
+    }
+    else
+    {
+        ui->ConfigEthPortButton->setEnabled(false);
+        if (0 == ucm->com_lib.close_port())
+        {
+            config_port_button_clicked(0);
+            config_timer->stop();
+            ui->ConfigEthPortButton->setText("Open");
+            ui->ConfigEthPortValue->setEnabled(true);
+            ui->ConfigComPortButton->setEnabled(true);
+            ui->ConfigComPortComboBox->setEnabled(true);
+        }
+        ui->ConfigEthPortButton->setEnabled(true);
+    }
+}
+
+void Ucm_ConfigTab::config_port_button_clicked(int open)
+{
+    unsigned int temp_data = 0;
+    Ucm_CoreConfig temp_config;
+    QString temp_string;
+
+    if (open == 1)
+    {
             // Advanced Tab
             ucm->advanced_tab->advanced_enable();
 
             for (int i = 0; i < 256; i++)
             {
-                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * 16) + 0)), temp_data))
+                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_TypeInstanceReg)), temp_data))
                 {
-                    if ((i == 0) && (temp_data != 0x00010001))
+                    if ((i == 0) &&
+                        ((((temp_data >> 16) & 0x0000FFFF) != Ucm_CoreConfig_ConfSlaveCoreType) ||
+                         (((temp_data >> 0) & 0x0000FFFF) != 1)))
                     {
                         cout << "ERROR: " << "not a conf block at the address expected" << endl;
                         break;
@@ -111,7 +187,7 @@ void Ucm_ConfigTab::config_com_port_button_clicked(void)
                     break;
                 }
 
-                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * 16) + 4)), temp_data))
+                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_BaseAddrLReg)), temp_data))
                 {
                     temp_config.address_range_low = temp_data;
                 }
@@ -120,7 +196,7 @@ void Ucm_ConfigTab::config_com_port_button_clicked(void)
                     break;
                 }
 
-                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * 16) + 8)), temp_data))
+                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_BaseAddrHReg)), temp_data))
                 {
                     temp_config.address_range_high= temp_data;
                 }
@@ -129,7 +205,7 @@ void Ucm_ConfigTab::config_com_port_button_clicked(void)
                     break;
                 }
 
-                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * 16) + 12)), temp_data))
+                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_IrqMaskReg)), temp_data))
                 {
                     temp_config.interrupt_mask = temp_data;
                 }
@@ -234,6 +310,12 @@ void Ucm_ConfigTab::config_com_port_button_clicked(void)
                     ucm->Ucm_MainTab->addTab(ucm->red_hsrprp_tab, "RED HsrPrp");
                     temp_string.append("RED HsrPrp");
                     break;
+                case Ucm_CoreConfig_RedTsnCoreType:
+                    ucm->red_tsn_tab->red_tsn_enable();
+                    ucm->red_tsn_tab->red_tsn_add_instance(ucm->core_config.at(i).core_instance_nr);
+                    ucm->Ucm_MainTab->addTab(ucm->red_tsn_tab, "RED Tsn");
+                    temp_string.append("RED Tsn");
+                    break;
                 case Ucm_CoreConfig_RtcSlaveCoreType:
                     // TODO
                     temp_string.append("RTC Slave");
@@ -243,6 +325,18 @@ void Ucm_ConfigTab::config_com_port_button_clicked(void)
                     ucm->rtc_master_tab->rtc_master_add_instance(ucm->core_config.at(i).core_instance_nr);
                     ucm->Ucm_MainTab->addTab(ucm->rtc_master_tab, "RTC Master");
                     temp_string.append("RTC Master");
+                    break;
+                case Ucm_CoreConfig_DcfSlaveCoreType:
+                    ucm->dcf_slave_tab->dcf_slave_enable();
+                    ucm->dcf_slave_tab->dcf_slave_add_instance(ucm->core_config.at(i).core_instance_nr);
+                    ucm->Ucm_MainTab->addTab(ucm->dcf_slave_tab, "DCF Slave");
+                    temp_string.append("DCF Slave");
+                    break;
+                case Ucm_CoreConfig_DcfMasterCoreType:
+                    ucm->dcf_master_tab->dcf_master_enable();
+                    ucm->dcf_master_tab->dcf_master_add_instance(ucm->core_config.at(i).core_instance_nr);
+                    ucm->Ucm_MainTab->addTab(ucm->dcf_master_tab, "DCF Master");
+                    temp_string.append("DCF Master");
                     break;
                 case Ucm_CoreConfig_TodSlaveCoreType:
                     ucm->tod_slave_tab->tod_slave_enable();
@@ -270,27 +364,11 @@ void Ucm_ConfigTab::config_com_port_button_clicked(void)
             }
             ui->ConfigAddressMapValue->setText(temp_string);
 
-            config_timer->start(2000);
-            ui->ConfigComPortButton->setText("Close");
-            ui->ConfigComPortComboBox->setEnabled(false);
-        }
-        else
-        {
-            QMessageBox::information(this, tr("Open COM Port"), tr("Opening COM Port failed"));
-            ui->ConfigComPortComboBox->setEnabled(true);
-        }
-        ui->ConfigComPortButton->setEnabled(true);
     }
     else
     {
-        ui->ConfigComPortButton->setEnabled(false);
-        if (0 == ucm->com_lib.close_port())
-        {
             // Config Tab
             ui->ConfigAddressMapValue->setText("NA");
-            ui->ConfigComPortComboBox->setEnabled(true);
-            config_timer->stop();
-            ui->ConfigComPortButton->setText("Open");
             ucm->core_config.clear();
 
             // Advanced Tab
@@ -314,6 +392,12 @@ void Ucm_ConfigTab::config_com_port_button_clicked(void)
             // RTC Master Tab
             ucm->rtc_master_tab->rtc_master_disable();
 
+            // DCF Slave Tab
+            ucm->dcf_slave_tab->dcf_slave_disable();
+
+            // DCF Master Tab
+            ucm->dcf_master_tab->dcf_master_disable();
+
             // PPS Slave Tab
             ucm->pps_slave_tab->pps_slave_disable();
 
@@ -328,6 +412,9 @@ void Ucm_ConfigTab::config_com_port_button_clicked(void)
 
             // RED HsrPrp Tab
             ucm->red_hsrprp_tab->red_hsrprp_disable();
+
+            // RED Tsn Tab
+            ucm->red_tsn_tab->red_tsn_disable();
 
             // PTP Oc Tab
             ucm->ptp_oc_tab->ptp_oc_disable();
@@ -346,9 +433,6 @@ void Ucm_ConfigTab::config_com_port_button_clicked(void)
 
             // TAP Slave Tab
             ucm->tap_slave_tab->tap_slave_disable();
-
-        }
-        ui->ConfigComPortButton->setEnabled(true);
     }
 }
 
@@ -370,20 +454,20 @@ void Ucm_ConfigTab::config_full_screen_button_clicked(void)
         ucm->setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint);
         ucm->showNormal();
         ui->ConfigFullScreenButton->setText("Full Screen");
-        if (height > 822)
+        if (height > (Ucm_MainHeight+2))
         {
-            height = 822;
+            height = (Ucm_MainHeight+2);
         }
-        if (width > 1380)
+        if (width > Ucm_MainWidth)
         {
-            width = 1380;
+            width = Ucm_MainWidth;
         }
         ucm->resize(width, height);
     }
 
 }
 
-void Ucm_ConfigTab::config_com_port_check_timer(void)
+void Ucm_ConfigTab::config_port_check_timer(void)
 {
     static unsigned int error_cnt;
 
@@ -399,9 +483,22 @@ void Ucm_ConfigTab::config_com_port_check_timer(void)
     if (error_cnt > 2)
     {
         cout << "ERROR: " << "port is not ok anymore closing it" << endl;
-        QMessageBox::information(this, tr("COM Port Errror"), tr("Communication with target failed, COM port closed"));
-        ucm->Ucm_MainTab->setCurrentIndex(0);
-        config_com_port_button_clicked();
+        if (ucm->com_lib.port_type == Ucm_CommunicationLib_ComType)
+        {
+            QMessageBox::information(this, tr("COM Port Errror"), tr("Communication with target failed, COM port closed"));
+            ucm->Ucm_MainTab->setCurrentIndex(0);
+            config_com_port_button_clicked();
+        }
+        else if(ucm->com_lib.port_type == Ucm_CommunicationLib_EthType)
+        {
+            QMessageBox::information(this, tr("ETH Port Errror"), tr("Communication with target failed, ETH port closed"));
+            ucm->Ucm_MainTab->setCurrentIndex(0);
+            config_eth_port_button_clicked();
+        }
+        else
+        {
+            cout << "ERROR: " << "unknown port type" << endl;
+        }
         error_cnt = 0;
     }
 }

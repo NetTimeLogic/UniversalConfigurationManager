@@ -33,6 +33,8 @@
 
 class Ucm_UniversalConfigurationManager;
 
+#define Ucm_PtpHc_TcOffset                              0x00000800
+
 namespace Ui {
 class Ucm_PtpHcTab;
 }

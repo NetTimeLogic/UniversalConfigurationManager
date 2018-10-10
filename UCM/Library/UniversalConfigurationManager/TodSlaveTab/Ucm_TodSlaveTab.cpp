@@ -103,7 +103,7 @@ void Ucm_TodSlaveTab::tod_slave_read_values(void)
     }
 
     // enabled
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodSlave_ControlReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -121,7 +121,7 @@ void Ucm_TodSlaveTab::tod_slave_read_values(void)
 
 
     // correction
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000010, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodSlave_CorrectionReg, temp_data))
     {
         ui->TodSlaveCorrectionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
     }
@@ -132,7 +132,7 @@ void Ucm_TodSlaveTab::tod_slave_read_values(void)
 
 
     // baud rate
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000020, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodSlave_UartBaudRateReg, temp_data))
     {
         switch (temp_data)
         {
@@ -186,7 +186,7 @@ void Ucm_TodSlaveTab::tod_slave_read_values(void)
     }
 
     // version
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodSlave_VersionReg, temp_data))
     {
         ui->TodSlaveVersionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
 
@@ -231,7 +231,7 @@ void Ucm_TodSlaveTab::tod_slave_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000010, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_TodSlave_CorrectionReg, temp_data))
     {
         ui->TodSlaveCorrectionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
     }
@@ -303,7 +303,7 @@ void Ucm_TodSlaveTab::tod_slave_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000020, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_TodSlave_UartBaudRateReg, temp_data))
     {
         switch (temp_data)
         {
@@ -361,7 +361,7 @@ void Ucm_TodSlaveTab::tod_slave_write_values(void)
     {
         temp_data |= 0x00000001; // enable
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_TodSlave_ControlReg, temp_data))
     {
         // nothing
     }

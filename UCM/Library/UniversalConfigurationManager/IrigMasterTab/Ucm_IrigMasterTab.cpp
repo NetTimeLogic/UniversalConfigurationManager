@@ -70,6 +70,8 @@ int Ucm_IrigMasterTab::irig_master_disable(void)
     ui->IrigMasterInstanceComboBox->clear();
 
     ui->IrigMasterCorrectionValue->setText("NA");
+    ui->IrigMasterModeComboBox->setCurrentText("NA");
+    ui->IrigMasterControlBitsValue->setText("NA");
     ui->IrigMasterEnableCheckBox->setChecked(false);
     ui->IrigMasterVersionValue->setText("NA");
 
@@ -94,14 +96,16 @@ void Ucm_IrigMasterTab::irig_master_read_values(void)
         else if (i == (ucm->core_config.size()-1))
         {
             ui->IrigMasterCorrectionValue->setText("NA");
+            ui->IrigMasterModeComboBox->setCurrentText("NA");
+            ui->IrigMasterControlBitsValue->setText("NA");
             ui->IrigMasterEnableCheckBox->setChecked(false);
             ui->IrigMasterVersionValue->setText("NA");
             return;
         }
     }
 
-    // enabled
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000000, temp_data))
+    // enabled & mode
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_IrigMaster_ControlReg, temp_data))
     {
         if ((temp_data & 0x00000001) == 0)
         {
@@ -111,15 +115,60 @@ void Ucm_IrigMasterTab::irig_master_read_values(void)
         {
             ui->IrigMasterEnableCheckBox->setChecked(true);
         }
+
+        temp_data = ((temp_data >> 16) & 0x00000007);
+
+        switch (temp_data)
+        {
+            case 0:
+                ui->IrigMasterModeComboBox->setCurrentText("B000");
+                break;
+            case 1:
+                ui->IrigMasterModeComboBox->setCurrentText("B001");
+                break;
+            case 2:
+                ui->IrigMasterModeComboBox->setCurrentText("B002");
+                break;
+            case 3:
+                ui->IrigMasterModeComboBox->setCurrentText("B003");
+                break;
+            case 4:
+                ui->IrigMasterModeComboBox->setCurrentText("B004");
+                break;
+            case 5:
+                ui->IrigMasterModeComboBox->setCurrentText("B005");
+                break;
+            case 6:
+                ui->IrigMasterModeComboBox->setCurrentText("B006");
+                break;
+            case 7:
+                ui->IrigMasterModeComboBox->setCurrentText("B007");
+                break;
+            default:
+                ui->IrigMasterModeComboBox->setCurrentText("NA");
+                break;
+        }
+
     }
     else
     {
+        ui->IrigMasterModeComboBox->setCurrentText("NA");
         ui->IrigMasterEnableCheckBox->setChecked(false);
     }
 
 
+    // control bits
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_IrigMaster_ControlBitsReg, temp_data))
+    {
+        ui->IrigMasterControlBitsValue->setText(QString("0x%1").arg(temp_data, 7, 16, QLatin1Char('0')));
+    }
+    else
+    {
+        ui->IrigMasterControlBitsValue->setText("NA");
+    }
+
     // correction
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x00000010, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_IrigMaster_CorrectionReg, temp_data))
     {
         ui->IrigMasterCorrectionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
     }
@@ -129,7 +178,7 @@ void Ucm_IrigMasterTab::irig_master_read_values(void)
     }
 
     // version
-    if (0 == ucm->com_lib.read_reg(temp_addr + 0x0000000C, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_IrigMaster_VersionReg, temp_data))
     {
         ui->IrigMasterVersionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
 
@@ -158,6 +207,8 @@ void Ucm_IrigMasterTab::irig_master_write_values(void)
         else if (i == (ucm->core_config.size()-1))
         {
             ui->IrigMasterCorrectionValue->setText("NA");
+            ui->IrigMasterModeComboBox->setCurrentText("NA");
+            ui->IrigMasterControlBitsValue->setText("NA");
             ui->IrigMasterEnableCheckBox->setChecked(false);
             ui->IrigMasterVersionValue->setText("NA");
             return;
@@ -172,7 +223,7 @@ void Ucm_IrigMasterTab::irig_master_write_values(void)
     {
         //nothing
     }
-    else if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000010, temp_data))
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_IrigMaster_CorrectionReg, temp_data))
     {
         ui->IrigMasterCorrectionValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
     }
@@ -181,12 +232,66 @@ void Ucm_IrigMasterTab::irig_master_write_values(void)
         ui->IrigMasterCorrectionValue->setText("NA");
     }
 
-    temp_data = 0x00000000; // nothing
+    // control bits
+    temp_string = ui->IrigMasterControlBitsValue->text();
+    temp_data = temp_string.toUInt(nullptr, 16);
+    if (temp_string == "NA")
+    {
+        //nothing
+    }
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_IrigMaster_ControlBitsReg, temp_data))
+    {
+        ui->IrigMasterControlBitsValue->setText(QString("0x%1").arg(temp_data, 7, 16, QLatin1Char('0')));
+    }
+    else
+    {
+        ui->IrigMasterControlBitsValue->setText("NA");
+    }
+
+    // mode and enable
+    temp_string = ui->IrigMasterModeComboBox->currentText();
+    if (temp_string == "B000")
+    {
+        temp_data = 0x00000000;
+    }
+    else if (temp_string == "B001")
+    {
+        temp_data = 0x00010000;
+    }
+    else if (temp_string == "B002")
+    {
+        temp_data = 0x00020000;
+    }
+    else if (temp_string == "B003")
+    {
+        temp_data = 0x00030000;
+    }
+    else if (temp_string == "B004")
+    {
+        temp_data = 0x00040000;
+    }
+    else if (temp_string == "B005")
+    {
+        temp_data = 0x00050000;
+    }
+    else if (temp_string == "B006")
+    {
+        temp_data = 0x00060000;
+    }
+    else if (temp_string == "B007")
+    {
+        temp_data = 0x00070000;
+    }
+    else
+    {
+        temp_data = 0x00070000; // default to B007
+    }
+
     if(true == ui->IrigMasterEnableCheckBox->isChecked())
     {
         temp_data |= 0x00000001; // enable
     }
-    if (0 == ucm->com_lib.write_reg(temp_addr + 0x00000000, temp_data))
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_IrigMaster_ControlReg, temp_data))
     {
         // nothing
     }
