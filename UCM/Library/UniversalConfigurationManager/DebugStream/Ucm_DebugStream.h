@@ -28,7 +28,7 @@
 #include <string>
 #include <QMutex>
 
-#include "QPlainTextEdit.h"
+#include <QPlainTextEdit.h>
 
 class Ucm_DebugStream : public std::basic_streambuf<char>
 {

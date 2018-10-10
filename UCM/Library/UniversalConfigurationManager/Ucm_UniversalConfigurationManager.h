@@ -31,31 +31,31 @@
 #include <QtCharts/QLineSeries>
 #include <QtCore/QDateTime>
 #include <QtCharts/QValueAxis>
-#include "ui_Ucm_UniversalConfigurationManager.h"
-#include "CommunicationLib/Ucm_CommunicationLib.h"
-#include "CoreConfig/Ucm_CoreConfig.h"
-#include "DebugStream/Ucm_DebugStream.h"
+#include <ui_Ucm_UniversalConfigurationManager.h>
+#include <CommunicationLib/Ucm_CommunicationLib.h>
+#include <CoreConfig/Ucm_CoreConfig.h>
+#include <DebugStream/Ucm_DebugStream.h>
 
-#include "ConfigTab/Ucm_ConfigTab.h"
-#include "AdvancedTab/Ucm_AdvancedTab.h"
-#include "ClkClockTab/Ucm_ClkClockTab.h"
-#include "ClkTsTab/Ucm_ClkTsTab.h"
-#include "ClkSgTab/Ucm_ClkSgTab.h"
-#include "RtcMasterTab/Ucm_RtcMasterTab.h"
-#include "DcfSlaveTab/Ucm_DcfSlaveTab.h"
-#include "DcfMasterTab/Ucm_DcfMasterTab.h"
-#include "PpsSlaveTab/Ucm_PpsSlaveTab.h"
-#include "PpsMasterTab/Ucm_PpsMasterTab.h"
-#include "IrigSlaveTab/Ucm_IrigSlaveTab.h"
-#include "IrigMasterTab/Ucm_IrigMasterTab.h"
-#include "TodSlaveTab/Ucm_TodSlaveTab.h"
-#include "TodMasterTab/Ucm_TodMasterTab.h"
-#include "RedHsrPrpTab/Ucm_RedHsrPrpTab.h"
-#include "RedTsnTab/Ucm_RedTsnTab.h"
-#include "PtpOcTab/Ucm_PtpOcTab.h"
-#include "PtpTcTab/Ucm_PtpTcTab.h"
-#include "PtpHcTab/Ucm_PtpHcTab.h"
-#include "TapSlaveTab/Ucm_TapSlaveTab.h"
+#include <ConfigTab/Ucm_ConfigTab.h>
+#include <AdvancedTab/Ucm_AdvancedTab.h>
+#include <ClkClockTab/Ucm_ClkClockTab.h>
+#include <ClkTsTab/Ucm_ClkTsTab.h>
+#include <ClkSgTab/Ucm_ClkSgTab.h>
+#include <RtcMasterTab/Ucm_RtcMasterTab.h>
+#include <DcfSlaveTab/Ucm_DcfSlaveTab.h>
+#include <DcfMasterTab/Ucm_DcfMasterTab.h>
+#include <PpsSlaveTab/Ucm_PpsSlaveTab.h>
+#include <PpsMasterTab/Ucm_PpsMasterTab.h>
+#include <IrigSlaveTab/Ucm_IrigSlaveTab.h>
+#include <IrigMasterTab/Ucm_IrigMasterTab.h>
+#include <TodSlaveTab/Ucm_TodSlaveTab.h>
+#include <TodMasterTab/Ucm_TodMasterTab.h>
+#include <RedHsrPrpTab/Ucm_RedHsrPrpTab.h>
+#include <RedTsnTab/Ucm_RedTsnTab.h>
+#include <PtpOcTab/Ucm_PtpOcTab.h>
+#include <PtpTcTab/Ucm_PtpTcTab.h>
+#include <PtpHcTab/Ucm_PtpHcTab.h>
+#include <TapSlaveTab/Ucm_TapSlaveTab.h>
 
 using namespace QtCharts;
 

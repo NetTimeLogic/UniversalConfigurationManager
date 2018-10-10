@@ -24,7 +24,7 @@
 #define UCM_CLKSG_H
 
 #include <QWidget>
-#include "../Ucm_UniversalConfigurationManager.h"
+#include <Ucm_UniversalConfigurationManager.h>
 
 class Ucm_UniversalConfigurationManager;
 

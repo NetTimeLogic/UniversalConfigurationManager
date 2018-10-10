@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_TodMasterTab.h"
-#include "ui_Ucm_TodMasterTab.h"
+#include <Ucm_TodMasterTab.h>
+#include <ui_Ucm_TodMasterTab.h>
 
 Ucm_TodMasterTab::Ucm_TodMasterTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

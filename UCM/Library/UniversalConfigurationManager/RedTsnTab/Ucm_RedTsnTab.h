@@ -25,7 +25,7 @@
 
 #include <QWidget>
 #include <QList>
-#include "../Ucm_UniversalConfigurationManager.h"
+#include <Ucm_UniversalConfigurationManager.h>
 
 class Ucm_UniversalConfigurationManager;
 

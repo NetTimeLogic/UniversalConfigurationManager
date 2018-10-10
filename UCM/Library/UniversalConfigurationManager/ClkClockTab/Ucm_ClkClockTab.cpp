@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_ClkClockTab.h"
-#include "ui_Ucm_ClkClockTab.h"
+#include <Ucm_ClkClockTab.h>
+#include <ui_Ucm_ClkClockTab.h>
 
 Ucm_ClkClockTab::Ucm_ClkClockTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

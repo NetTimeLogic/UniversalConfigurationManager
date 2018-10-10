@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_IrigMasterTab.h"
-#include "ui_Ucm_IrigMasterTab.h"
+#include <Ucm_IrigMasterTab.h>
+#include <ui_Ucm_IrigMasterTab.h>
 
 Ucm_IrigMasterTab::Ucm_IrigMasterTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

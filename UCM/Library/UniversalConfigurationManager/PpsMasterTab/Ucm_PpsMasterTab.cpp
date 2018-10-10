@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_PpsMasterTab.h"
-#include "ui_Ucm_PpsMasterTab.h"
+#include <Ucm_PpsMasterTab.h>
+#include <ui_Ucm_PpsMasterTab.h>
 
 Ucm_PpsMasterTab::Ucm_PpsMasterTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

@@ -25,7 +25,7 @@
 
 #include <QWidget>
 #include <QMessageBox>
-#include "../Ucm_UniversalConfigurationManager.h"
+#include <Ucm_UniversalConfigurationManager.h>
 
 class Ucm_UniversalConfigurationManager;
 

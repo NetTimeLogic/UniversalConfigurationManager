@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_ClkSgTab.h"
-#include "ui_Ucm_ClkSgTab.h"
+#include <Ucm_ClkSgTab.h>
+#include <ui_Ucm_ClkSgTab.h>
 
 Ucm_ClkSgTab::Ucm_ClkSgTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

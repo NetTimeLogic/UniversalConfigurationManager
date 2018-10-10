@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_PpsSlaveTab.h"
-#include "ui_Ucm_PpsSlaveTab.h"
+#include <Ucm_PpsSlaveTab.h>
+#include <ui_Ucm_PpsSlaveTab.h>
 
 Ucm_PpsSlaveTab::Ucm_PpsSlaveTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

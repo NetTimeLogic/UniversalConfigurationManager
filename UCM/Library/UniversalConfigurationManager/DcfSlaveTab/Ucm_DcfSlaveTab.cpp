@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_DcfSlaveTab.h"
-#include "ui_Ucm_DcfSlaveTab.h"
+#include <Ucm_DcfSlaveTab.h>
+#include <ui_Ucm_DcfSlaveTab.h>
 
 Ucm_DcfSlaveTab::Ucm_DcfSlaveTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

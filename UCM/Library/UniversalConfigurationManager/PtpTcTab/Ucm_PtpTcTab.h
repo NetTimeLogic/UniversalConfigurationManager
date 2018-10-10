@@ -29,7 +29,7 @@
 #include <QtCharts/QLineSeries>
 #include <QtCore/QDateTime>
 #include <QtCharts/QValueAxis>
-#include "../Ucm_UniversalConfigurationManager.h"
+#include <Ucm_UniversalConfigurationManager.h>
 
 class Ucm_UniversalConfigurationManager;
 

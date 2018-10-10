@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_IrigSlaveTab.h"
-#include "ui_Ucm_IrigSlaveTab.h"
+#include <Ucm_IrigSlaveTab.h>
+#include <ui_Ucm_IrigSlaveTab.h>
 
 Ucm_IrigSlaveTab::Ucm_IrigSlaveTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_ConfigTab.h"
-#include "ui_Ucm_ConfigTab.h"
+#include <Ucm_ConfigTab.h>
+#include <ui_Ucm_ConfigTab.h>
 
 Ucm_ConfigTab::Ucm_ConfigTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

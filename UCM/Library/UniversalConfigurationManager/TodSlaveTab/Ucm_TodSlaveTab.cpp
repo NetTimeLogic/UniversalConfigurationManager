@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_TodSlaveTab.h"
-#include "ui_Ucm_TodSlaveTab.h"
+#include <Ucm_TodSlaveTab.h>
+#include <ui_Ucm_TodSlaveTab.h>
 
 Ucm_TodSlaveTab::Ucm_TodSlaveTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

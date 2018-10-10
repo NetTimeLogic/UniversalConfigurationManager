@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_RtcMasterTab.h"
-#include "ui_Ucm_RtcMasterTab.h"
+#include <Ucm_RtcMasterTab.h>
+#include <ui_Ucm_RtcMasterTab.h>
 
 Ucm_RtcMasterTab::Ucm_RtcMasterTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

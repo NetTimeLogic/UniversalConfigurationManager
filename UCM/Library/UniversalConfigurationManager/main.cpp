@@ -20,7 +20,7 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_UniversalConfigurationManager.h"
+#include <Ucm_UniversalConfigurationManager.h>
 #include <QApplication>
 
 int main(int argc, char *argv[])

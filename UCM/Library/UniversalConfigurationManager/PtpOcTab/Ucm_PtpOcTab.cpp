@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_PtpOcTab.h"
-#include "ui_Ucm_PtpOcTab.h"
+#include <Ucm_PtpOcTab.h>
+#include <ui_Ucm_PtpOcTab.h>
 #include <QHostAddress>
 
 Ucm_PtpOcTab::Ucm_PtpOcTab(Ucm_UniversalConfigurationManager *parent) : QWidget()

@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_AdvancedTab.h"
-#include "ui_Ucm_AdvancedTab.h"
+#include <Ucm_AdvancedTab.h>
+#include <ui_Ucm_AdvancedTab.h>
 
 Ucm_AdvancedTab::Ucm_AdvancedTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

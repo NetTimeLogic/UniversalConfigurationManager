@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_DcfMasterTab.h"
-#include "ui_Ucm_DcfMasterTab.h"
+#include <Ucm_DcfMasterTab.h>
+#include <ui_Ucm_DcfMasterTab.h>
 
 Ucm_DcfMasterTab::Ucm_DcfMasterTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

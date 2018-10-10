@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_TapSlaveTab.h"
-#include "ui_Ucm_TapSlaveTab.h"
+#include <Ucm_TapSlaveTab.h>
+#include <ui_Ucm_TapSlaveTab.h>
 
 Ucm_TapSlaveTab::Ucm_TapSlaveTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

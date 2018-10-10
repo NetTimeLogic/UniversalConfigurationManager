@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_RedTsnTab.h"
-#include "ui_Ucm_RedTsnTab.h"
+#include <Ucm_RedTsnTab.h>
+#include <ui_Ucm_RedTsnTab.h>
 
 Ucm_RedTsnTab::Ucm_RedTsnTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

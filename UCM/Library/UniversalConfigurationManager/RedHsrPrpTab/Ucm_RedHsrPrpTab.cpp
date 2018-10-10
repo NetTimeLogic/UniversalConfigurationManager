@@ -20,8 +20,8 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_RedHsrPrpTab.h"
-#include "ui_Ucm_RedHsrPrpTab.h"
+#include <Ucm_RedHsrPrpTab.h>
+#include <ui_Ucm_RedHsrPrpTab.h>
 
 Ucm_RedHsrPrpTab::Ucm_RedHsrPrpTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {

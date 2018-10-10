@@ -20,7 +20,7 @@
 //
 //*****************************************************************************************
 
-#include "Ucm_CoreConfig.h"
+#include <Ucm_CoreConfig.h>
 
 using namespace std;
 #include<iostream>
