@@ -661,17 +661,32 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                                     ptp_oc_delay_series->remove(0);
                                 }
 
+                                temp_min = 0;
                                 temp_max = 0;
                                 for (int j = 0; j < ptp_oc_delay_series->count(); j++)
                                 {
                                     QPointF temp_point = ptp_oc_delay_series->at(j);
+                                    if (j == 0)
+                                    {
+                                        temp_min = temp_point.y();
+                                        temp_max = temp_point.y();
+                                    }
+                                    if (temp_min > temp_point.y())
+                                    {
+                                        temp_min = temp_point.y();
+                                    }
                                     if (temp_max < temp_point.y())
                                     {
                                         temp_max = temp_point.y();
                                     }
                                 }
-                                temp_max = (temp_max * 5) / 4;
-                                temp_max = temp_max + (100 - temp_max%100);
+                                temp_max = ((temp_max + 100)/100)*100;
+                                temp_min = ((temp_min - 100)/100)*100;
+                                if (temp_min < 0)
+                                {
+                                    temp_min = 0;
+                                }
+                                ptp_oc_delay_chart->axisY()->setMin(temp_min);
                                 ptp_oc_delay_chart->axisY()->setMax(temp_max);
 
                                 ptp_oc_delay_chart->show();
@@ -901,6 +916,11 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                                 for (int j = 0; j < ptp_oc_offset_series->count(); j++)
                                 {
                                     QPointF temp_point = ptp_oc_offset_series->at(j);
+                                    if (j == 0)
+                                    {
+                                        temp_min = temp_point.y();
+                                        temp_max = temp_point.y();
+                                    }
                                     if (temp_min > temp_point.y())
                                     {
                                         temp_min = temp_point.y();
@@ -909,11 +929,9 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                                     {
                                         temp_max = temp_point.y();
                                     }
-                                }
-                                temp_max = (temp_max * 5) / 4;
-                                temp_max = temp_max + (100 - temp_max%100);
-                                temp_min = (temp_min * 5) / 4;
-                                temp_min = temp_min - (100 - abs(temp_min)%100);
+                                }                                
+                                temp_max = ((temp_max + 100)/100)*100;
+                                temp_min = ((temp_min - 100)/100)*100;
                                 if (temp_max > 100000)
                                 {
                                     temp_max = 100000;
@@ -974,17 +992,32 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                                     ptp_oc_delay_series->remove(0);
                                 }
 
+                                temp_min = 0;
                                 temp_max = 0;
                                 for (int j = 0; j < ptp_oc_delay_series->count(); j++)
                                 {
                                     QPointF temp_point = ptp_oc_delay_series->at(j);
+                                    if (j == 0)
+                                    {
+                                        temp_min = temp_point.y();
+                                        temp_max = temp_point.y();
+                                    }
+                                    if (temp_min > temp_point.y())
+                                    {
+                                        temp_min = temp_point.y();
+                                    }
                                     if (temp_max < temp_point.y())
                                     {
                                         temp_max = temp_point.y();
                                     }
                                 }
-                                temp_max = (temp_max * 5) / 4;
-                                temp_max = temp_max + (100 - temp_max%100);
+                                temp_max = ((temp_max + 100)/100)*100;
+                                temp_min = ((temp_min - 100)/100)*100;
+                                if (temp_min < 0)
+                                {
+                                    temp_min = 0;
+                                }
+                                ptp_oc_delay_chart->axisY()->setMin(temp_min);
                                 ptp_oc_delay_chart->axisY()->setMax(temp_max);
 
                                 ptp_oc_delay_chart->show();

@@ -832,6 +832,11 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
                                 for (int j = 0; j < ptp_hc_offset_series->count(); j++)
                                 {
                                     QPointF temp_point = ptp_hc_offset_series->at(j);
+                                    if (j == 0)
+                                    {
+                                        temp_min = temp_point.y();
+                                        temp_max = temp_point.y();
+                                    }
                                     if (temp_min > temp_point.y())
                                     {
                                         temp_min = temp_point.y();
@@ -841,10 +846,8 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
                                         temp_max = temp_point.y();
                                     }
                                 }
-                                temp_max = (temp_max * 5) / 4;
-                                temp_max = temp_max + (100 - temp_max%100);
-                                temp_min = (temp_min * 5) / 4;
-                                temp_min = temp_min - (100 - abs(temp_min)%100);
+                                temp_max = ((temp_max + 100)/100)*100;
+                                temp_min = ((temp_min - 100)/100)*100;
                                 if (temp_max > 100000)
                                 {
                                     temp_max = 100000;
@@ -904,17 +907,32 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
                                     ptp_hc_delay_series.at(0)->remove(0);
                                 }
 
+                                temp_min = 0;
                                 temp_max = 0;
                                 for (int j = 0; j < ptp_hc_delay_series.at(0)->count(); j++)
                                 {
                                     QPointF temp_point = ptp_hc_delay_series.at(0)->at(j);
+                                    if (j == 0)
+                                    {
+                                        temp_min = temp_point.y();
+                                        temp_max = temp_point.y();
+                                    }
+                                    if (temp_min > temp_point.y())
+                                    {
+                                        temp_min = temp_point.y();
+                                    }
                                     if (temp_max < temp_point.y())
                                     {
                                         temp_max = temp_point.y();
                                     }
                                 }
-                                temp_max = (temp_max * 5) / 4;
-                                temp_max = temp_max + (100 - temp_max%100);
+                                temp_max = ((temp_max + 100)/100)*100;
+                                temp_min = ((temp_min - 100)/100)*100;
+                                if (temp_min < 0)
+                                {
+                                    temp_min = 0;
+                                }
+                                ptp_hc_delay_chart->axisY()->setMin(temp_min);
                                 ptp_hc_delay_chart->axisY()->setMax(temp_max);
 
                                 ptp_hc_delay_chart->show();
@@ -1525,6 +1543,7 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
         {
             nr_of_ports = 3;
         }
+        temp_min = 0;
         temp_max = 0;
         for (unsigned int k= 0; k < nr_of_ports; k++)
         {
@@ -1575,6 +1594,15 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
                                             for (int j = 0; j < ptp_hc_delay_series.at(k)->count(); j++)
                                             {
                                                 QPointF temp_point = ptp_hc_delay_series.at(k)->at(j);
+                                                if ((j == 0) && (k == 0))
+                                                {
+                                                    temp_min = temp_point.y();
+                                                    temp_max = temp_point.y();
+                                                }
+                                                if (temp_min > temp_point.y())
+                                                {
+                                                    temp_min = temp_point.y();
+                                                }
                                                 if (temp_max < temp_point.y())
                                                 {
                                                     temp_max = temp_point.y();
@@ -1583,12 +1611,17 @@ void Ucm_PtpHcTab::ptp_hc_read_values(void)
 
                                             if (k == (nr_of_ports-1))
                                             {
-                                                temp_max = (temp_max * 5) / 4;
-                                                temp_max = temp_max + (100 - temp_max%100);
+                                                temp_max = ((temp_max + 100)/100)*100;
+                                                temp_min = ((temp_min - 100)/100)*100;
+                                                if (temp_min < 0)
+                                                {
+                                                    temp_min = 0;
+                                                }
+                                                ptp_hc_delay_chart->axisY()->setMin(temp_min);
                                                 ptp_hc_delay_chart->axisY()->setMax(temp_max);
 
                                                 ptp_hc_delay_chart->show();
-                                            }
+                                            }                                            
                                         }
                                     }
                                 }

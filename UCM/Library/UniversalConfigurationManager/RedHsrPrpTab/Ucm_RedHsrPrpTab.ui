@@ -678,6 +678,35 @@
     <string>No Forwarding</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="RedHsrPrpPrpUntaggingCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>80</y>
+     <width>110</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PRP Untagging</string>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="RedHsrPrpTailTaggingCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>110</y>
+     <width>110</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tail Tagging</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

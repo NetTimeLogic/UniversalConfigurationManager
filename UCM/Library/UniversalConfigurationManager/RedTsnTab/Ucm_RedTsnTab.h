@@ -26,8 +26,10 @@
 #include <QWidget>
 #include <QList>
 #include <Ucm_UniversalConfigurationManager.h>
+#include <Ucm_RedTsnSchedulingScreen.h>
 
 class Ucm_UniversalConfigurationManager;
+class Ucm_RedTsnSchedulingScreen;
 
 #define Ucm_RedTsn_ControlReg                           0x00000000
 #define Ucm_RedTsn_StatusReg                            0x00000004
@@ -66,9 +68,17 @@ class Ucm_UniversalConfigurationManager;
 #define Ucm_RedTsn_PhaseSplPeriodReg                    0x00000340
 #define Ucm_RedTsn_PhaseSplStartReg                     0x00000380
 #define Ucm_RedTsn_PhaseSplStopReg                      0x000003A0
+#define Ucm_RedTsn_PhaseAdvCycleTimeReg                 0x00000340
+#define Ucm_RedTsn_PhaseAdvCycleTimeExtensionReg        0x00000344
+#define Ucm_RedTsn_PhaseAdvBaseTimeLReg                 0x00000348
+#define Ucm_RedTsn_PhaseAdvBaseTimeHReg                 0x0000034C
+#define Ucm_RedTsn_PhaseAdvGateStatesReg                0x00000350
+#define Ucm_RedTsn_PhaseAdvControlListLengthReg         0x00000370
+#define Ucm_RedTsn_PhaseAdvControlListEntryReg          0x00000380
 
 namespace Ui {
 class Ucm_RedTsnTab;
+class Ucm_RedTsnSchedulingScreen;
 }
 
 class Ucm_RedTsnTab : public QWidget
@@ -88,6 +98,7 @@ public:
 
 private:
     Ucm_UniversalConfigurationManager* ucm;
+    Ucm_RedTsnSchedulingScreen* ui_scheduling;
     Ui::Ucm_RedTsnTab *ui;
 
     // RED HsrPrp tab
@@ -106,11 +117,12 @@ private:
     void red_tsn_write_values(void);
 
 private slots:
-    // RED HsrPrp tab
+    // RED TSN tab
     void red_tsn_instance_changed(int index);
     void red_tsn_read_values_button_clicked(void);
     void red_tsn_write_values_button_clicked(void);
     void red_tsn_auto_refresh_button_clicked(void);
+    void red_tsn_scheduling_button_clicked(void);
 
 };
 

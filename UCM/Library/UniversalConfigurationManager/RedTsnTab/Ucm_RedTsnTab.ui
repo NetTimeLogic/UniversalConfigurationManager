@@ -710,27 +710,27 @@
    <widget class="QLabel" name="RedTsnPhaseEnd1Label">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>300</x>
       <y>90</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase End</string>
+     <string>Phase End [ns]</string>
     </property>
    </widget>
    <widget class="QLabel" name="RedTsnPhaseStart1Label">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>130</x>
       <y>90</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase Start</string>
+     <string>Phase Start [ns]</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="RedTsnPhaseStart1Value">
@@ -821,27 +821,27 @@
    <widget class="QLabel" name="RedTsnPhaseEnd2Label">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>300</x>
       <y>120</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase End</string>
+     <string>Phase End [ns]</string>
     </property>
    </widget>
    <widget class="QLabel" name="RedTsnPhaseStart2Label">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>130</x>
       <y>120</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase Start</string>
+     <string>Phase Start [ns]</string>
     </property>
    </widget>
    <widget class="QComboBox" name="RedTsnVlanPrio2Value">
@@ -967,27 +967,27 @@
    <widget class="QLabel" name="RedTsnPhaseEnd3Label">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>300</x>
       <y>150</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase End</string>
+     <string>Phase End [ns]</string>
     </property>
    </widget>
    <widget class="QLabel" name="RedTsnPhaseStart3Label">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>130</x>
       <y>150</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase Start</string>
+     <string>Phase Start [ns]</string>
     </property>
    </widget>
    <widget class="QLabel" name="RedTsnVlanPrio3Label">
@@ -1113,14 +1113,14 @@
    <widget class="QLabel" name="RedTsnPhaseEnd4Label">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>300</x>
       <y>180</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase End</string>
+     <string>Phase End [ns]</string>
     </property>
    </widget>
    <widget class="QLabel" name="RedTsnVlanPrio4Label">
@@ -1139,14 +1139,14 @@
    <widget class="QLabel" name="RedTsnPhaseStart4Label">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>130</x>
       <y>180</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase Start</string>
+     <string>Phase Start [ns]</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="RedTsnPhaseStart4Value">
@@ -1259,14 +1259,14 @@
    <widget class="QLabel" name="RedTsnPhaseStart5Label">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>130</x>
       <y>210</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase Start</string>
+     <string>Phase Start [ns]</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="RedTsnPhaseStart5Value">
@@ -1288,14 +1288,14 @@
    <widget class="QLabel" name="RedTsnPhaseEnd5Label">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>300</x>
       <y>210</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase End</string>
+     <string>Phase End [ns]</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="RedTsnPhaseEnd5Value">
@@ -1525,27 +1525,27 @@
    <widget class="QLabel" name="RedTsnPhaseStart6Label">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>130</x>
       <y>240</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase Start</string>
+     <string>Phase Start [ns]</string>
     </property>
    </widget>
    <widget class="QLabel" name="RedTsnPhaseEnd6Label">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>300</x>
       <y>240</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase End</string>
+     <string>Phase End [ns]</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="RedTsnPrioPhaseEnable7CheckBox">
@@ -1615,14 +1615,14 @@
    <widget class="QLabel" name="RedTsnPhaseEnd7Label">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>300</x>
       <y>270</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase End</string>
+     <string>Phase End [ns]</string>
     </property>
    </widget>
    <widget class="QComboBox" name="RedTsnVlanPrio7Value">
@@ -1684,14 +1684,14 @@
    <widget class="QLabel" name="RedTsnPhaseStart7Label">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>130</x>
       <y>270</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase Start</string>
+     <string>Phase Start [ns]</string>
     </property>
    </widget>
    <widget class="QComboBox" name="RedTsnVlanPrio8Value">
@@ -1798,14 +1798,14 @@
    <widget class="QLabel" name="RedTsnPhaseStart8Label">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>130</x>
       <y>300</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase Start</string>
+     <string>Phase Start [ns]</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="RedTsnPhaseStart8Value">
@@ -1827,14 +1827,14 @@
    <widget class="QLabel" name="RedTsnPhaseEnd8Label">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>300</x>
       <y>300</y>
-      <width>70</width>
+      <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase End</string>
+     <string>Phase End [ns]</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="RedTsnPhaseEnableCheckBox">
@@ -1880,12 +1880,12 @@
      <rect>
       <x>20</x>
       <y>30</y>
-      <width>70</width>
+      <width>90</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Phase Period</string>
+     <string>Phase Period [ns]</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="RedTsnPhasePeriodValue">
@@ -1894,9 +1894,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>110</x>
       <y>30</y>
-      <width>120</width>
+      <width>110</width>
       <height>20</height>
      </rect>
     </property>
@@ -2606,7 +2606,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>240</x>
       <y>30</y>
       <width>100</width>
       <height>17</height>
@@ -2980,6 +2980,19 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="RedTsnSchedulingButton">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>30</y>
+      <width>75</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Scheduling</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="RedTsnPortCGroupBox">
    <property name="geometry">
@@ -3095,6 +3108,35 @@
    </property>
    <property name="text">
     <string>No Forwarding</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="RedTsnTailTaggingCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>110</y>
+     <width>110</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tail Tagging</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="RedTsnPrpUntaggingCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>80</y>
+     <width>110</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PRP Untagging</string>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
    </property>
   </widget>
  </widget>

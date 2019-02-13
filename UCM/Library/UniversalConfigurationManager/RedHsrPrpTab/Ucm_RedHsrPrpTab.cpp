@@ -76,6 +76,8 @@ int Ucm_RedHsrPrpTab::red_hsrprp_disable(void)
     ui->RedHsrPrpVersionValue->setText("NA");
     ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
     ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+    ui->RedHsrPrpTailTaggingCheckBox->setChecked(false);
+    ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(false);
     ui->RedHsrPrpEnableCheckBox->setChecked(false);
     ui->RedHsrPrpLanACheckBox->setChecked(false);
     ui->RedHsrPrpLanBCheckBox->setChecked(false);
@@ -124,6 +126,8 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
             ui->RedHsrPrpEnableCheckBox->setChecked(false);
             ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
             ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+            ui->RedHsrPrpTailTaggingCheckBox->setChecked(false);
+            ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(false);
             ui->RedHsrPrpLanACheckBox->setChecked(false);
             ui->RedHsrPrpLanBCheckBox->setChecked(false);
 
@@ -252,12 +256,31 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
             ui->RedHsrPrpNoForwardingCheckBox->setChecked(true);
         }
 
+        if ((temp_data & 0x00040000) == 0)
+        {
+            ui->RedHsrPrpTailTaggingCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedHsrPrpTailTaggingCheckBox->setChecked(true);
+        }
+
+        if ((temp_data & 0x00080000) == 0)
+        {
+            ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(true);
+        }
     }
     else
     {
         ui->RedHsrPrpModeValue->setCurrentText("NA");
         ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
         ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+        ui->RedHsrPrpTailTaggingCheckBox->setChecked(false);
+        ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(false);
     }
 
 
@@ -448,6 +471,8 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
             ui->RedHsrPrpEnableCheckBox->setChecked(true);
             ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
             ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+            ui->RedHsrPrpTailTaggingCheckBox->setChecked(false);
+            ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(false);
             ui->RedHsrPrpLanACheckBox->setChecked(false);
             ui->RedHsrPrpLanBCheckBox->setChecked(false);
 
@@ -588,6 +613,16 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
         temp_data |= 0x00020000;
     }
 
+    if(true == ui->RedHsrPrpTailTaggingCheckBox->isChecked())
+    {
+        temp_data |= 0x00040000;
+    }
+
+    if(true == ui->RedHsrPrpPrpUntaggingCheckBox->isChecked())
+    {
+        temp_data |= 0x00080000;
+    }
+
     if (temp_string == "NA")
     {
         //nothing
@@ -628,6 +663,24 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
             ui->RedHsrPrpNoForwardingCheckBox->setChecked(true);
         }
 
+        if ((temp_data & 0x00040000) == 0)
+        {
+            ui->RedHsrPrpTailTaggingCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedHsrPrpTailTaggingCheckBox->setChecked(true);
+        }
+
+        if ((temp_data & 0x00080000) == 0)
+        {
+            ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(true);
+        }
+
         temp_data = 0x00000001; // write
         if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_ConfigControlReg, temp_data))
         {
@@ -638,6 +691,8 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
             ui->RedHsrPrpModeValue->setCurrentText("NA");
             ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
             ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+            ui->RedHsrPrpTailTaggingCheckBox->setChecked(false);
+            ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(false);
         }
     }
     else
@@ -645,6 +700,8 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
         ui->RedHsrPrpModeValue->setCurrentText("NA");
         ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
         ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
+        ui->RedHsrPrpTailTaggingCheckBox->setChecked(false);
+        ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(false);
     }
 
     // status counter

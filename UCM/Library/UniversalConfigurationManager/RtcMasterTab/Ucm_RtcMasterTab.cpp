@@ -71,6 +71,7 @@ int Ucm_RtcMasterTab::rtc_master_disable(void)
 
     ui->RtcMasterSecondsValue->setText("NA");
     ui->RtcMasterNanosecondsValue->setText("NA");
+    ui->RtcMasterTimeAdjCheckBox->setChecked(false);
     ui->RtcMasterInvertedCheckBox->setChecked(false);
     ui->RtcMasterEnableCheckBox->setChecked(false);
     ui->RtcMasterVersionValue->setText("NA");
@@ -97,6 +98,7 @@ void Ucm_RtcMasterTab::rtc_master_read_values(void)
         {
             ui->RtcMasterSecondsValue->setText("NA");
             ui->RtcMasterNanosecondsValue->setText("NA");
+            ui->RtcMasterTimeAdjCheckBox->setChecked(false);
             ui->RtcMasterInvertedCheckBox->setChecked(false);
             ui->RtcMasterEnableCheckBox->setChecked(false);
             ui->RtcMasterVersionValue->setText("NA");
@@ -128,7 +130,7 @@ void Ucm_RtcMasterTab::rtc_master_read_values(void)
     }
     if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RtcMaster_ControlReg, temp_data))
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 10000; i++) // this can take long (1s) since it will wait for the the read
         {
             if(0 == ucm->com_lib.read_reg(temp_addr + Ucm_RtcMaster_ControlReg, temp_data))
             {
@@ -226,6 +228,7 @@ void Ucm_RtcMasterTab::rtc_master_write_values(void)
         {
             ui->RtcMasterSecondsValue->setText("NA");
             ui->RtcMasterNanosecondsValue->setText("NA");
+            ui->RtcMasterTimeAdjCheckBox->setChecked(false);
             ui->RtcMasterInvertedCheckBox->setChecked(false);
             ui->RtcMasterEnableCheckBox->setChecked(false);
             ui->RtcMasterVersionValue->setText("NA");
@@ -266,7 +269,7 @@ void Ucm_RtcMasterTab::rtc_master_write_values(void)
     }
 
     // polarity
-    temp_data = 0x00000000; // nothing
+    temp_data = 0x00000000;
     if(false == ui->RtcMasterInvertedCheckBox->isChecked())
     {
         temp_data |= 0x00000001; // no inversion
@@ -280,7 +283,11 @@ void Ucm_RtcMasterTab::rtc_master_write_values(void)
         ui->RtcMasterInvertedCheckBox->setChecked(false);
     }
 
-    temp_data = 0x00000002; // set time
+    temp_data = 0x00000000;
+    if(true == ui->RtcMasterTimeAdjCheckBox->isChecked())
+    {
+        temp_data |= 0x00000002; // set time
+    }
     if(true == ui->RtcMasterEnableCheckBox->isChecked())
     {
         temp_data |= 0x00000001; // enable
@@ -294,6 +301,7 @@ void Ucm_RtcMasterTab::rtc_master_write_values(void)
         ui->RtcMasterSecondsValue->setText("NA");
         ui->RtcMasterNanosecondsValue->setText("NA");
     }
+    ui->RtcMasterTimeAdjCheckBox->setChecked(false);
 }
 
 void Ucm_RtcMasterTab::rtc_master_read_values_button_clicked(void)

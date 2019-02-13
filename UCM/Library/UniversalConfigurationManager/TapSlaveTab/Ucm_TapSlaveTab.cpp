@@ -235,8 +235,7 @@ void Ucm_TapSlaveTab::tap_slave_read_values(void)
                     temp_max = temp_point.y();
                 }
             }
-            temp_max = (temp_max * 5) / 4;
-            temp_max = temp_max + (20 - temp_max%20);
+            temp_max = ((temp_max + 20)/20)*20;
             tap_slave_frame_rate_chart->axisY()->setMax(temp_max);
 
             tap_slave_frame_rate_chart->show();

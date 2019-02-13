@@ -171,7 +171,8 @@ void Ucm_PtpTcTab::ptp_tc_read_values(void)
 {
     unsigned long long temp_delay;
     unsigned long temp_ip = 0;
-    unsigned int temp_max = 0;
+    int temp_min = 0;
+    int temp_max = 0;
     unsigned int temp_data = 0;
     unsigned int temp_addr = 0;
     QString temp_string;
@@ -550,6 +551,7 @@ void Ucm_PtpTcTab::ptp_tc_read_values(void)
     }
 
     temp_max = 0;
+    temp_min = 0;
     for (unsigned int k= 0; k < nr_of_ports; k++)
     {
         temp_data = ((k & 0x000000FF) << 16);
@@ -599,6 +601,15 @@ void Ucm_PtpTcTab::ptp_tc_read_values(void)
                                         for (int j = 0; j < ptp_tc_delay_series.at(k)->count(); j++)
                                         {
                                             QPointF temp_point = ptp_tc_delay_series.at(k)->at(j);
+                                            if ((j == 0) && (k == 0))
+                                            {
+                                                temp_min = temp_point.y();
+                                                temp_max = temp_point.y();
+                                            }
+                                            if (temp_min > temp_point.y())
+                                            {
+                                                temp_min = temp_point.y();
+                                            }
                                             if (temp_max < temp_point.y())
                                             {
                                                 temp_max = temp_point.y();
@@ -607,8 +618,13 @@ void Ucm_PtpTcTab::ptp_tc_read_values(void)
 
                                         if (k == (nr_of_ports-1))
                                         {
-                                            temp_max = (temp_max * 5) / 4;
-                                            temp_max = temp_max + (100 - temp_max%100);
+                                            temp_max = ((temp_max + 100)/100)*100;
+                                            temp_min = ((temp_min - 100)/100)*100;
+                                            if (temp_min < 0)
+                                            {
+                                                temp_min = 0;
+                                            }
+                                            ptp_tc_delay_chart->axisY()->setMin(temp_min);
                                             ptp_tc_delay_chart->axisY()->setMax(temp_max);
 
                                             ptp_tc_delay_chart->show();

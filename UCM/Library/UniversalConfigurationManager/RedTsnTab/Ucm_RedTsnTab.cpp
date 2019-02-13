@@ -22,10 +22,12 @@
 
 #include <Ucm_RedTsnTab.h>
 #include <ui_Ucm_RedTsnTab.h>
+#include <ui_Ucm_RedTsnSchedulingScreen.h>
 
 Ucm_RedTsnTab::Ucm_RedTsnTab(Ucm_UniversalConfigurationManager *parent) : QWidget()
 {
     ucm = parent;
+    ui_scheduling = new Ucm_RedTsnSchedulingScreen;
 
     ui = new Ui::Ucm_RedTsnTab();
     ui->setupUi(this);
@@ -36,6 +38,7 @@ Ucm_RedTsnTab::Ucm_RedTsnTab(Ucm_UniversalConfigurationManager *parent) : QWidge
     connect(ui->RedTsnReadValuesButton, SIGNAL(clicked()), this, SLOT(red_tsn_read_values_button_clicked()));
     connect(ui->RedTsnWriteValuesButton, SIGNAL(clicked()), this, SLOT(red_tsn_write_values_button_clicked()));
     connect(ui->RedTsnAutoRefreshButton, SIGNAL(clicked()), this, SLOT(red_tsn_auto_refresh_button_clicked()));
+    connect(ui->RedTsnSchedulingButton, SIGNAL(clicked()), this, SLOT(red_tsn_scheduling_button_clicked()));
     connect(red_tsn_timer, SIGNAL(timeout()), this, SLOT(red_tsn_read_values_button_clicked()));
 }
 
@@ -43,6 +46,8 @@ Ucm_RedTsnTab::~Ucm_RedTsnTab()
 {
     red_tsn_timer->stop();
     delete ui;
+    ui_scheduling->close();
+    delete ui_scheduling;
     delete red_tsn_timer;
 }
 
@@ -127,6 +132,7 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui->RedTsnInstanceComboBox->setEnabled(true);
     ui->RedTsnReadValuesButton->setEnabled(true);
     ui->RedTsnWriteValuesButton->setEnabled(true);
+    ui->RedTsnSchedulingButton->setEnabled(false);
     ui->RedTsnInstanceComboBox->clear();
 
     ui->RedTsnMacValue->setText("NA");
@@ -137,6 +143,8 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui->RedTsnEnableCheckBox->setChecked(false);
     ui->RedTsnPromiscuousModeCheckBox->setChecked(false);
     ui->RedTsnNoForwardingCheckBox->setChecked(false);
+    ui->RedTsnTailTaggingCheckBox->setChecked(false);
+    ui->RedTsnPrpUntaggingCheckBox->setChecked(false);
     ui->RedTsnLanACheckBox->setChecked(false);
     ui->RedTsnLanBCheckBox->setChecked(false);
     ui->RedTsnRxFrameAValue->setText("NA");
@@ -326,6 +334,340 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui->RedTsnMaxSizeEnable8CheckBox->setChecked(false);
     ui->RedTsnMaxSizeEnable8CheckBox->setEnabled(false);
 
+    ui_scheduling->close();
+    ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
+    ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
+    ui_scheduling->ui->RedTsnPhasePeriodExtValue->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+    ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+
     red_tsn_priority_support.clear();
     red_tsn_nr_of_priorities.clear();
     red_tsn_phase_support.clear();
@@ -348,6 +690,8 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     temp_data = temp_data -1;
 
     // enable all first
+    ui->RedTsnSchedulingButton->setEnabled(true);
+
     ui->RedTsnPriorityEnableCheckBox->setEnabled(true);
     ui->RedTsnPriorityEnableCheckBox->setChecked(false);
 
@@ -528,8 +872,343 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui->RedTsnCreditEnablePortCCheckBox->setEnabled(true);
     ui->RedTsnCreditEnablePortCCheckBox->setChecked(false);
 
+    ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
+    ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
+    ui_scheduling->ui->RedTsnPhasePeriodExtValue->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+    ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(true);
+
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+    ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(true);
+
     if (red_tsn_priority_support.at(temp_data) == false)
     {
+        ui->RedTsnSchedulingButton->setEnabled(false);
+
         ui->RedTsnPriorityEnableCheckBox->setChecked(false);
         ui->RedTsnPriorityEnableCheckBox->setEnabled(false);
 
@@ -702,10 +1381,345 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnCreditEnable8CheckBox->setEnabled(false);
         ui->RedTsnMaxSizeEnable8CheckBox->setChecked(false);
         ui->RedTsnMaxSizeEnable8CheckBox->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhasePeriodExtValue->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+        ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
     }
 
-    if ((red_tsn_phase_support.at(temp_data) == false) || (red_tsn_simple_scheduler_support.at(temp_data) == false))
+    if (red_tsn_phase_support.at(temp_data) == false)
     {
+        ui->RedTsnSchedulingButton->setEnabled(false);
+
         ui->RedTsnPhasePeriodValue->setText("NA");
         ui->RedTsnPhasePeriodValue->setEnabled(false);
 
@@ -757,9 +1771,726 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnPhaseStart8Value->setEnabled(false);
         ui->RedTsnPhaseEnd8Value->setText("NA");
         ui->RedTsnPhaseEnd8Value->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhasePeriodExtValue->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+        ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
     }
 
-    if ((red_tsn_cycle_support.at(temp_data) == false) || (red_tsn_simple_scheduler_support.at(temp_data) == false))
+    if (red_tsn_simple_scheduler_support.at(temp_data) == true)
+    {
+        ui->RedTsnSchedulingButton->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhasePeriodExtValue->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+        ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+    }
+
+    if (red_tsn_simple_scheduler_support.at(temp_data) == false)
+    {
+        ui->RedTsnPhasePeriodValue->setText("NA");
+        ui->RedTsnPhasePeriodValue->setEnabled(false);
+
+        ui->RedTsnPhaseStart1Value->setText("NA");
+        ui->RedTsnPhaseStart1Value->setEnabled(false);
+        ui->RedTsnPhaseEnd1Value->setText("NA");
+        ui->RedTsnPhaseEnd1Value->setEnabled(false);
+
+        ui->RedTsnPhaseStart2Value->setText("NA");
+        ui->RedTsnPhaseStart2Value->setEnabled(false);
+        ui->RedTsnPhaseEnd2Value->setText("NA");
+        ui->RedTsnPhaseEnd2Value->setEnabled(false);
+
+        ui->RedTsnPhaseStart3Value->setText("NA");
+        ui->RedTsnPhaseStart3Value->setEnabled(false);
+        ui->RedTsnPhaseEnd3Value->setText("NA");
+        ui->RedTsnPhaseEnd3Value->setEnabled(false);
+
+        ui->RedTsnPhaseStart4Value->setText("NA");
+        ui->RedTsnPhaseStart4Value->setEnabled(false);
+        ui->RedTsnPhaseEnd4Value->setText("NA");
+        ui->RedTsnPhaseEnd4Value->setEnabled(false);
+
+        ui->RedTsnPhaseStart5Value->setText("NA");
+        ui->RedTsnPhaseStart5Value->setEnabled(false);
+        ui->RedTsnPhaseEnd5Value->setText("NA");
+        ui->RedTsnPhaseEnd5Value->setEnabled(false);
+
+        ui->RedTsnPhaseStart6Value->setText("NA");
+        ui->RedTsnPhaseStart6Value->setEnabled(false);
+        ui->RedTsnPhaseEnd6Value->setText("NA");
+        ui->RedTsnPhaseEnd6Value->setEnabled(false);
+
+        ui->RedTsnPhaseStart7Value->setText("NA");
+        ui->RedTsnPhaseStart7Value->setEnabled(false);
+        ui->RedTsnPhaseEnd7Value->setText("NA");
+        ui->RedTsnPhaseEnd7Value->setEnabled(false);
+
+        ui->RedTsnPhaseStart8Value->setText("NA");
+        ui->RedTsnPhaseStart8Value->setEnabled(false);
+        ui->RedTsnPhaseEnd8Value->setText("NA");
+        ui->RedTsnPhaseEnd8Value->setEnabled(false);
+    }
+
+    if (red_tsn_cycle_support.at(temp_data) == false)
     {
         ui->RedTsnCycleEnableCheckBox->setChecked(false);
         ui->RedTsnCycleEnableCheckBox->setEnabled(false);
@@ -880,7 +2611,7 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnMaxSizeEnable8CheckBox->setEnabled(false);
     }
 
-    if ((red_tsn_preemption_support.at(temp_data) == false) || (red_tsn_simple_scheduler_support.at(temp_data) == false))
+    if (red_tsn_preemption_support.at(temp_data) == false)
     {
         ui->RedTsnMaxSizeEnableCheckBox->setChecked(false);
         ui->RedTsnMaxSizeEnableCheckBox->setEnabled(false);
@@ -914,6 +2645,40 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnCreditEnable1CheckBox->setEnabled(false);
         ui->RedTsnMaxSizeEnable1CheckBox->setChecked(false);
         ui->RedTsnMaxSizeEnable1CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
     }
 
     if (red_tsn_nr_of_priorities.at(temp_data) >= 2)
@@ -944,6 +2709,40 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnCreditEnable2CheckBox->setEnabled(false);
         ui->RedTsnMaxSizeEnable2CheckBox->setChecked(false);
         ui->RedTsnMaxSizeEnable2CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setEnabled(false);
     }
 
     if (red_tsn_nr_of_priorities.at(temp_data) >= 3)
@@ -974,6 +2773,40 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnCreditEnable3CheckBox->setEnabled(false);
         ui->RedTsnMaxSizeEnable3CheckBox->setChecked(false);
         ui->RedTsnMaxSizeEnable3CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setEnabled(false);
     }
 
     if (red_tsn_nr_of_priorities.at(temp_data) >= 4)
@@ -1004,6 +2837,40 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnCreditEnable4CheckBox->setEnabled(false);
         ui->RedTsnMaxSizeEnable4CheckBox->setChecked(false);
         ui->RedTsnMaxSizeEnable4CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setEnabled(false);
     }
 
     if (red_tsn_nr_of_priorities.at(temp_data) >= 5)
@@ -1034,6 +2901,40 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnCreditEnable5CheckBox->setEnabled(false);
         ui->RedTsnMaxSizeEnable5CheckBox->setChecked(false);
         ui->RedTsnMaxSizeEnable5CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setEnabled(false);
     }
 
     if (red_tsn_nr_of_priorities.at(temp_data) >= 6)
@@ -1064,6 +2965,40 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnCreditEnable6CheckBox->setEnabled(false);
         ui->RedTsnMaxSizeEnable6CheckBox->setChecked(false);
         ui->RedTsnMaxSizeEnable6CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setEnabled(false);
     }
 
     if (red_tsn_nr_of_priorities.at(temp_data) >= 7)
@@ -1094,6 +3029,40 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnCreditEnable7CheckBox->setEnabled(false);
         ui->RedTsnMaxSizeEnable7CheckBox->setChecked(false);
         ui->RedTsnMaxSizeEnable7CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setEnabled(false);
     }
 
     if (red_tsn_nr_of_priorities.at(temp_data) >= 8)
@@ -1124,6 +3093,40 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnCreditEnable8CheckBox->setEnabled(false);
         ui->RedTsnMaxSizeEnable8CheckBox->setChecked(false);
         ui->RedTsnMaxSizeEnable8CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
     }
 }
 
@@ -1152,6 +3155,8 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui->RedTsnModeValue->setCurrentText("NA");
             ui->RedTsnPromiscuousModeCheckBox->setChecked(false);
             ui->RedTsnNoForwardingCheckBox->setChecked(false);
+            ui->RedTsnTailTaggingCheckBox->setChecked(false);
+            ui->RedTsnPrpUntaggingCheckBox->setChecked(false);
             ui->RedTsnLanACheckBox->setChecked(false);
             ui->RedTsnLanBCheckBox->setChecked(false);
             ui->RedTsnRxFrameAValue->setText("NA");
@@ -1342,6 +3347,339 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui->RedTsnCreditEnablePortCCheckBox->setChecked(false);
             ui->RedTsnCreditEnablePortCCheckBox->setEnabled(false);
 
+            ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
+            ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
+            ui_scheduling->ui->RedTsnPhasePeriodExtValue->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+            ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+
             ui->RedTsnEnableCheckBox->setChecked(true);
             ui->RedTsnVersionValue->setText("NA");
             return;
@@ -1459,12 +3797,32 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui->RedTsnNoForwardingCheckBox->setChecked(true);
         }
 
+        if ((temp_data & 0x00040000) == 0)
+        {
+            ui->RedTsnTailTaggingCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedTsnTailTaggingCheckBox->setChecked(true);
+        }
+
+        if ((temp_data & 0x00080000) == 0)
+        {
+            ui->RedTsnPrpUntaggingCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedTsnPrpUntaggingCheckBox->setChecked(true);
+        }
+
     }
     else
     {
         ui->RedTsnModeValue->setCurrentText("NA");
         ui->RedTsnPromiscuousModeCheckBox->setChecked(false);
         ui->RedTsnNoForwardingCheckBox->setChecked(false);
+        ui->RedTsnTailTaggingCheckBox->setChecked(false);
+        ui->RedTsnPrpUntaggingCheckBox->setChecked(false);
     }
 
 
@@ -2588,6 +4946,1712 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         }
     }
 
+    // advanced scheduling
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvCycleTimeReg, temp_data))
+        {
+            ui_scheduling->ui->RedTsnPhasePeriodValue->setText(QString::number(temp_data));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
+        }
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvCycleTimeExtensionReg, temp_data))
+        {
+            ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText(QString::number(temp_data));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
+        }
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvBaseTimeHReg, temp_data))
+        {
+            ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText(QString::number(temp_data));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText("NA");
+        }
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvBaseTimeLReg, temp_data))
+        {
+            ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText(QString::number(temp_data));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText("NA");
+        }
+        
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListLengthReg, temp_data))
+        {
+            if (temp_data < 17)
+            {
+                ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(temp_data & 0x000000FF);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+            }
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+        }
+    } 
+    else
+    {
+        ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvGateStatesReg, temp_data))
+        {
+            if (((temp_data & 0x00000001) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+            }
+            if (((temp_data & 0x00000002) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+            }
+            if (((temp_data & 0x00000004) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+            }
+            if (((temp_data & 0x00000008) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+            }
+            if (((temp_data & 0x00000010) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+            }
+            if (((temp_data & 0x00000020) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+            }
+            if (((temp_data & 0x00000040) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+            }
+            if (((temp_data & 0x00000080) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+            }
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 0, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 4, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 8, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 12, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 16, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 20, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 24, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 28, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 32, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 36, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 40, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 44, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 48, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 52, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 56, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 60, temp_data))
+        {
+            if (((temp_data & 0x01000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+            }
+            if (((temp_data & 0x02000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+            }
+            if (((temp_data & 0x04000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+            }
+            if (((temp_data & 0x08000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+            }
+            if (((temp_data & 0x10000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+            }
+            if (((temp_data & 0x20000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+            }
+            if (((temp_data & 0x40000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+            }
+            if (((temp_data & 0x80000000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(true);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText(QString::number(temp_data & 0x00FFFFFF));
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+    }
+
     // port c
     if (red_tsn_credit_support.at(instance_idx) == true)
     {
@@ -2967,9 +7031,344 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui->RedTsnCreditEnablePortCCheckBox->setChecked(false);
             ui->RedTsnCreditEnablePortCCheckBox->setEnabled(false);
 
+            ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
+            ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
+            ui_scheduling->ui->RedTsnPhasePeriodExtValue->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+            ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+
             ui->RedTsnModeValue->setCurrentText("NA");
             ui->RedTsnPromiscuousModeCheckBox->setChecked(false);
             ui->RedTsnNoForwardingCheckBox->setChecked(false);
+            ui->RedTsnTailTaggingCheckBox->setChecked(false);
+            ui->RedTsnPrpUntaggingCheckBox->setChecked(false);
             ui->RedTsnVersionValue->setText("NA");
             return;
         }
@@ -3036,7 +7435,7 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
     temp_string = ui->RedTsnVlanValue->text();
     temp_data = temp_string.toUInt(nullptr, 16);
     temp_data &= 0x0000FFFF;
-    if(true == ui->RedTsnVlanEnableCheckBox->isChecked())
+    if (true == ui->RedTsnVlanEnableCheckBox->isChecked())
     {
         temp_data |= 0x00010000; // enable
     }
@@ -3089,14 +7488,24 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         temp_data = 0x00000000;
     }
 
-    if(true == ui->RedTsnPromiscuousModeCheckBox->isChecked())
+    if (true == ui->RedTsnPromiscuousModeCheckBox->isChecked())
     {
         temp_data |= 0x00010000;
     }
 
-    if(true == ui->RedTsnNoForwardingCheckBox->isChecked())
+    if (true == ui->RedTsnNoForwardingCheckBox->isChecked())
     {
         temp_data |= 0x00020000;
+    }
+
+    if (true == ui->RedTsnTailTaggingCheckBox->isChecked())
+    {
+        temp_data |= 0x00040000;
+    }
+
+    if (true == ui->RedTsnPrpUntaggingCheckBox->isChecked())
+    {
+        temp_data |= 0x00080000;
     }
 
     if (temp_string == "NA")
@@ -3139,6 +7548,24 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui->RedTsnNoForwardingCheckBox->setChecked(true);
         }
 
+        if ((temp_data & 0x00040000) == 0)
+        {
+            ui->RedTsnTailTaggingCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedTsnTailTaggingCheckBox->setChecked(true);
+        }
+
+        if ((temp_data & 0x00080000) == 0)
+        {
+            ui->RedTsnPrpUntaggingCheckBox->setChecked(false);
+        }
+        else
+        {
+            ui->RedTsnPrpUntaggingCheckBox->setChecked(true);
+        }
+
         temp_data = 0x00000001; // write
         if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_ConfigControlReg, temp_data))
         {
@@ -3149,6 +7576,8 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui->RedTsnModeValue->setCurrentText("NA");
             ui->RedTsnPromiscuousModeCheckBox->setChecked(false);
             ui->RedTsnNoForwardingCheckBox->setChecked(false);
+            ui->RedTsnTailTaggingCheckBox->setChecked(false);
+            ui->RedTsnPrpUntaggingCheckBox->setChecked(false);
         }
     }
     else
@@ -3156,199 +7585,70 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui->RedTsnModeValue->setCurrentText("NA");
         ui->RedTsnPromiscuousModeCheckBox->setChecked(false);
         ui->RedTsnNoForwardingCheckBox->setChecked(false);
-    }
-
-    // phase period prio & phase & cycle
-    if (red_tsn_priority_support.at(instance_idx) == true)
-    {
-        if ((red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == true))
-        {
-            temp_string = ui->RedTsnPhasePeriodValue->text();
-            temp_data = temp_string.toUInt(nullptr, 10);
-            if (temp_string == "NA")
-            {
-                //nothing
-            }
-            else
-            {
-                if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseSplPeriodReg, temp_data))
-                {
-                    // nothing
-                }
-                else
-                {
-                    ui->RedTsnPhasePeriodValue->setText("NA");
-                }
-            }
-        }
-        else
-        {
-            ui->RedTsnPhasePeriodValue->setText("NA");
-        }
-
-        temp_data = 0x00000000; // nothing
-        if(true == ui->RedTsnPriorityEnableCheckBox->isChecked())
-        {
-            temp_data |= 0x00000001; // enable
-        }
-        if ((red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == true))
-        {
-            if(true == ui->RedTsnPhaseEnableCheckBox->isChecked())
-            {
-                temp_data |= 0x00000002; // enable
-            }
-        }
-        if ((red_tsn_cycle_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == true))
-        {
-            if(true == ui->RedTsnCycleEnableCheckBox->isChecked())
-            {
-                temp_data |= 0x00000004; // enable
-            }
-        }
-        if ((red_tsn_preemption_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == true))
-        {
-            if(true == ui->RedTsnPreemptionEnableCheckBox->isChecked())
-            {
-                temp_data |= 0x00000008; // enable
-            }
-        }
-        if (red_tsn_nr_of_priorities.at(instance_idx) >= 1)
-        {
-            if(true == ui->RedTsnPrioPhaseEnable1CheckBox->isChecked())
-            {
-                temp_data |= 0x00010000; // enable
-            }
-        }
-        if (red_tsn_nr_of_priorities.at(instance_idx) >= 2)
-        {
-            if(true == ui->RedTsnPrioPhaseEnable2CheckBox->isChecked())
-            {
-                temp_data |= 0x00020000; // enable
-            }
-        }
-        if (red_tsn_nr_of_priorities.at(instance_idx) >= 3)
-        {
-            if(true == ui->RedTsnPrioPhaseEnable3CheckBox->isChecked())
-            {
-                temp_data |= 0x00040000; // enable
-            }
-        }
-        if (red_tsn_nr_of_priorities.at(instance_idx) >= 4)
-        {
-            if(true == ui->RedTsnPrioPhaseEnable4CheckBox->isChecked())
-            {
-                temp_data |= 0x00080000; // enable
-            }
-        }
-        if (red_tsn_nr_of_priorities.at(instance_idx) >= 5)
-        {
-            if(true == ui->RedTsnPrioPhaseEnable5CheckBox->isChecked())
-            {
-                temp_data |= 0x00100000; // enable
-            }
-        }
-        if (red_tsn_nr_of_priorities.at(instance_idx) >= 6)
-        {
-            if(true == ui->RedTsnPrioPhaseEnable6CheckBox->isChecked())
-            {
-                temp_data |= 0x00200000; // enable
-            }
-        }
-        if (red_tsn_nr_of_priorities.at(instance_idx) >= 7)
-        {
-            if(true == ui->RedTsnPrioPhaseEnable7CheckBox->isChecked())
-            {
-                temp_data |= 0x00400000; // enable
-            }
-        }
-        if (red_tsn_nr_of_priorities.at(instance_idx) >= 8)
-        {
-            if(true == ui->RedTsnPrioPhaseEnable8CheckBox->isChecked())
-            {
-                temp_data |= 0x00800000; // enable
-            }
-        }
-        if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PrioPhaseControlReg, temp_data))
-        {
-            // nothing
-        }
-        else
-        {
-            ui->RedTsnPriorityEnableCheckBox->setChecked(false);
-            ui->RedTsnPhaseEnableCheckBox->setChecked(false);
-            ui->RedTsnCycleEnableCheckBox->setChecked(false);
-            ui->RedTsnPreemptionEnableCheckBox->setChecked(false);
-            ui->RedTsnPrioPhaseEnable1CheckBox->setChecked(false);
-            ui->RedTsnPrioPhaseEnable2CheckBox->setChecked(false);
-            ui->RedTsnPrioPhaseEnable3CheckBox->setChecked(false);
-            ui->RedTsnPrioPhaseEnable4CheckBox->setChecked(false);
-            ui->RedTsnPrioPhaseEnable5CheckBox->setChecked(false);
-            ui->RedTsnPrioPhaseEnable6CheckBox->setChecked(false);
-            ui->RedTsnPrioPhaseEnable7CheckBox->setChecked(false);
-            ui->RedTsnPrioPhaseEnable8CheckBox->setChecked(false);
-        }
+        ui->RedTsnTailTaggingCheckBox->setChecked(false);
+        ui->RedTsnPrpUntaggingCheckBox->setChecked(false);
     }
 
     // credit
     if (red_tsn_credit_support.at(instance_idx) == true)
     {
         temp_data = 0x00000000; // nothing
-        if(true == ui->RedTsnCreditEnableCheckBox->isChecked())
+        if (true == ui->RedTsnCreditEnableCheckBox->isChecked())
         {
             temp_data |= 0x00000001; // enable
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 1)
         {
-            if(true == ui->RedTsnCreditEnable1CheckBox->isChecked())
+            if (true == ui->RedTsnCreditEnable1CheckBox->isChecked())
             {
                 temp_data |= 0x00010000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 2)
         {
-            if(true == ui->RedTsnCreditEnable2CheckBox->isChecked())
+            if (true == ui->RedTsnCreditEnable2CheckBox->isChecked())
             {
                 temp_data |= 0x00020000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 3)
         {
-            if(true == ui->RedTsnCreditEnable3CheckBox->isChecked())
+            if (true == ui->RedTsnCreditEnable3CheckBox->isChecked())
             {
                 temp_data |= 0x00040000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 4)
         {
-            if(true == ui->RedTsnCreditEnable4CheckBox->isChecked())
+            if (true == ui->RedTsnCreditEnable4CheckBox->isChecked())
             {
                 temp_data |= 0x00080000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 5)
         {
-            if(true == ui->RedTsnCreditEnable5CheckBox->isChecked())
+            if (true == ui->RedTsnCreditEnable5CheckBox->isChecked())
             {
                 temp_data |= 0x00100000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 6)
         {
-            if(true == ui->RedTsnCreditEnable6CheckBox->isChecked())
+            if (true == ui->RedTsnCreditEnable6CheckBox->isChecked())
             {
                 temp_data |= 0x00200000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 7)
         {
-            if(true == ui->RedTsnCreditEnable7CheckBox->isChecked())
+            if (true == ui->RedTsnCreditEnable7CheckBox->isChecked())
             {
                 temp_data |= 0x00400000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 8)
         {
-            if(true == ui->RedTsnCreditEnable8CheckBox->isChecked())
+            if (true == ui->RedTsnCreditEnable8CheckBox->isChecked())
             {
                 temp_data |= 0x00800000; // enable
             }
@@ -3387,62 +7687,62 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
     if (red_tsn_maxsize_support.at(instance_idx) == true)
     {
         temp_data = 0x00000000; // nothing
-        if(true == ui->RedTsnMaxSizeEnableCheckBox->isChecked())
+        if (true == ui->RedTsnMaxSizeEnableCheckBox->isChecked())
         {
             temp_data |= 0x00000001; // enable
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 1)
         {
-            if(true == ui->RedTsnMaxSizeEnable1CheckBox->isChecked())
+            if (true == ui->RedTsnMaxSizeEnable1CheckBox->isChecked())
             {
                 temp_data |= 0x00010000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 2)
         {
-            if(true == ui->RedTsnMaxSizeEnable2CheckBox->isChecked())
+            if (true == ui->RedTsnMaxSizeEnable2CheckBox->isChecked())
             {
                 temp_data |= 0x00020000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 3)
         {
-            if(true == ui->RedTsnMaxSizeEnable3CheckBox->isChecked())
+            if (true == ui->RedTsnMaxSizeEnable3CheckBox->isChecked())
             {
                 temp_data |= 0x00040000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 4)
         {
-            if(true == ui->RedTsnMaxSizeEnable4CheckBox->isChecked())
+            if (true == ui->RedTsnMaxSizeEnable4CheckBox->isChecked())
             {
                 temp_data |= 0x00080000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 5)
         {
-            if(true == ui->RedTsnMaxSizeEnable5CheckBox->isChecked())
+            if (true == ui->RedTsnMaxSizeEnable5CheckBox->isChecked())
             {
                 temp_data |= 0x00100000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 6)
         {
-            if(true == ui->RedTsnMaxSizeEnable6CheckBox->isChecked())
+            if (true == ui->RedTsnMaxSizeEnable6CheckBox->isChecked())
             {
                 temp_data |= 0x00200000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 7)
         {
-            if(true == ui->RedTsnMaxSizeEnable7CheckBox->isChecked())
+            if (true == ui->RedTsnMaxSizeEnable7CheckBox->isChecked())
             {
                 temp_data |= 0x00400000; // enable
             }
         }
         if (red_tsn_nr_of_priorities.at(instance_idx) >= 8)
         {
-            if(true == ui->RedTsnMaxSizeEnable8CheckBox->isChecked())
+            if (true == ui->RedTsnMaxSizeEnable8CheckBox->isChecked())
             {
                 temp_data |= 0x00800000; // enable
             }
@@ -4534,6 +8834,1524 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         }
     }
 
+    // advanced scheduling
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhasePeriodValue->text();
+        if (temp_string == "NA")
+        {
+            //nothing
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvCycleTimeReg, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
+            }
+        }
+        temp_string = ui_scheduling->ui->RedTsnPhasePeriodExtValue->text();
+        if (temp_string == "NA")
+        {
+            //nothing
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvCycleTimeExtensionReg, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
+            }
+        }
+        temp_string = ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->text();
+        if (temp_string == "NA")
+        {
+            //nothing
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvBaseTimeHReg, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText("NA");
+            }
+        }
+        temp_string = ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->text();
+        if (temp_string == "NA")
+        {
+            //nothing
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvBaseTimeLReg, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText("NA");
+            }
+        }
+        temp_string = ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->currentText();
+        if (temp_string == "NA")
+        {
+            //nothing
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            if (temp_data >= 17)
+            {
+                temp_data = 16;
+            }
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListLengthReg, temp_data))
+            {
+                //nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+            }
+        }
+    } 
+    else
+    {
+        ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseBaseSecondsValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseBaseNanosecondsValue->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_data = 0;
+
+        if ((true == ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+        {
+            temp_data |= 0x00000001;
+        }
+        if ((true == ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+        {
+            temp_data |= 0x00000002;
+        }
+        if ((true == ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+        {
+            temp_data |= 0x00000004;
+        }
+        if ((true == ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+        {
+            temp_data |= 0x00000008;
+        }
+        if ((true == ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+        {
+            temp_data |= 0x00000010;
+        }
+        if ((true == ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+        {
+            temp_data |= 0x00000020;
+        }
+        if ((true == ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+        {
+            temp_data |= 0x00000040;
+        }
+        if ((true == ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+        {
+            temp_data |= 0x00000080;
+        }
+
+        if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvGateStatesReg, temp_data))
+        {
+            // nothing
+        }
+        else
+        {
+            ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP2CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP3CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP4CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP5CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP6CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP7CheckBox->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseInitialP8CheckBox->setChecked(false);
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 0, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+    }
+
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 4, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 8, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 12, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 16, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 20, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 24, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 28, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 32, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 36, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 40, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 44, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 48, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 52, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 56, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+    }
+    
+    if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
+    {
+        temp_string = ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            temp_data &= 0x00FFFFFF;
+
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
+            {
+                temp_data |= 0x01000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 2))
+            {
+                temp_data |= 0x02000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 3))
+            {
+                temp_data |= 0x04000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 4))
+            {
+                temp_data |= 0x08000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 5))
+            {
+                temp_data |= 0x10000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 6))
+            {
+                temp_data |= 0x20000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 7))
+            {
+                temp_data |= 0x40000000;
+            }
+            if ((true == ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 8))
+            {
+                temp_data |= 0x80000000;
+            }
+            
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseAdvControlListEntryReg + 60, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+            }
+        }
+    }
+    else
+    {
+        ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP3CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP4CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP5CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP6CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+    }
+    
+    // phase period prio & phase & cycle
+    if (red_tsn_priority_support.at(instance_idx) == true)
+    {
+        if ((red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == true))
+        {
+            temp_string = ui->RedTsnPhasePeriodValue->text();
+            temp_data = temp_string.toUInt(nullptr, 10);
+            if (temp_string == "NA")
+            {
+                //nothing
+            }
+            else
+            {
+                if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PhaseSplPeriodReg, temp_data))
+                {
+                    // nothing
+                }
+                else
+                {
+                    ui->RedTsnPhasePeriodValue->setText("NA");
+                }
+            }
+        }
+        else
+        {
+            ui->RedTsnPhasePeriodValue->setText("NA");
+        }
+
+        temp_data = 0x00000000; // nothing
+        if (red_tsn_phase_support.at(instance_idx) == true)
+        {
+            temp_data |= 0x00000100; // enable
+        }
+        if (true == ui->RedTsnPriorityEnableCheckBox->isChecked())
+        {
+            temp_data |= 0x00000001; // enable
+        }
+        if (red_tsn_phase_support.at(instance_idx) == true)
+        {
+            if (true == ui->RedTsnPhaseEnableCheckBox->isChecked())
+            {
+                temp_data |= 0x00000002; // enable
+            }
+        }
+        if (red_tsn_cycle_support.at(instance_idx) == true)
+        {
+            if (true == ui->RedTsnCycleEnableCheckBox->isChecked())
+            {
+                temp_data |= 0x00000004; // enable
+            }
+        }
+        if (red_tsn_preemption_support.at(instance_idx) == true)
+        {
+            if (true == ui->RedTsnPreemptionEnableCheckBox->isChecked())
+            {
+                temp_data |= 0x00000008; // enable
+            }
+        }
+        if (red_tsn_nr_of_priorities.at(instance_idx) >= 1)
+        {
+            if (true == ui->RedTsnPrioPhaseEnable1CheckBox->isChecked())
+            {
+                temp_data |= 0x00010000; // enable
+            }
+        }
+        if (red_tsn_nr_of_priorities.at(instance_idx) >= 2)
+        {
+            if (true == ui->RedTsnPrioPhaseEnable2CheckBox->isChecked())
+            {
+                temp_data |= 0x00020000; // enable
+            }
+        }
+        if (red_tsn_nr_of_priorities.at(instance_idx) >= 3)
+        {
+            if (true == ui->RedTsnPrioPhaseEnable3CheckBox->isChecked())
+            {
+                temp_data |= 0x00040000; // enable
+            }
+        }
+        if (red_tsn_nr_of_priorities.at(instance_idx) >= 4)
+        {
+            if (true == ui->RedTsnPrioPhaseEnable4CheckBox->isChecked())
+            {
+                temp_data |= 0x00080000; // enable
+            }
+        }
+        if (red_tsn_nr_of_priorities.at(instance_idx) >= 5)
+        {
+            if (true == ui->RedTsnPrioPhaseEnable5CheckBox->isChecked())
+            {
+                temp_data |= 0x00100000; // enable
+            }
+        }
+        if (red_tsn_nr_of_priorities.at(instance_idx) >= 6)
+        {
+            if (true == ui->RedTsnPrioPhaseEnable6CheckBox->isChecked())
+            {
+                temp_data |= 0x00200000; // enable
+            }
+        }
+        if (red_tsn_nr_of_priorities.at(instance_idx) >= 7)
+        {
+            if (true == ui->RedTsnPrioPhaseEnable7CheckBox->isChecked())
+            {
+                temp_data |= 0x00400000; // enable
+            }
+        }
+        if (red_tsn_nr_of_priorities.at(instance_idx) >= 8)
+        {
+            if (true == ui->RedTsnPrioPhaseEnable8CheckBox->isChecked())
+            {
+                temp_data |= 0x00800000; // enable
+            }
+        }
+        if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PrioPhaseControlReg, temp_data))
+        {
+            // nothing
+        }
+        else
+        {
+            ui->RedTsnPriorityEnableCheckBox->setChecked(false);
+            ui->RedTsnPhaseEnableCheckBox->setChecked(false);
+            ui->RedTsnCycleEnableCheckBox->setChecked(false);
+            ui->RedTsnPreemptionEnableCheckBox->setChecked(false);
+            ui->RedTsnPrioPhaseEnable1CheckBox->setChecked(false);
+            ui->RedTsnPrioPhaseEnable2CheckBox->setChecked(false);
+            ui->RedTsnPrioPhaseEnable3CheckBox->setChecked(false);
+            ui->RedTsnPrioPhaseEnable4CheckBox->setChecked(false);
+            ui->RedTsnPrioPhaseEnable5CheckBox->setChecked(false);
+            ui->RedTsnPrioPhaseEnable6CheckBox->setChecked(false);
+            ui->RedTsnPrioPhaseEnable7CheckBox->setChecked(false);
+            ui->RedTsnPrioPhaseEnable8CheckBox->setChecked(false);
+        }
+    }
+
     // port c
     if (red_tsn_credit_support.at(instance_idx) == true)
     {
@@ -4567,7 +10385,7 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         }
 
         temp_data = 0x00000000; // nothing
-        if(true == ui->RedTsnCreditEnablePortCCheckBox->isChecked())
+        if (true == ui->RedTsnCreditEnablePortCCheckBox->isChecked())
         {
             temp_data |= 0x00000001; // enable
         }
@@ -4590,7 +10408,7 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
 
     // status counter
     temp_data = 0x00000000; // nothing
-    if(true == ui->RedTsnClearCountersCheckBox->isChecked())
+    if (true == ui->RedTsnClearCountersCheckBox->isChecked())
     {
         temp_data |= 0x00000001; // clear
     }
@@ -4604,7 +10422,7 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
     }
 
     temp_data = 0x00000000; // nothing
-    if(true == ui->RedTsnEnableCheckBox->isChecked())
+    if (true == ui->RedTsnEnableCheckBox->isChecked())
     {
         temp_data |= 0x00000001; // enable
     }
@@ -4665,5 +10483,10 @@ void Ucm_RedTsnTab::red_tsn_auto_refresh_button_clicked(void)
         ui->RedTsnAutoRefreshButton->setText("Start Refresh");
         ui->RedTsnAutoRefreshButton->setEnabled(true);
     }
+}
+
+void Ucm_RedTsnTab::red_tsn_scheduling_button_clicked(void)
+{
+    ui_scheduling->show();
 }
 

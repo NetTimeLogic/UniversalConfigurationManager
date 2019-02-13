@@ -68,6 +68,7 @@ SOURCES += main.cpp\
     TodSlaveTab/Ucm_TodSlaveTab.cpp \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.cpp \
     RedTsnTab/Ucm_RedTsnTab.cpp \
+    RedTsnTab/Ucm_RedTsnSchedulingScreen.cpp \
     PtpHcTab/Ucm_PtpHcTab.cpp \
     PtpOcTab/Ucm_PtpOcTab.cpp \
     PtpTcTab/Ucm_PtpTcTab.cpp \
@@ -92,6 +93,7 @@ HEADERS  += Ucm_UniversalConfigurationManager.h \
     TodSlaveTab/Ucm_TodSlaveTab.h \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.h \
     RedTsnTab/Ucm_RedTsnTab.h \
+    RedTsnTab/Ucm_RedTsnSchedulingScreen.h \
     PtpHcTab/Ucm_PtpHcTab.h \
     PtpOcTab/Ucm_PtpOcTab.h \
     PtpTcTab/Ucm_PtpTcTab.h \
@@ -115,6 +117,7 @@ FORMS    += Ucm_UniversalConfigurationManager.ui \
     TodSlaveTab/Ucm_TodSlaveTab.ui \
     RedHsrPrpTab/Ucm_RedHsrPrpTab.ui \
     RedTsnTab/Ucm_RedTsnTab.ui \
+    RedTsnTab/Ucm_RedTsnSchedulingScreen.ui \
     PtpHcTab/Ucm_PtpHcTab.ui \
     PtpOcTab/Ucm_PtpOcTab.ui \
     PtpTcTab/Ucm_PtpTcTab.ui \

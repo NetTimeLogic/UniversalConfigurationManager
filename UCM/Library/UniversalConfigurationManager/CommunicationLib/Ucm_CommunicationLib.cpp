@@ -175,7 +175,7 @@ int Ucm_CommunicationLib::detect_baudrate(void)
     }
 }
 
-Ucm_CommunicationLib::open_port(QString name)
+int Ucm_CommunicationLib::open_port(QString name)
 {
     int data_length;
     QByteArray read_data;
@@ -422,7 +422,7 @@ Ucm_CommunicationLib::open_port(QString name)
 }
 
 
-Ucm_CommunicationLib::check_port()
+int Ucm_CommunicationLib::check_port()
 {
     int data_length;
     QByteArray read_data;
@@ -622,7 +622,7 @@ Ucm_CommunicationLib::check_port()
 }
 
 
-Ucm_CommunicationLib::close_port()
+int Ucm_CommunicationLib::close_port()
 {
     cout << "INFO: " << "Closing Port:" << endl;
 
@@ -652,7 +652,7 @@ Ucm_CommunicationLib::close_port()
     return 0;
 }
 
-Ucm_CommunicationLib::write_reg(const unsigned int addr, unsigned int& data)
+int Ucm_CommunicationLib::write_reg(const unsigned int addr, unsigned int& data)
 {
     int data_length;
     QByteArray temp_data;
@@ -866,7 +866,7 @@ Ucm_CommunicationLib::write_reg(const unsigned int addr, unsigned int& data)
     return 0;
 }
 
-Ucm_CommunicationLib::read_reg(const unsigned int addr, unsigned int& data)
+int Ucm_CommunicationLib::read_reg(const unsigned int addr, unsigned int& data)
 {
     int data_length;
     QByteArray temp_data;

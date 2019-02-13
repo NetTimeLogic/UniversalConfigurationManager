@@ -135,12 +135,10 @@ void Ucm_AdvancedTab::advanced_write_values(void)
     if (0 == ucm->com_lib.write_reg(temp_addr, temp_data))
     {
         ui->AdvancedValueValue->setText(QString("0x%1").arg(temp_data, 8, 16, QLatin1Char('0')));
-        ui->AdvancedAddressValue->setText(QString("0x%1").arg(temp_addr, 8, 16, QLatin1Char('0')));
     }
     else
     {
         ui->AdvancedValueValue->setText("NA");
-        ui->AdvancedAddressValue->setText("NA");
     }
 }
 
