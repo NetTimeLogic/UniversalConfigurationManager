@@ -10489,6 +10489,6 @@ void Ucm_RedTsnTab::red_tsn_scheduling_button_clicked(void)
 {
     ui_scheduling->show();
     ui_scheduling->activateWindow();
-    ui_scheduling->raise();}
+    ui_scheduling->raise();
 }
 
