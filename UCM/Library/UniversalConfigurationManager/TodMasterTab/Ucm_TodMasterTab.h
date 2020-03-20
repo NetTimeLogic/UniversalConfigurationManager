@@ -30,6 +30,7 @@ class Ucm_UniversalConfigurationManager;
 
 #define Ucm_TodMaster_ControlReg                        0x00000000
 #define Ucm_TodMaster_StatusReg                         0x00000004
+#define Ucm_TodMaster_PolarityReg                       0x00000008
 #define Ucm_TodMaster_VersionReg                        0x0000000C
 #define Ucm_TodMaster_CorrectionReg                     0x00000010
 #define Ucm_TodMaster_LocalReg                          0x00000014

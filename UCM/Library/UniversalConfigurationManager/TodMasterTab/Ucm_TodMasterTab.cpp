@@ -74,6 +74,7 @@ int Ucm_TodMasterTab::tod_master_disable(void)
     ui->TodMasterLocalHoursValue->setText("NA");
     ui->TodMasterLocalMinutesValue->setText("NA");
     ui->TodMasterBaudRateValue->setCurrentText("NA");
+    ui->TodMasterInvertedCheckBox->setChecked(false);
     ui->TodMasterEnableCheckBox->setChecked(false);
     ui->TodMasterVersionValue->setText("NA");
 
@@ -102,6 +103,7 @@ void Ucm_TodMasterTab::tod_master_read_values(void)
             ui->TodMasterLocalHoursValue->setText("NA");
             ui->TodMasterLocalMinutesValue->setText("NA");
             ui->TodMasterBaudRateValue->setCurrentText("NA");
+            ui->TodMasterInvertedCheckBox->setChecked(false);
             ui->TodMasterEnableCheckBox->setChecked(false);
             ui->TodMasterVersionValue->setText("NA");
             return;
@@ -214,6 +216,23 @@ void Ucm_TodMasterTab::tod_master_read_values(void)
         ui->TodMasterBaudRateValue->setCurrentText("NA");
     }
 
+    // polarity
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodMaster_PolarityReg, temp_data))
+    {
+        if ((temp_data & 0x00000001) == 0)
+        {
+            ui->TodMasterInvertedCheckBox->setChecked(true);
+        }
+        else
+        {
+            ui->TodMasterInvertedCheckBox->setChecked(false);
+        }
+    }
+    else
+    {
+        ui->TodMasterInvertedCheckBox->setChecked(false);
+    }
+
     // version
     if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodMaster_VersionReg, temp_data))
     {
@@ -249,6 +268,7 @@ void Ucm_TodMasterTab::tod_master_write_values(void)
             ui->TodMasterLocalHoursValue->setText("NA");
             ui->TodMasterLocalMinutesValue->setText("NA");
             ui->TodMasterBaudRateValue->setCurrentText("NA");
+            ui->TodMasterInvertedCheckBox->setChecked(false);
             ui->TodMasterEnableCheckBox->setChecked(false);
             ui->TodMasterVersionValue->setText("NA");
             return;
@@ -429,6 +449,21 @@ void Ucm_TodMasterTab::tod_master_write_values(void)
     else
     {
         ui->TodMasterBaudRateValue->setCurrentText("NA");
+    }
+
+    // polarity
+    temp_data = 0x00000000; // nothing
+    if(false == ui->TodMasterInvertedCheckBox->isChecked())
+    {
+        temp_data |= 0x00000001; // no inversion
+    }
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_TodMaster_PolarityReg, temp_data))
+    {
+        // nothing
+    }
+    else
+    {
+        ui->TodMasterInvertedCheckBox->setChecked(false);
     }
 
     temp_data = 0x00000000; // nothing

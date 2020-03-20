@@ -158,281 +158,317 @@ void Ucm_ConfigTab::config_port_button_clicked(int open)
 
     if (open == 1)
     {
-            // Advanced Tab
-            ucm->advanced_tab->advanced_enable();
+        // Advanced Tab
+        ucm->advanced_tab->advanced_enable();
 
-            for (int i = 0; i < 256; i++)
+        for (int i = 0; i < 256; i++)
+        {
+            if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_TypeInstanceReg)), temp_data))
             {
-                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_TypeInstanceReg)), temp_data))
+                if ((i == 0) &&
+                    ((((temp_data >> 16) & 0x0000FFFF) != Ucm_CoreConfig_ConfSlaveCoreType) ||
+                     (((temp_data >> 0) & 0x0000FFFF) != 1)))
                 {
-                    if ((i == 0) &&
-                        ((((temp_data >> 16) & 0x0000FFFF) != Ucm_CoreConfig_ConfSlaveCoreType) ||
-                         (((temp_data >> 0) & 0x0000FFFF) != 1)))
-                    {
-                        cout << "ERROR: " << "not a conf block at the address expected" << endl;
-                        break;
-                    }
-                    else if (temp_data == 0)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        temp_config.core_type = ((temp_data >> 16) & 0x0000FFFF);
-                        temp_config.core_instance_nr = ((temp_data >> 0) & 0x0000FFFF);
-                    }
+                    cout << "ERROR: " << "not a conf block at the address expected" << endl;
+                    break;
                 }
-                else
+                else if (temp_data == 0)
                 {
                     break;
                 }
-
-                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_BaseAddrLReg)), temp_data))
-                {
-                    temp_config.address_range_low = temp_data;
-                }
                 else
                 {
-                    break;
+                    temp_config.core_type = ((temp_data >> 16) & 0x0000FFFF);
+                    temp_config.core_instance_nr = ((temp_data >> 0) & 0x0000FFFF);
                 }
-
-                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_BaseAddrHReg)), temp_data))
-                {
-                    temp_config.address_range_high= temp_data;
-                }
-                else
-                {
-                    break;
-                }
-
-                if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_IrqMaskReg)), temp_data))
-                {
-                    temp_config.interrupt_mask = temp_data;
-                }
-                else
-                {
-                    break;
-                }
-
-                ucm->core_config.append(temp_config);
-            }
-
-            if (false == ucm->core_config.isEmpty())
-            {
-                ui->ConfigAddressMapValue->clear();
             }
             else
             {
-                temp_string.append("NA");
+                break;
             }
 
-            for (int i = 0; i < ucm->core_config.size(); i++)
+            if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_BaseAddrLReg)), temp_data))
             {
-                temp_string.append("0x");
-                temp_string.append(QString("%1").arg(ucm->core_config.at(i).address_range_low, 8, 16, QLatin1Char('0')).toUpper());
-                temp_string.append(" - ");
-                temp_string.append("0x");
-                temp_string.append(QString("%1").arg(ucm->core_config.at(i).address_range_high, 8, 16, QLatin1Char('0')).toUpper());
-                temp_string.append(", ");
-                temp_string.append("InstNr: ");
-                temp_string.append(QString("%1").arg(ucm->core_config.at(i).core_instance_nr, 4, 10, QLatin1Char('0')).toUpper());
-                temp_string.append(", ");
-                temp_string.append("Type: ");
-
-                switch (ucm->core_config.at(i).core_type)
-                {
-                case Ucm_CoreConfig_ConfSlaveCoreType:
-                    temp_string.append("CONF Slave");
-                    break;
-                case Ucm_CoreConfig_ClkClockCoreType:
-                    ucm->clk_clock_tab->clk_clock_enable();
-                    ucm->clk_clock_tab->clk_clock_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->clk_clock_tab, "CLK Clock");
-                    temp_string.append("CLK Clock");
-                    break;
-                case Ucm_CoreConfig_ClkSignalGeneratorCoreType:
-                    ucm->clk_sg_tab->clk_sg_enable();
-                    ucm->clk_sg_tab->clk_sg_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->clk_sg_tab, "CLK Sg");
-                    temp_string.append("CLK SignalGenearator");
-                    break;
-                case Ucm_CoreConfig_ClkSignalTimestamperCoreType:
-                    ucm->clk_ts_tab->clk_ts_enable();
-                    ucm->clk_ts_tab->clk_ts_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->clk_ts_tab, "CLK Ts");
-                    temp_string.append("CLK SignalTimestamper");
-                    break;
-                case Ucm_CoreConfig_IrigSlaveCoreType:
-                    ucm->irig_slave_tab->irig_slave_enable();
-                    ucm->irig_slave_tab->irig_slave_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->irig_slave_tab, "IRIG Slave");
-                    temp_string.append("IRIG Slave");
-                    break;
-                case Ucm_CoreConfig_IrigMasterCoreType:
-                    ucm->irig_master_tab->irig_master_enable();
-                    ucm->irig_master_tab->irig_master_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->irig_master_tab, "IRIG Master");
-                    temp_string.append("IRIG Master");
-                    break;
-                case Ucm_CoreConfig_PpsSlaveCoreType:
-                    ucm->pps_slave_tab->pps_slave_enable();
-                    ucm->pps_slave_tab->pps_slave_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->pps_slave_tab, "PPS Slave");
-                    temp_string.append("PPS Slave");
-                    break;
-                case Ucm_CoreConfig_PpsMasterCoreType:
-                    ucm->pps_master_tab->pps_master_enable();
-                    ucm->pps_master_tab->pps_master_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->pps_master_tab, "PPS Master");
-                    temp_string.append("PPS Master");
-                    break;
-                case Ucm_CoreConfig_PtpOrdinaryClockCoreType:
-                    ucm->ptp_oc_tab->ptp_oc_enable();
-                    ucm->ptp_oc_tab->ptp_oc_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->ptp_oc_tab, "PTP Oc");
-                    temp_string.append("PTP OrdinaryClock");
-                    break;
-                case Ucm_CoreConfig_PtpTransparentClockCoreType:
-                    ucm->ptp_tc_tab->ptp_tc_enable();
-                    ucm->ptp_tc_tab->ptp_tc_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->ptp_tc_tab, "PTP Tc");
-                    temp_string.append("PTP TransparentClock");
-                    break;
-                case Ucm_CoreConfig_PtpHybridClockCoreType:
-                    ucm->ptp_hc_tab->ptp_hc_enable();
-                    ucm->ptp_hc_tab->ptp_hc_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->ptp_hc_tab, "PTP Hc");
-                    temp_string.append("PTP HybridClock");
-                    break;
-                case Ucm_CoreConfig_RedHsrPrpCoreType:
-                    ucm->red_hsrprp_tab->red_hsrprp_enable();
-                    ucm->red_hsrprp_tab->red_hsrprp_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->red_hsrprp_tab, "RED HsrPrp");
-                    temp_string.append("RED HsrPrp");
-                    break;
-                case Ucm_CoreConfig_RedTsnCoreType:
-                    ucm->red_tsn_tab->red_tsn_enable();
-                    ucm->red_tsn_tab->red_tsn_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->red_tsn_tab, "RED Tsn");
-                    temp_string.append("RED Tsn");
-                    break;
-                case Ucm_CoreConfig_RtcSlaveCoreType:
-                    // TODO
-                    temp_string.append("RTC Slave");
-                    break;
-                case Ucm_CoreConfig_RtcMasterCoreType:
-                    ucm->rtc_master_tab->rtc_master_enable();
-                    ucm->rtc_master_tab->rtc_master_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->rtc_master_tab, "RTC Master");
-                    temp_string.append("RTC Master");
-                    break;
-                case Ucm_CoreConfig_DcfSlaveCoreType:
-                    ucm->dcf_slave_tab->dcf_slave_enable();
-                    ucm->dcf_slave_tab->dcf_slave_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->dcf_slave_tab, "DCF Slave");
-                    temp_string.append("DCF Slave");
-                    break;
-                case Ucm_CoreConfig_DcfMasterCoreType:
-                    ucm->dcf_master_tab->dcf_master_enable();
-                    ucm->dcf_master_tab->dcf_master_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->dcf_master_tab, "DCF Master");
-                    temp_string.append("DCF Master");
-                    break;
-                case Ucm_CoreConfig_TodSlaveCoreType:
-                    ucm->tod_slave_tab->tod_slave_enable();
-                    ucm->tod_slave_tab->tod_slave_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->tod_slave_tab, "TOD Slave");
-                    temp_string.append("TOD Slave");
-                    break;
-                case Ucm_CoreConfig_TodMasterCoreType:
-                    ucm->tod_master_tab->tod_master_enable();
-                    ucm->tod_master_tab->tod_master_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->tod_master_tab, "TOD Master");
-                    temp_string.append("TOD Master");
-                    break;
-                case Ucm_CoreConfig_TapSlaveCoreType:
-                    ucm->tap_slave_tab->tap_slave_enable();
-                    ucm->tap_slave_tab->tap_slave_add_instance(ucm->core_config.at(i).core_instance_nr);
-                    ucm->Ucm_MainTab->addTab(ucm->tap_slave_tab, "TAP Slave");
-                    temp_string.append("TAP Slave");
-                    break;
-                default:
-                    temp_string.append("UNKNOWN");
-                    break;
-                }
-                temp_string.append("\n");
+                temp_config.address_range_low = temp_data;
             }
-            ui->ConfigAddressMapValue->setText(temp_string);
+            else
+            {
+                break;
+            }
+
+            if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_BaseAddrHReg)), temp_data))
+            {
+                temp_config.address_range_high= temp_data;
+            }
+            else
+            {
+                break;
+            }
+
+            if (0 == ucm->com_lib.read_reg((0x00000000 + ((i * Ucm_Config_BlockSize) + Ucm_Config_IrqMaskReg)), temp_data))
+            {
+                temp_config.interrupt_mask = temp_data;
+            }
+            else
+            {
+                break;
+            }
+
+            ucm->core_config.append(temp_config);
+        }
+
+        if (false == ucm->core_config.isEmpty())
+        {
+            ui->ConfigAddressMapValue->clear();
+        }
+        else
+        {
+            temp_string.append("NA");
+        }
+
+        for (int i = 0; i < ucm->core_config.size(); i++)
+        {
+            temp_string.append("0x");
+            temp_string.append(QString("%1").arg(ucm->core_config.at(i).address_range_low, 8, 16, QLatin1Char('0')).toUpper());
+            temp_string.append(" - ");
+            temp_string.append("0x");
+            temp_string.append(QString("%1").arg(ucm->core_config.at(i).address_range_high, 8, 16, QLatin1Char('0')).toUpper());
+            temp_string.append(", ");
+            temp_string.append("InstNr: ");
+            temp_string.append(QString("%1").arg(ucm->core_config.at(i).core_instance_nr, 4, 10, QLatin1Char('0')).toUpper());
+            temp_string.append(", ");
+            temp_string.append("Type: ");
+
+            switch (ucm->core_config.at(i).core_type)
+            {
+            case Ucm_CoreConfig_ConfSlaveCoreType:
+                temp_string.append("CONF Slave");
+                break;
+            case Ucm_CoreConfig_ClkClockCoreType:
+                ucm->clk_clock_tab->clk_clock_enable();
+                ucm->clk_clock_tab->clk_clock_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->clk_clock_tab, "CLK Clock");
+                temp_string.append("CLK Clock");
+                break;
+            case Ucm_CoreConfig_ClkSignalGeneratorCoreType:
+                ucm->clk_sg_tab->clk_sg_enable();
+                ucm->clk_sg_tab->clk_sg_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->clk_sg_tab, "CLK Sg");
+                temp_string.append("CLK SignalGenearator");
+                break;
+            case Ucm_CoreConfig_ClkSignalTimestamperCoreType:
+                ucm->clk_ts_tab->clk_ts_enable();
+                ucm->clk_ts_tab->clk_ts_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->clk_ts_tab, "CLK Ts");
+                temp_string.append("CLK SignalTimestamper");
+                break;
+            case Ucm_CoreConfig_IrigSlaveCoreType:
+                ucm->irig_slave_tab->irig_slave_enable();
+                ucm->irig_slave_tab->irig_slave_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->irig_slave_tab, "IRIG Slave");
+                temp_string.append("IRIG Slave");
+                break;
+            case Ucm_CoreConfig_IrigMasterCoreType:
+                ucm->irig_master_tab->irig_master_enable();
+                ucm->irig_master_tab->irig_master_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->irig_master_tab, "IRIG Master");
+                temp_string.append("IRIG Master");
+                break;
+            case Ucm_CoreConfig_PpsSlaveCoreType:
+                ucm->pps_slave_tab->pps_slave_enable();
+                ucm->pps_slave_tab->pps_slave_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->pps_slave_tab, "PPS Slave");
+                temp_string.append("PPS Slave");
+                break;
+            case Ucm_CoreConfig_PpsMasterCoreType:
+                ucm->pps_master_tab->pps_master_enable();
+                ucm->pps_master_tab->pps_master_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->pps_master_tab, "PPS Master");
+                temp_string.append("PPS Master");
+                break;
+            case Ucm_CoreConfig_PtpOrdinaryClockCoreType:
+                ucm->ptp_oc_tab->ptp_oc_enable();
+                ucm->ptp_oc_tab->ptp_oc_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->ptp_oc_tab, "PTP Oc");
+                temp_string.append("PTP OrdinaryClock");
+                break;
+            case Ucm_CoreConfig_PtpTransparentClockCoreType:
+                ucm->ptp_tc_tab->ptp_tc_enable();
+                ucm->ptp_tc_tab->ptp_tc_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->ptp_tc_tab, "PTP Tc");
+                temp_string.append("PTP TransparentClock");
+                break;
+            case Ucm_CoreConfig_PtpHybridClockCoreType:
+                ucm->ptp_hc_tab->ptp_hc_enable();
+                ucm->ptp_hc_tab->ptp_hc_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->ptp_hc_tab, "PTP Hc");
+                temp_string.append("PTP HybridClock");
+                break;
+            case Ucm_CoreConfig_RedHsrPrpCoreType:
+                ucm->red_hsrprp_tab->red_hsrprp_enable();
+                ucm->red_hsrprp_tab->red_hsrprp_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->red_hsrprp_tab, "RED HsrPrp");
+                temp_string.append("RED HsrPrp");
+                break;
+            case Ucm_CoreConfig_RedTsnCoreType:
+                ucm->red_tsn_tab->red_tsn_enable();
+                ucm->red_tsn_tab->red_tsn_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->red_tsn_tab, "RED Tsn");
+                temp_string.append("RED Tsn");
+                break;
+            case Ucm_CoreConfig_RtcSlaveCoreType:
+                // TODO
+                temp_string.append("RTC Slave");
+                break;
+            case Ucm_CoreConfig_RtcMasterCoreType:
+                ucm->rtc_master_tab->rtc_master_enable();
+                ucm->rtc_master_tab->rtc_master_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->rtc_master_tab, "RTC Master");
+                temp_string.append("RTC Master");
+                break;
+            case Ucm_CoreConfig_DcfSlaveCoreType:
+                ucm->dcf_slave_tab->dcf_slave_enable();
+                ucm->dcf_slave_tab->dcf_slave_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->dcf_slave_tab, "DCF Slave");
+                temp_string.append("DCF Slave");
+                break;
+            case Ucm_CoreConfig_DcfMasterCoreType:
+                ucm->dcf_master_tab->dcf_master_enable();
+                ucm->dcf_master_tab->dcf_master_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->dcf_master_tab, "DCF Master");
+                temp_string.append("DCF Master");
+                break;
+            case Ucm_CoreConfig_TodSlaveCoreType:
+                ucm->tod_slave_tab->tod_slave_enable();
+                ucm->tod_slave_tab->tod_slave_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->tod_slave_tab, "TOD Slave");
+                temp_string.append("TOD Slave");
+                break;
+            case Ucm_CoreConfig_TodMasterCoreType:
+                ucm->tod_master_tab->tod_master_enable();
+                ucm->tod_master_tab->tod_master_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->tod_master_tab, "TOD Master");
+                temp_string.append("TOD Master");
+                break;
+            case Ucm_CoreConfig_TapSlaveCoreType:
+                ucm->tap_slave_tab->tap_slave_enable();
+                ucm->tap_slave_tab->tap_slave_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->tap_slave_tab, "TAP Slave");
+                temp_string.append("TAP Slave");
+                break;
+            case Ucm_CoreConfig_TsnIicCoreType:
+                ucm->tsn_iic_tab->tsn_iic_enable();
+                ucm->tsn_iic_tab->tsn_iic_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->tsn_iic_tab, "TSN Iic");
+                temp_string.append("TSN Iic");
+                break;
+            case Ucm_CoreConfig_PhyConfigurationCoreType:
+                ucm->phy_conf_tab->phy_conf_enable();
+                ucm->phy_conf_tab->phy_conf_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->phy_conf_tab, "PHY Conf");
+                temp_string.append("PHY Configuration");
+                break;
+            case Ucm_CoreConfig_I2cConfigurationCoreType:
+                ucm->i2c_conf_tab->i2c_conf_enable();
+                ucm->i2c_conf_tab->i2c_conf_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->i2c_conf_tab, "I2C Conf");
+                temp_string.append("I2C Configuration");
+                break;
+            case Ucm_CoreConfig_IoConfigurationCoreType:
+                ucm->io_conf_tab->io_conf_enable();
+                ucm->io_conf_tab->io_conf_add_instance(ucm->core_config.at(i).core_instance_nr);
+                ucm->Ucm_MainTab->addTab(ucm->io_conf_tab, "IO Conf");
+                temp_string.append("IO Configuration");
+                break;
+            default:
+                temp_string.append("UNKNOWN");
+                break;
+            }
+            temp_string.append("\n");
+        }
+        ui->ConfigAddressMapValue->setText(temp_string);
 
     }
     else
     {
-            // Config Tab
-            ui->ConfigAddressMapValue->setText("NA");
-            ucm->core_config.clear();
+        // Config Tab
+        ui->ConfigAddressMapValue->setText("NA");
+        ucm->core_config.clear();
 
-            // Advanced Tab
-            ucm->advanced_tab->advanced_disable();
+        // Advanced Tab
+        ucm->advanced_tab->advanced_disable();
 
-            //Remove all other tabs
-            while (ucm->Ucm_MainTab->count() > 2)
-            {
-                ucm->Ucm_MainTab->removeTab(2);
-            }
+        //Remove all other tabs
+        while (ucm->Ucm_MainTab->count() > 2)
+        {
+            ucm->Ucm_MainTab->removeTab(2);
+        }
 
-            // CLK Clock Tab
-            ucm->clk_clock_tab->clk_clock_disable();
+        // CLK Clock Tab
+        ucm->clk_clock_tab->clk_clock_disable();
 
-            // CLK Ts Tab
-            ucm->clk_ts_tab->clk_ts_disable();
+        // CLK Ts Tab
+        ucm->clk_ts_tab->clk_ts_disable();
 
-            // CLK Sg Tab
-            ucm->clk_sg_tab->clk_sg_disable();
+        // CLK Sg Tab
+        ucm->clk_sg_tab->clk_sg_disable();
 
-            // RTC Master Tab
-            ucm->rtc_master_tab->rtc_master_disable();
+        // RTC Master Tab
+        ucm->rtc_master_tab->rtc_master_disable();
 
-            // DCF Slave Tab
-            ucm->dcf_slave_tab->dcf_slave_disable();
+        // DCF Slave Tab
+        ucm->dcf_slave_tab->dcf_slave_disable();
 
-            // DCF Master Tab
-            ucm->dcf_master_tab->dcf_master_disable();
+        // DCF Master Tab
+        ucm->dcf_master_tab->dcf_master_disable();
 
-            // PPS Slave Tab
-            ucm->pps_slave_tab->pps_slave_disable();
+        // PPS Slave Tab
+        ucm->pps_slave_tab->pps_slave_disable();
 
-            // PPS Master Tab
-            ucm->pps_master_tab->pps_master_disable();
+        // PPS Master Tab
+        ucm->pps_master_tab->pps_master_disable();
 
-            // TOD Slave Tab
-            ucm->tod_slave_tab->tod_slave_disable();
+        // TOD Slave Tab
+        ucm->tod_slave_tab->tod_slave_disable();
 
-            // TOD Master Tab
-            ucm->tod_master_tab->tod_master_disable();
+        // TOD Master Tab
+        ucm->tod_master_tab->tod_master_disable();
 
-            // RED HsrPrp Tab
-            ucm->red_hsrprp_tab->red_hsrprp_disable();
+        // RED HsrPrp Tab
+        ucm->red_hsrprp_tab->red_hsrprp_disable();
 
-            // RED Tsn Tab
-            ucm->red_tsn_tab->red_tsn_disable();
+        // RED Tsn Tab
+        ucm->red_tsn_tab->red_tsn_disable();
 
-            // PTP Oc Tab
-            ucm->ptp_oc_tab->ptp_oc_disable();
+        // PTP Oc Tab
+        ucm->ptp_oc_tab->ptp_oc_disable();
 
-            // PTP Tc Tab
-            ucm->ptp_tc_tab->ptp_tc_disable();
+        // PTP Tc Tab
+        ucm->ptp_tc_tab->ptp_tc_disable();
 
-            // PTP Hc Tab
-            ucm->ptp_hc_tab->ptp_hc_disable();
+        // PTP Hc Tab
+        ucm->ptp_hc_tab->ptp_hc_disable();
 
-            // IRIG Slave Tab
-            ucm->irig_slave_tab->irig_slave_disable();
+        // IRIG Slave Tab
+        ucm->irig_slave_tab->irig_slave_disable();
 
-            // IRIG Master Tab
-            ucm->irig_master_tab->irig_master_disable();
+        // IRIG Master Tab
+        ucm->irig_master_tab->irig_master_disable();
 
-            // TAP Slave Tab
-            ucm->tap_slave_tab->tap_slave_disable();
+        // TAP Slave Tab
+        ucm->tap_slave_tab->tap_slave_disable();
+        
+        // TSN Iic Tab
+        ucm->tsn_iic_tab->tsn_iic_disable();
+        
+        // PHY Conf Tab
+        ucm->phy_conf_tab->phy_conf_disable();
+
+        // I2C Conf Tab
+        ucm->i2c_conf_tab->i2c_conf_disable();
+
+        // IO Conf Tab
+        ucm->io_conf_tab->io_conf_disable();
     }
 }
 

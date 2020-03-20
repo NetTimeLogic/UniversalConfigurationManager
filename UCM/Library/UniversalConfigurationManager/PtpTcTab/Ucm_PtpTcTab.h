@@ -50,6 +50,7 @@ class Ucm_UniversalConfigurationManager;
 #define Ucm_PtpTc_PortDs2Reg                            0x00000208
 #define Ucm_PtpTc_PortDs3Reg                            0x00000210
 #define Ucm_PtpTc_PortDs4Reg                            0x0000021C
+#define Ucm_PtpTc_PortDs5Reg                            0x00000220
 
 namespace Ui {
 class Ucm_PtpTcTab;

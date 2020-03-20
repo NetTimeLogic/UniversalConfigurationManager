@@ -71,6 +71,7 @@ int Ucm_TodSlaveTab::tod_slave_disable(void)
 
     ui->TodSlaveCorrectionValue->setText("NA");
     ui->TodSlaveBaudRateValue->setCurrentText("NA");
+    ui->TodSlaveInvertedCheckBox->setChecked(false);
     ui->TodSlaveEnableCheckBox->setChecked(false);
     ui->TodSlaveVersionValue->setText("NA");
 
@@ -96,6 +97,7 @@ void Ucm_TodSlaveTab::tod_slave_read_values(void)
         {
             ui->TodSlaveCorrectionValue->setText("NA");
             ui->TodSlaveBaudRateValue->setCurrentText("NA");
+            ui->TodSlaveInvertedCheckBox->setChecked(false);
             ui->TodSlaveEnableCheckBox->setChecked(false);
             ui->TodSlaveVersionValue->setText("NA");
             return;
@@ -185,6 +187,23 @@ void Ucm_TodSlaveTab::tod_slave_read_values(void)
         ui->TodSlaveBaudRateValue->setCurrentText("NA");
     }
 
+    // polarity
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodSlave_PolarityReg, temp_data))
+    {
+        if ((temp_data & 0x00000001) == 0)
+        {
+            ui->TodSlaveInvertedCheckBox->setChecked(true);
+        }
+        else
+        {
+            ui->TodSlaveInvertedCheckBox->setChecked(false);
+        }
+    }
+    else
+    {
+        ui->TodSlaveInvertedCheckBox->setChecked(false);
+    }
+
     // version
     if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_TodSlave_VersionReg, temp_data))
     {
@@ -217,6 +236,7 @@ void Ucm_TodSlaveTab::tod_slave_write_values(void)
         {
             ui->TodSlaveCorrectionValue->setText("NA");
             ui->TodSlaveBaudRateValue->setCurrentText("NA");
+            ui->TodSlaveInvertedCheckBox->setChecked(false);
             ui->TodSlaveEnableCheckBox->setChecked(false);
             ui->TodSlaveVersionValue->setText("NA");
             return;
@@ -354,6 +374,21 @@ void Ucm_TodSlaveTab::tod_slave_write_values(void)
     else
     {
         ui->TodSlaveBaudRateValue->setCurrentText("NA");
+    }
+
+    // polarity
+    temp_data = 0x00000000; // nothing
+    if(false == ui->TodSlaveInvertedCheckBox->isChecked())
+    {
+        temp_data |= 0x00000001; // no inversion
+    }
+    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_TodSlave_PolarityReg, temp_data))
+    {
+        // nothing
+    }
+    else
+    {
+        ui->TodSlaveInvertedCheckBox->setChecked(false);
     }
 
     temp_data = 0x00000000; // nothing

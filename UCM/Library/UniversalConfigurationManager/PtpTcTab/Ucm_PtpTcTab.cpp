@@ -153,6 +153,7 @@ int Ucm_PtpTcTab::ptp_tc_disable(void)
     ui->PtpTcPortDsPortNrComboBox->clear();
     ui->PtpTcPortDsPeerDelayValue->setText("NA");
     ui->PtpTcPortDsAsymmetryValue->setText("NA");
+    ui->PtpTcPortDsMaxPeerDelayValue->setText("NA");
     ui->PtpTcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
 
     ui->PtpTcVlanEnableCheckBox->setChecked(false);
@@ -203,6 +204,7 @@ void Ucm_PtpTcTab::ptp_tc_read_values(void)
             ui->PtpTcPortDsPortNrComboBox->clear();
             ui->PtpTcPortDsPeerDelayValue->setText("NA");
             ui->PtpTcPortDsAsymmetryValue->setText("NA");
+            ui->PtpTcPortDsMaxPeerDelayValue->setText("NA");
             ui->PtpTcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
 
             ui->PtpTcVlanEnableCheckBox->setChecked(false);
@@ -510,6 +512,16 @@ void Ucm_PtpTcTab::ptp_tc_read_values(void)
                             ui->PtpTcPortDsAsymmetryValue->setText("NA");
                         }
 
+                        // max pdelay
+                        if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_PtpTc_PortDs5Reg, temp_data))
+                        {
+                            ui->PtpTcPortDsMaxPeerDelayValue->setText(QString::number(temp_data));
+                        }
+                        else
+                        {
+                            ui->PtpTcPortDsMaxPeerDelayValue->setText("NA");
+                        }
+
                         break;
                     }
                     else if (i == 9)
@@ -517,6 +529,7 @@ void Ucm_PtpTcTab::ptp_tc_read_values(void)
                         cout << "ERROR: " << "read did not complete" << endl;
                         ui->PtpTcPortDsPeerDelayValue->setText("NA");
                         ui->PtpTcPortDsAsymmetryValue->setText("NA");
+                        ui->PtpTcPortDsMaxPeerDelayValue->setText("NA");
                         ui->PtpTcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
                     }
 
@@ -525,6 +538,7 @@ void Ucm_PtpTcTab::ptp_tc_read_values(void)
                 {
                     ui->PtpTcPortDsPeerDelayValue->setText("NA");
                     ui->PtpTcPortDsAsymmetryValue->setText("NA");
+                    ui->PtpTcPortDsMaxPeerDelayValue->setText("NA");
                     ui->PtpTcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
                 }
             }
@@ -533,6 +547,7 @@ void Ucm_PtpTcTab::ptp_tc_read_values(void)
         {
             ui->PtpTcPortDsPeerDelayValue->setText("NA");
             ui->PtpTcPortDsAsymmetryValue->setText("NA");
+            ui->PtpTcPortDsMaxPeerDelayValue->setText("NA");
             ui->PtpTcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
         }
 
@@ -541,6 +556,7 @@ void Ucm_PtpTcTab::ptp_tc_read_values(void)
     {
         ui->PtpTcPortDsPeerDelayValue->setText("NA");
         ui->PtpTcPortDsAsymmetryValue->setText("NA");
+        ui->PtpTcPortDsMaxPeerDelayValue->setText("NA");
         ui->PtpTcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
     }
 
@@ -618,8 +634,8 @@ void Ucm_PtpTcTab::ptp_tc_read_values(void)
 
                                         if (k == (nr_of_ports-1))
                                         {
-                                            temp_max = ((temp_max + 100)/100)*100;
-                                            temp_min = ((temp_min - 100)/100)*100;
+                                            temp_max = ((temp_max/100)+1)*100;
+                                            temp_min = ((temp_min/100)-1)*100;
                                             if (temp_min < 0)
                                             {
                                                 temp_min = 0;
@@ -689,6 +705,7 @@ void Ucm_PtpTcTab::ptp_tc_write_values(void)
             ui->PtpTcPortDsPortNrComboBox->clear();
             ui->PtpTcPortDsPeerDelayValue->setText("NA");
             ui->PtpTcPortDsAsymmetryValue->setText("NA");
+            ui->PtpTcPortDsMaxPeerDelayValue->setText("NA");
             ui->PtpTcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
 
             ui->PtpTcVlanEnableCheckBox->setChecked(false);
@@ -1111,6 +1128,34 @@ void Ucm_PtpTcTab::ptp_tc_write_values(void)
                 else
                 {
                     ui->PtpTcPortDsAsymmetryValue->setText("NA");
+                }
+            }
+
+            // only for the selected port
+            if (i == ui->PtpTcPortDsPortNrComboBox->currentText().toUInt(nullptr, 10))
+            {
+                temp_string = ui->PtpTcPortDsMaxPeerDelayValue->text();
+                temp_data = temp_string.toUInt(nullptr, 10);
+                if (temp_string == "NA")
+                {
+                    //nothing
+                }
+                else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_PtpTc_PortDs5Reg, temp_data))
+                {
+                    temp_data = ((i & 0x000000FF) << 16);
+                    temp_data |= 0x00000008; // set the max pdelay
+                    if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_PtpTc_PortDsControlReg, temp_data))
+                    {
+                        // ok
+                    }
+                    else
+                    {
+                        ui->PtpTcPortDsMaxPeerDelayValue->setText("NA");
+                    }
+                }
+                else
+                {
+                    ui->PtpTcPortDsMaxPeerDelayValue->setText("NA");
                 }
             }
         }

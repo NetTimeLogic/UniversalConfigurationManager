@@ -149,7 +149,6 @@ void Ucm_PpsSlaveTab::pps_slave_read_values(void)
         ui->PpsSlavePulseWidthValue->setText("NA");
     }
 
-
     // cable delay
     if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_PpsSlave_CableDelayReg, temp_data))
     {

@@ -46,6 +46,10 @@ using namespace std;
 #define Ucm_CoreConfig_DcfSlaveCoreType                 18
 #define Ucm_CoreConfig_DcfMasterCoreType                19
 #define Ucm_CoreConfig_RedTsnCoreType                   20
+#define Ucm_CoreConfig_TsnIicCoreType                   21
+#define Ucm_CoreConfig_PhyConfigurationCoreType         10000
+#define Ucm_CoreConfig_I2cConfigurationCoreType         10001
+#define Ucm_CoreConfig_IoConfigurationCoreType          10002
 
 class Ucm_CoreConfig
 {

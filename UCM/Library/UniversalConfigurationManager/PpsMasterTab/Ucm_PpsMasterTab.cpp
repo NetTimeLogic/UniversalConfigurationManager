@@ -70,6 +70,7 @@ int Ucm_PpsMasterTab::pps_master_disable(void)
     ui->PpsMasterInstanceComboBox->clear();
 
     ui->PpsMasterPulseWidthValue->setText("NA");
+    ui->PpsMasterCableDelayValue->setText("NA");
     ui->PpsMasterInvertedCheckBox->setChecked(false);
     ui->PpsMasterEnableCheckBox->setChecked(false);
     ui->PpsMasterVersionValue->setText("NA");
@@ -95,6 +96,7 @@ void Ucm_PpsMasterTab::pps_master_read_values(void)
         else if (i == (ucm->core_config.size()-1))
         {
             ui->PpsMasterPulseWidthValue->setText("NA");
+            ui->PpsMasterCableDelayValue->setText("NA");
             ui->PpsMasterInvertedCheckBox->setChecked(false);
             ui->PpsMasterEnableCheckBox->setChecked(false);
             ui->PpsMasterVersionValue->setText("NA");
@@ -147,6 +149,16 @@ void Ucm_PpsMasterTab::pps_master_read_values(void)
         ui->PpsMasterPulseWidthValue->setText("NA");
     }
 
+    // cable delay
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_PpsMaster_CableDelayReg, temp_data))
+    {
+        ui->PpsMasterCableDelayValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->PpsMasterCableDelayValue->setText("NA");
+    }
+
     // version
     if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_PpsMaster_VersionReg, temp_data))
     {
@@ -177,6 +189,7 @@ void Ucm_PpsMasterTab::pps_master_write_values(void)
         else if (i == (ucm->core_config.size()-1))
         {
             ui->PpsMasterPulseWidthValue->setText("NA");
+            ui->PpsMasterCableDelayValue->setText("NA");
             ui->PpsMasterInvertedCheckBox->setChecked(false);
             ui->PpsMasterEnableCheckBox->setChecked(false);
             ui->PpsMasterVersionValue->setText("NA");
@@ -199,6 +212,22 @@ void Ucm_PpsMasterTab::pps_master_write_values(void)
     else
     {
         ui->PpsMasterPulseWidthValue->setText("NA");
+    }
+
+    // cable delay
+    temp_string = ui->PpsMasterCableDelayValue->text();
+    temp_data = temp_string.toUInt(nullptr, 10);
+    if (temp_string == "NA")
+    {
+        //nothing
+    }
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_PpsMaster_CableDelayReg, temp_data))
+    {
+        ui->PpsMasterCableDelayValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->PpsMasterCableDelayValue->setText("NA");
     }
 
     // polarity

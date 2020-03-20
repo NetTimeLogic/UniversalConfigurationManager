@@ -61,11 +61,23 @@
     </property>
     <addaction name="Ucm_Exit"/>
    </widget>
+   <widget class="QMenu" name="Ucm_HelpMenu">
+    <property name="title">
+     <string>?</string>
+    </property>
+    <addaction name="Ucm_About"/>
+   </widget>
    <addaction name="Ucm_FileMenu"/>
+   <addaction name="Ucm_HelpMenu"/>
   </widget>
   <action name="Ucm_Exit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="Ucm_About">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

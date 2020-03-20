@@ -47,8 +47,13 @@ INCLUDEPATH += CommunicationLib \
     PtpOcTab \
     PtpTcTab \
     TapSlaveTab \
+    TsnIicTab \
+    PhyConfTab \
+    I2cConfTab \
+    IoConfTab \
     ConfigTab \
-    DebugStream
+    DebugStream \
+    HelpMenu
 
 SOURCES += main.cpp\
     Ucm_UniversalConfigurationManager.cpp \
@@ -74,7 +79,12 @@ SOURCES += main.cpp\
     PtpOcTab/Ucm_PtpOcTab.cpp \
     PtpTcTab/Ucm_PtpTcTab.cpp \
     TapSlaveTab/Ucm_TapSlaveTab.cpp \
-    ConfigTab/Ucm_ConfigTab.cpp
+    TsnIicTab/Ucm_TsnIicTab.cpp \
+    PhyConfTab/Ucm_PhyConfTab.cpp \
+    I2cConfTab/Ucm_I2cConfTab.cpp \
+    IoConfTab/Ucm_IoConfTab.cpp \
+    ConfigTab/Ucm_ConfigTab.cpp \
+    HelpMenu/Ucm_HelpMenuAbout.cpp
 
 HEADERS  += Ucm_UniversalConfigurationManager.h \
     CommunicationLib/Ucm_CommunicationLib.h \
@@ -99,8 +109,13 @@ HEADERS  += Ucm_UniversalConfigurationManager.h \
     PtpOcTab/Ucm_PtpOcTab.h \
     PtpTcTab/Ucm_PtpTcTab.h \
     TapSlaveTab/Ucm_TapSlaveTab.h \
+    TsnIicTab/Ucm_TsnIicTab.h \
+    PhyConfTab/Ucm_PhyConfTab.h \
+    I2cConfTab/Ucm_I2cConfTab.h \
+    IoConfTab/Ucm_IoConfTab.h \
     ConfigTab/Ucm_ConfigTab.h \
-    DebugStream/Ucm_DebugStream.h
+    DebugStream/Ucm_DebugStream.h \
+    HelpMenu/Ucm_HelpMenuAbout.h
 
 FORMS    += Ucm_UniversalConfigurationManager.ui \
     ClkClockTab/Ucm_ClkClockTab.ui \
@@ -123,9 +138,15 @@ FORMS    += Ucm_UniversalConfigurationManager.ui \
     PtpOcTab/Ucm_PtpOcTab.ui \
     PtpTcTab/Ucm_PtpTcTab.ui \
     TapSlaveTab/Ucm_TapSlaveTab.ui \
-    ConfigTab/Ucm_ConfigTab.ui
+    TsnIicTab/Ucm_TsnIicTab.ui \
+    PhyConfTab/Ucm_PhyConfTab.ui \
+    I2cConfTab/Ucm_I2cConfTab.ui \
+    IoConfTab/Ucm_IoConfTab.ui \
+    ConfigTab/Ucm_ConfigTab.ui \
+    HelpMenu/Ucm_HelpMenuAbout.ui
 
 RC_FILE = Ucm_UniversalConfigurationManager.rc
+RESOURCES = Ucm_UniversalConfigurationManager.qrc
 
 DISTFILES += \
     Ucm_UniversalConfigurationManager.ico \

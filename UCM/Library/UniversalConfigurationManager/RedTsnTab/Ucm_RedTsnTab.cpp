@@ -85,7 +85,6 @@ void Ucm_RedTsnTab::red_tsn_add_instance(unsigned int instance)
                 red_tsn_maxsize_support.append((temp_data & 0x10000000) != 0);
                 red_tsn_preemption_support.append((temp_data & 0x20000000) != 0);
                 red_tsn_simple_scheduler_support.append((temp_data & 0x40000000) != 0);
-
             }
             else
             {
@@ -147,6 +146,7 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui->RedTsnPrpUntaggingCheckBox->setChecked(false);
     ui->RedTsnLanACheckBox->setChecked(false);
     ui->RedTsnLanBCheckBox->setChecked(false);
+    ui->RedTsnLanCCheckBox->setChecked(false);
     ui->RedTsnRxFrameAValue->setText("NA");
     ui->RedTsnRxErrorAValue->setText("NA");
     ui->RedTsnTxFrameAValue->setText("NA");
@@ -181,6 +181,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
 
     ui->RedTsnPreemptionEnableCheckBox->setChecked(false);
     ui->RedTsnPreemptionEnableCheckBox->setEnabled(false);
+    ui->RedTsnLanAPreemptionCheckBox->setChecked(false);
+    ui->RedTsnLanAPreemptionCheckBox->setEnabled(false);
+    ui->RedTsnLanBPreemptionCheckBox->setChecked(false);
+    ui->RedTsnLanBPreemptionCheckBox->setEnabled(false);
+    ui->RedTsnLanCPreemptionCheckBox->setChecked(false);
+    ui->RedTsnLanCPreemptionCheckBox->setEnabled(false);
 
     ui->RedTsnVlanPrio1Value->setCurrentIndex(1);
     ui->RedTsnVlanPrio1Value->setEnabled(false);
@@ -334,6 +340,13 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui->RedTsnMaxSizeEnable8CheckBox->setChecked(false);
     ui->RedTsnMaxSizeEnable8CheckBox->setEnabled(false);
 
+    ui->RedTsnPreemptionVerifyIntervalValue->setText("NA");
+    ui->RedTsnPreemptionVerifyIntervalValue->setEnabled(false);
+    ui->RedTsnPreemptionVerifyEnableCheckBox->setChecked(false);
+    ui->RedTsnPreemptionVerifyEnableCheckBox->setEnabled(false);
+    ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(false);
+    ui->RedTsnPreemptionHoldAndReleaseCheckBox->setEnabled(false);
+
     ui_scheduling->close();
     ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
     ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
@@ -346,6 +359,13 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
 
     ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
     ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+    ui_scheduling->ui->RedTsnPhasePortACheckBox->setChecked(true);
+    ui_scheduling->ui->RedTsnPhasePortACheckBox->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhasePortBCheckBox->setChecked(true);
+    ui_scheduling->ui->RedTsnPhasePortBCheckBox->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhasePortCCheckBox->setChecked(true);
+    ui_scheduling->ui->RedTsnPhasePortCCheckBox->setEnabled(false);
 
     ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(true);
@@ -382,6 +402,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
@@ -401,6 +427,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
@@ -420,6 +452,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
@@ -439,6 +477,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
@@ -458,6 +502,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
@@ -477,6 +527,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
@@ -496,6 +552,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
@@ -515,6 +577,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
@@ -534,6 +602,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
@@ -553,6 +627,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
@@ -572,6 +652,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
@@ -591,6 +677,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
@@ -610,6 +702,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
@@ -629,6 +727,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
@@ -648,6 +752,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
@@ -667,6 +777,12 @@ int Ucm_RedTsnTab::red_tsn_disable(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setEnabled(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
 
     red_tsn_priority_support.clear();
     red_tsn_nr_of_priorities.clear();
@@ -712,6 +828,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
 
     ui->RedTsnPreemptionEnableCheckBox->setEnabled(true);
     ui->RedTsnPreemptionEnableCheckBox->setChecked(false);
+    ui->RedTsnLanAPreemptionCheckBox->setEnabled(true);
+    ui->RedTsnLanAPreemptionCheckBox->setChecked(false);
+    ui->RedTsnLanBPreemptionCheckBox->setEnabled(true);
+    ui->RedTsnLanBPreemptionCheckBox->setChecked(false);
+    ui->RedTsnLanCPreemptionCheckBox->setEnabled(true);
+    ui->RedTsnLanCPreemptionCheckBox->setChecked(false);
 
     ui->RedTsnVlanPrio1Value->setEnabled(true);
     ui->RedTsnVlanPrio1Value->setCurrentIndex(1);
@@ -865,12 +987,21 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui->RedTsnMaxSizeEnable8CheckBox->setEnabled(true);
     ui->RedTsnMaxSizeEnable8CheckBox->setChecked(false);
 
+    ui->RedTsnPreemptionVerifyIntervalValue->setEnabled(true);
+    ui->RedTsnPreemptionVerifyIntervalValue->setText("NA");
+    ui->RedTsnPreemptionVerifyEnableCheckBox->setEnabled(true);
+    ui->RedTsnPreemptionVerifyEnableCheckBox->setChecked(false);
+    ui->RedTsnPreemptionHoldAndReleaseCheckBox->setEnabled(true);
+    ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(false);
+
     ui->RedTsnCreditIncPortCValue->setEnabled(true);
     ui->RedTsnCreditIncPortCValue->setText("NA");
     ui->RedTsnCreditDecPortCValue->setEnabled(true);
     ui->RedTsnCreditDecPortCValue->setText("NA");
     ui->RedTsnCreditEnablePortCCheckBox->setEnabled(true);
     ui->RedTsnCreditEnablePortCCheckBox->setChecked(false);
+    ui->RedTsnPhaseEnablePortCCheckBox->setEnabled(true);
+    ui->RedTsnPhaseEnablePortCCheckBox->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
     ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(true);
@@ -901,6 +1032,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
     ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(true);
 
+    ui_scheduling->ui->RedTsnPhasePortACheckBox->setChecked(true);
+    ui_scheduling->ui->RedTsnPhasePortACheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhasePortBCheckBox->setChecked(true);
+    ui_scheduling->ui->RedTsnPhasePortBCheckBox->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhasePortCCheckBox->setChecked(true);
+    ui_scheduling->ui->RedTsnPhasePortCCheckBox->setEnabled(true);
+
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryP2CheckBox_0->setChecked(false);
@@ -919,6 +1057,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(true);
@@ -938,6 +1082,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(true);
@@ -957,6 +1107,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(true);
@@ -976,6 +1132,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(true);
@@ -995,6 +1157,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(true);
@@ -1014,6 +1182,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(true);
@@ -1033,6 +1207,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(true);
@@ -1052,6 +1232,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(true);
@@ -1071,6 +1257,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(true);
@@ -1090,6 +1282,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(true);
@@ -1109,6 +1307,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(true);
@@ -1128,6 +1332,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(true);
@@ -1147,6 +1357,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(true);
@@ -1166,6 +1382,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(true);
@@ -1185,6 +1407,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
 
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
     ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(true);
@@ -1204,9 +1432,18 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
     ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(true);
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
     ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setEnabled(true);
+    ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
 
     if (red_tsn_priority_support.at(temp_data) == false)
     {
+        ui->RedTsnPhaseEnablePortCCheckBox->setChecked(false);
+        ui->RedTsnPhaseEnablePortCCheckBox->setEnabled(false);
+
         ui->RedTsnSchedulingButton->setEnabled(false);
 
         ui->RedTsnPriorityEnableCheckBox->setChecked(false);
@@ -1229,6 +1466,12 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
 
         ui->RedTsnPreemptionEnableCheckBox->setChecked(false);
         ui->RedTsnPreemptionEnableCheckBox->setEnabled(false);
+        ui->RedTsnLanAPreemptionCheckBox->setChecked(false);
+        ui->RedTsnLanAPreemptionCheckBox->setEnabled(false);
+        ui->RedTsnLanBPreemptionCheckBox->setChecked(false);
+        ui->RedTsnLanBPreemptionCheckBox->setEnabled(false);
+        ui->RedTsnLanCPreemptionCheckBox->setChecked(false);
+        ui->RedTsnLanCPreemptionCheckBox->setEnabled(false);
 
         ui->RedTsnVlanPrio1Value->setCurrentIndex(1);
         ui->RedTsnVlanPrio1Value->setEnabled(false);
@@ -1382,6 +1625,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnMaxSizeEnable8CheckBox->setChecked(false);
         ui->RedTsnMaxSizeEnable8CheckBox->setEnabled(false);
 
+        ui->RedTsnPreemptionVerifyIntervalValue->setText("NA");
+        ui->RedTsnPreemptionVerifyIntervalValue->setEnabled(false);
+        ui->RedTsnPreemptionVerifyEnableCheckBox->setChecked(false);
+        ui->RedTsnPreemptionVerifyEnableCheckBox->setEnabled(false);
+        ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(false);
+        ui->RedTsnPreemptionHoldAndReleaseCheckBox->setEnabled(false);
+
         ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
         ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
         ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
@@ -1393,6 +1643,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
 
         ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
         ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhasePortACheckBox->setChecked(true);
+        ui_scheduling->ui->RedTsnPhasePortACheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhasePortBCheckBox->setChecked(true);
+        ui_scheduling->ui->RedTsnPhasePortBCheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhasePortCCheckBox->setChecked(true);
+        ui_scheduling->ui->RedTsnPhasePortCCheckBox->setEnabled(false);
 
         ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(false);
@@ -1429,6 +1686,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
@@ -1448,6 +1712,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
@@ -1467,6 +1738,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
@@ -1486,6 +1764,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
@@ -1505,6 +1790,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
@@ -1524,6 +1816,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
@@ -1543,6 +1842,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
@@ -1562,6 +1868,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
@@ -1581,6 +1894,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
@@ -1600,6 +1920,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
@@ -1619,6 +1946,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
@@ -1638,6 +1972,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
@@ -1657,6 +1998,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
@@ -1676,6 +2024,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
@@ -1695,6 +2050,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
@@ -1714,10 +2076,20 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
     }
 
     if (red_tsn_phase_support.at(temp_data) == false)
     {
+        ui->RedTsnPhaseEnablePortCCheckBox->setChecked(false);
+        ui->RedTsnPhaseEnablePortCCheckBox->setEnabled(false);
+
         ui->RedTsnSchedulingButton->setEnabled(false);
 
         ui->RedTsnPhasePeriodValue->setText("NA");
@@ -1728,9 +2100,6 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
 
         ui->RedTsnCycleEnableCheckBox->setChecked(false);
         ui->RedTsnCycleEnableCheckBox->setEnabled(false);
-
-        ui->RedTsnPreemptionEnableCheckBox->setChecked(false);
-        ui->RedTsnPreemptionEnableCheckBox->setEnabled(false);
 
         ui->RedTsnPhaseStart1Value->setText("NA");
         ui->RedTsnPhaseStart1Value->setEnabled(false);
@@ -1772,6 +2141,9 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui->RedTsnPhaseEnd8Value->setText("NA");
         ui->RedTsnPhaseEnd8Value->setEnabled(false);
 
+        ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(false);
+        ui->RedTsnPreemptionHoldAndReleaseCheckBox->setEnabled(false);
+
         ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
         ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
         ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
@@ -1783,6 +2155,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
 
         ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
         ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhasePortACheckBox->setChecked(true);
+        ui_scheduling->ui->RedTsnPhasePortACheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhasePortBCheckBox->setChecked(true);
+        ui_scheduling->ui->RedTsnPhasePortBCheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhasePortCCheckBox->setChecked(true);
+        ui_scheduling->ui->RedTsnPhasePortCCheckBox->setEnabled(false);
 
         ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(false);
@@ -1819,6 +2198,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
@@ -1838,6 +2224,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
@@ -1857,6 +2250,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
@@ -1876,6 +2276,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
@@ -1895,6 +2302,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
@@ -1914,6 +2328,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
@@ -1933,6 +2354,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
@@ -1952,6 +2380,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
@@ -1971,6 +2406,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
@@ -1990,6 +2432,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
@@ -2009,6 +2458,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
@@ -2028,6 +2484,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
@@ -2047,6 +2510,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
@@ -2066,6 +2536,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
@@ -2085,6 +2562,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
@@ -2104,12 +2588,22 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
     }
 
     if (red_tsn_simple_scheduler_support.at(temp_data) == true)
     {
         ui->RedTsnSchedulingButton->setEnabled(false);
 
+        ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(false);
+        ui->RedTsnPreemptionHoldAndReleaseCheckBox->setEnabled(false);
+
         ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
         ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
         ui_scheduling->ui->RedTsnPhasePeriodExtValue->setText("NA");
@@ -2121,6 +2615,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
 
         ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
         ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhasePortACheckBox->setChecked(true);
+        ui_scheduling->ui->RedTsnPhasePortACheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhasePortBCheckBox->setChecked(true);
+        ui_scheduling->ui->RedTsnPhasePortBCheckBox->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhasePortCCheckBox->setChecked(true);
+        ui_scheduling->ui->RedTsnPhasePortCCheckBox->setEnabled(false);
 
         ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(false);
@@ -2157,6 +2658,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
@@ -2176,6 +2684,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
@@ -2195,6 +2710,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
@@ -2214,6 +2736,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
@@ -2233,6 +2762,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
@@ -2252,6 +2788,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
@@ -2271,6 +2814,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
@@ -2290,6 +2840,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
@@ -2309,6 +2866,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
@@ -2328,6 +2892,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
@@ -2347,6 +2918,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
@@ -2366,6 +2944,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
@@ -2385,6 +2970,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
@@ -2404,6 +2996,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
@@ -2423,6 +3022,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
 
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
@@ -2442,6 +3048,13 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
     }
 
     if (red_tsn_simple_scheduler_support.at(temp_data) == false)
@@ -2613,8 +3226,134 @@ void  Ucm_RedTsnTab::red_tsn_capabilities(void)
 
     if (red_tsn_preemption_support.at(temp_data) == false)
     {
-        ui->RedTsnMaxSizeEnableCheckBox->setChecked(false);
-        ui->RedTsnMaxSizeEnableCheckBox->setEnabled(false);
+
+        ui->RedTsnPreemptionEnableCheckBox->setChecked(false);
+        ui->RedTsnPreemptionEnableCheckBox->setEnabled(false);
+        ui->RedTsnLanAPreemptionCheckBox->setChecked(false);
+        ui->RedTsnLanAPreemptionCheckBox->setEnabled(false);
+        ui->RedTsnLanBPreemptionCheckBox->setChecked(false);
+        ui->RedTsnLanBPreemptionCheckBox->setEnabled(false);
+        ui->RedTsnLanCPreemptionCheckBox->setChecked(false);
+        ui->RedTsnLanCPreemptionCheckBox->setEnabled(false);
+
+        ui->RedTsnPreemptionVerifyIntervalValue->setText("NA");
+        ui->RedTsnPreemptionVerifyIntervalValue->setEnabled(false);
+        ui->RedTsnPreemptionVerifyEnableCheckBox->setChecked(false);
+        ui->RedTsnPreemptionVerifyEnableCheckBox->setEnabled(false);
+        ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(false);
+        ui->RedTsnPreemptionHoldAndReleaseCheckBox->setEnabled(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
+
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setEnabled(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
     }
 
     if (red_tsn_nr_of_priorities.at(temp_data) >= 1)
@@ -3159,6 +3898,7 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui->RedTsnPrpUntaggingCheckBox->setChecked(false);
             ui->RedTsnLanACheckBox->setChecked(false);
             ui->RedTsnLanBCheckBox->setChecked(false);
+            ui->RedTsnLanCCheckBox->setChecked(false);
             ui->RedTsnRxFrameAValue->setText("NA");
             ui->RedTsnRxErrorAValue->setText("NA");
             ui->RedTsnTxFrameAValue->setText("NA");
@@ -3187,6 +3927,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
 
             ui->RedTsnPreemptionEnableCheckBox->setChecked(false);
             ui->RedTsnPreemptionEnableCheckBox->setEnabled(false);
+            ui->RedTsnLanAPreemptionCheckBox->setChecked(false);
+            ui->RedTsnLanAPreemptionCheckBox->setEnabled(false);
+            ui->RedTsnLanBPreemptionCheckBox->setChecked(false);
+            ui->RedTsnLanBPreemptionCheckBox->setEnabled(false);
+            ui->RedTsnLanCPreemptionCheckBox->setChecked(false);
+            ui->RedTsnLanCPreemptionCheckBox->setEnabled(false);
 
             ui->RedTsnVlanPrio1Value->setCurrentIndex(1);
             ui->RedTsnVlanPrio1Value->setEnabled(false);
@@ -3340,12 +4086,21 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui->RedTsnMaxSizeEnable8CheckBox->setChecked(false);
             ui->RedTsnMaxSizeEnable8CheckBox->setEnabled(false);
 
+            ui->RedTsnPreemptionVerifyIntervalValue->setText("NA");
+            ui->RedTsnPreemptionVerifyIntervalValue->setEnabled(false);
+            ui->RedTsnPreemptionVerifyEnableCheckBox->setChecked(false);
+            ui->RedTsnPreemptionVerifyEnableCheckBox->setEnabled(false);
+            ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(false);
+            ui->RedTsnPreemptionHoldAndReleaseCheckBox->setEnabled(false);
+
             ui->RedTsnCreditIncPortCValue->setText("NA");
             ui->RedTsnCreditIncPortCValue->setEnabled(false);
             ui->RedTsnCreditDecPortCValue->setText("NA");
             ui->RedTsnCreditDecPortCValue->setEnabled(false);
             ui->RedTsnCreditEnablePortCCheckBox->setChecked(false);
             ui->RedTsnCreditEnablePortCCheckBox->setEnabled(false);
+            ui->RedTsnPhaseEnablePortCCheckBox->setChecked(false);
+            ui->RedTsnPhaseEnablePortCCheckBox->setEnabled(false);
 
             ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
             ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
@@ -3358,6 +4113,13 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
 
             ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
             ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhasePortACheckBox->setChecked(true);
+            ui_scheduling->ui->RedTsnPhasePortACheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhasePortBCheckBox->setChecked(true);
+            ui_scheduling->ui->RedTsnPhasePortBCheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhasePortCCheckBox->setChecked(true);
+            ui_scheduling->ui->RedTsnPhasePortCCheckBox->setEnabled(false);
 
             ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(false);
@@ -3394,6 +4156,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
@@ -3413,6 +4181,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
@@ -3432,6 +4206,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
@@ -3451,6 +4231,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
@@ -3470,6 +4256,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
@@ -3489,6 +4281,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
@@ -3508,6 +4306,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
@@ -3527,6 +4331,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
@@ -3546,6 +4356,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
@@ -3565,6 +4381,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
@@ -3584,6 +4406,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
@@ -3603,6 +4431,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
@@ -3622,6 +4456,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
@@ -3641,6 +4481,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
@@ -3660,6 +4506,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
@@ -3679,6 +4531,12 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
 
             ui->RedTsnEnableCheckBox->setChecked(true);
             ui->RedTsnVersionValue->setText("NA");
@@ -3829,7 +4687,7 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
     // lan status
     if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_StatusReg, temp_data))
     {
-        if ((temp_data & 0x00000101) == 0x00000100)
+        if ((temp_data & 0x00000101) == 0x00000100) // also timeout considered not only link
         {
             ui->RedTsnLanACheckBox->setChecked(true);
         }
@@ -3838,13 +4696,49 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui->RedTsnLanACheckBox->setChecked(false);
         }
 
-        if ((temp_data & 0x00000202) == 0x00000200)
+        if ((temp_data & 0x00000202) == 0x00000200) // also timeout considered not only link
         {
             ui->RedTsnLanBCheckBox->setChecked(true);
         }
         else
         {
             ui->RedTsnLanBCheckBox->setChecked(false);
+        }
+
+        if ((temp_data & 0x00000400) == 0x00000400)
+        {
+            ui->RedTsnLanCCheckBox->setChecked(true);
+        }
+        else
+        {
+            ui->RedTsnLanCCheckBox->setChecked(false);
+        }
+
+        if ((temp_data & 0x00000004) != 0)
+        {
+            ui->RedTsnLanAPreemptionCheckBox->setChecked(true);
+        }
+        else
+        {
+            ui->RedTsnLanAPreemptionCheckBox->setChecked(false);
+        }
+
+        if ((temp_data & 0x00000008) != 0)
+        {
+            ui->RedTsnLanBPreemptionCheckBox->setChecked(true);
+        }
+        else
+        {
+            ui->RedTsnLanBPreemptionCheckBox->setChecked(false);
+        }
+
+        if ((temp_data & 0x00000010) != 0)
+        {
+            ui->RedTsnLanCPreemptionCheckBox->setChecked(true);
+        }
+        else
+        {
+            ui->RedTsnLanCPreemptionCheckBox->setChecked(false);
         }
 
         temp_data &= 0x00000003;
@@ -3857,8 +4751,48 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
     {
         ui->RedTsnLanACheckBox->setChecked(false);
         ui->RedTsnLanBCheckBox->setChecked(false);
+        ui->RedTsnLanAPreemptionCheckBox->setChecked(false);
+        ui->RedTsnLanBPreemptionCheckBox->setChecked(false);
+        ui->RedTsnLanCPreemptionCheckBox->setChecked(false);
     }
 
+    // preemption control
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PreemptionControlReg, temp_data))
+    {
+        if ((temp_data & 0x00000001) != 0)
+        {
+            ui->RedTsnPreemptionVerifyEnableCheckBox->setChecked(true);
+        }
+        else
+        {
+            ui->RedTsnPreemptionVerifyEnableCheckBox->setChecked(false);
+        }
+
+        if ((temp_data & 0x00000002) != 0)
+        {
+            ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(true);
+        }
+        else
+        {
+            ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(false);
+        }
+
+    }
+    else
+    {
+        ui->RedTsnPreemptionVerifyEnableCheckBox->setChecked(false);
+        ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(false);
+    }
+
+    // preemption verify interval
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_RedTsn_PreemptionVerifyIntervalReg, temp_data))
+    {
+        ui->RedTsnPreemptionVerifyIntervalValue->setText(QString::number(temp_data));
+    }
+    else
+    {
+        ui->RedTsnPreemptionVerifyIntervalValue->setText("NA");
+    }
 
     // phase period prio & phase & cycle & preemption
     if (red_tsn_priority_support.at(instance_idx) == true)
@@ -3915,6 +4849,15 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             else
             {
                 ui->RedTsnPreemptionEnableCheckBox->setChecked(false);
+            }
+
+            if ((temp_data & 0x00000010) != 0)
+            {
+                ui->RedTsnPhaseEnablePortCCheckBox->setChecked(true);
+            }
+            else
+            {
+                ui->RedTsnPhaseEnablePortCCheckBox->setChecked(false);
             }
 
             if (((temp_data & 0x00010000) != 0) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
@@ -3991,6 +4934,7 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         }
         else
         {
+            ui->RedTsnPhaseEnablePortCCheckBox->setChecked(false);
             ui->RedTsnPriorityEnableCheckBox->setChecked(false);
             ui->RedTsnPhaseEnableCheckBox->setChecked(false);
             ui->RedTsnCycleEnableCheckBox->setChecked(false);
@@ -4007,6 +4951,7 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
     }
     else
     {
+        ui->RedTsnPhaseEnablePortCCheckBox->setChecked(false);
         ui->RedTsnPhasePeriodValue->setText("NA");
         ui->RedTsnPriorityEnableCheckBox->setChecked(false);
         ui->RedTsnPhaseEnableCheckBox->setChecked(false);
@@ -4021,7 +4966,6 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui->RedTsnPrioPhaseEnable7CheckBox->setChecked(false);
         ui->RedTsnPrioPhaseEnable8CheckBox->setChecked(false);
     }
-
 
     // credit
     if (red_tsn_credit_support.at(instance_idx) == true)
@@ -5169,7 +6113,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -5182,6 +6145,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
         }
     }
     else
@@ -5195,6 +6161,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -5266,7 +6235,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -5279,6 +6267,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
         }
     }
     else
@@ -5292,6 +6283,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -5363,7 +6357,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -5376,6 +6389,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
         }
     }
     else
@@ -5389,6 +6405,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -5460,7 +6479,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -5473,6 +6511,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
         }
     }
     else
@@ -5486,6 +6527,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -5557,7 +6601,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -5570,6 +6633,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
         }
     }
     else
@@ -5583,6 +6649,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -5654,7 +6723,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -5667,6 +6755,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
         }
     }
     else
@@ -5680,6 +6771,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -5751,7 +6845,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -5764,6 +6877,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
         }
     }
     else
@@ -5777,6 +6893,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -5848,7 +6967,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -5861,6 +6999,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
         }
     }
     else
@@ -5874,6 +7015,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -5945,7 +7089,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -5958,6 +7121,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
         }
     }
     else
@@ -5971,6 +7137,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -6042,7 +7211,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -6055,6 +7243,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
         }
     }
     else
@@ -6068,6 +7259,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -6139,7 +7333,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -6152,6 +7365,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
         }
     }
     else
@@ -6165,6 +7381,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -6236,7 +7455,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -6249,6 +7487,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
         }
     }
     else
@@ -6262,6 +7503,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -6333,7 +7577,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -6346,6 +7609,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
         }
     }
     else
@@ -6359,6 +7625,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -6430,7 +7699,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+             {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -6443,6 +7731,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
         }
     }
     else
@@ -6456,6 +7747,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -6527,7 +7821,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -6540,6 +7853,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
         }
     }
     else
@@ -6553,6 +7869,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -6624,7 +7943,26 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
             }
 
-            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText(QString::number(temp_data & 0x00FFFFFF));
+            if (((temp_data & 0x00C00000) == 0x00C00000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(true);
+            }
+            else if (((temp_data & 0x00C00000) == 0x00800000) && (red_tsn_preemption_support.at(instance_idx) == true))
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
+            }
+            else
+            {
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
+            }
+
+            ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText(QString::number(temp_data & 0x003FFFFF));
         }
         else
         {
@@ -6637,6 +7975,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
         }
     }
     else
@@ -6650,6 +7991,9 @@ void Ucm_RedTsnTab::red_tsn_read_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
     }
 
     // port c
@@ -7024,12 +8368,21 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui->RedTsnMaxSizeEnable8CheckBox->setChecked(false);
             ui->RedTsnMaxSizeEnable8CheckBox->setEnabled(false);
 
+            ui->RedTsnPreemptionVerifyIntervalValue->setText("NA");
+            ui->RedTsnPreemptionVerifyIntervalValue->setEnabled(false);
+            ui->RedTsnPreemptionVerifyEnableCheckBox->setChecked(false);
+            ui->RedTsnPreemptionVerifyEnableCheckBox->setEnabled(false);
+            ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(false);
+            ui->RedTsnPreemptionHoldAndReleaseCheckBox->setEnabled(false);
+
             ui->RedTsnCreditIncPortCValue->setText("NA");
             ui->RedTsnCreditIncPortCValue->setEnabled(false);
             ui->RedTsnCreditDecPortCValue->setText("NA");
             ui->RedTsnCreditDecPortCValue->setEnabled(false);
             ui->RedTsnCreditEnablePortCCheckBox->setChecked(false);
             ui->RedTsnCreditEnablePortCCheckBox->setEnabled(false);
+            ui->RedTsnPhaseEnablePortCCheckBox->setChecked(false);
+            ui->RedTsnPhaseEnablePortCCheckBox->setEnabled(false);
 
             ui_scheduling->ui->RedTsnPhasePeriodValue->setText("NA");
             ui_scheduling->ui->RedTsnPhasePeriodValue->setEnabled(false);
@@ -7042,6 +8395,13 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
 
             ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setCurrentIndex(17);
             ui_scheduling->ui->RedTsnPhaseNrOfEntriesValue->setEnabled(false);
+
+            ui_scheduling->ui->RedTsnPhasePortACheckBox->setChecked(true);
+            ui_scheduling->ui->RedTsnPhasePortACheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhasePortBCheckBox->setChecked(true);
+            ui_scheduling->ui->RedTsnPhasePortBCheckBox->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhasePortCCheckBox->setChecked(true);
+            ui_scheduling->ui->RedTsnPhasePortCCheckBox->setEnabled(false);
 
             ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseInitialP1CheckBox->setEnabled(false);
@@ -7078,6 +8438,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->setEnabled(false);
@@ -7097,6 +8463,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->setEnabled(false);
@@ -7116,6 +8488,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->setEnabled(false);
@@ -7135,6 +8513,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->setEnabled(false);
@@ -7154,6 +8538,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->setEnabled(false);
@@ -7173,6 +8563,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->setEnabled(false);
@@ -7192,6 +8588,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->setEnabled(false);
@@ -7211,6 +8613,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->setEnabled(false);
@@ -7230,6 +8638,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->setEnabled(false);
@@ -7249,6 +8663,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->setEnabled(false);
@@ -7268,6 +8688,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->setEnabled(false);
@@ -7287,6 +8713,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->setEnabled(false);
@@ -7306,6 +8738,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->setEnabled(false);
@@ -7325,6 +8763,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->setEnabled(false);
@@ -7344,6 +8788,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
 
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setChecked(false);
             ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->setEnabled(false);
@@ -7363,6 +8813,12 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
             ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setEnabled(false);
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
             ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setEnabled(false);
+            ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
 
             ui->RedTsnModeValue->setCurrentText("NA");
             ui->RedTsnPromiscuousModeCheckBox->setChecked(false);
@@ -9011,7 +10467,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_0->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9061,6 +10529,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
             }
         }
     }
@@ -9075,6 +10546,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_0->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_0->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_0->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_0->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_0->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_0->setChecked(false);
     }
 
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9087,7 +10561,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_1->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9137,6 +10623,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
             }
         }
     }
@@ -9151,6 +10640,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_1->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_1->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_1->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_1->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_1->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_1->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9163,7 +10655,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_2->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9213,6 +10717,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
             }
         }
     }
@@ -9227,6 +10734,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_2->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_2->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_2->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_2->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_2->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_2->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9239,7 +10749,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_3->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9289,6 +10811,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
             }
         }
     }
@@ -9303,6 +10828,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_3->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_3->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_3->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_3->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_3->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_3->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9315,7 +10843,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_4->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9365,6 +10905,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
             }
         }
     }
@@ -9379,6 +10922,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_4->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_4->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_4->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_4->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_4->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_4->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9391,7 +10937,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_5->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9441,6 +10999,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
             }
         }
     }
@@ -9455,6 +11016,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_5->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_5->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_5->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_5->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_5->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_5->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9467,7 +11031,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_6->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9517,6 +11093,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
             }
         }
     }
@@ -9531,6 +11110,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_6->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_6->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_6->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_6->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_6->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_6->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9543,7 +11125,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_7->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9593,6 +11187,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
             }
         }
     }
@@ -9607,6 +11204,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_7->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_7->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_7->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_7->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_7->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_7->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9619,7 +11219,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_8->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9669,6 +11281,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
             }
         }
     }
@@ -9683,6 +11298,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_8->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_8->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_8->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_8->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_8->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_8->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9695,7 +11313,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_9->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9745,6 +11375,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
             }
         }
     }
@@ -9759,6 +11392,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_9->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_9->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_9->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_9->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_9->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_9->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9771,7 +11407,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_10->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9821,6 +11469,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
             }
         }
     }
@@ -9835,6 +11486,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_10->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_10->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_10->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_10->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_10->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_10->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9847,7 +11501,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_11->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9897,6 +11563,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
             }
         }
     }
@@ -9911,6 +11580,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_11->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_11->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_11->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_11->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_11->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_11->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9923,7 +11595,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_12->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -9973,6 +11657,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
             }
         }
     }
@@ -9987,6 +11674,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_12->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_12->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_12->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_12->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_12->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_12->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -9999,7 +11689,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_13->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -10049,6 +11751,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
             }
         }
     }
@@ -10063,6 +11768,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_13->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_13->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_13->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_13->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_13->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_13->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -10075,7 +11783,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_14->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -10125,6 +11845,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
             }
         }
     }
@@ -10139,6 +11862,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_14->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_14->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_14->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_14->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_14->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_14->setChecked(false);
     }
     
     if ((red_tsn_priority_support.at(instance_idx) == true) && (red_tsn_phase_support.at(instance_idx) == true) && (red_tsn_simple_scheduler_support.at(instance_idx) == false))
@@ -10151,7 +11877,19 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         else
         {
             temp_data = temp_string.toUInt(nullptr, 10);
-            temp_data &= 0x00FFFFFF;
+            temp_data &= 0x003FFFFF;
+
+            if (red_tsn_preemption_support.at(instance_idx) == true)
+            {
+                if (true == ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->isChecked())
+                {
+                    temp_data |= 0x00C00000;
+                }
+                else if (true == ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->isChecked())
+                {
+                    temp_data |= 0x00800000;
+                }
+            }
 
             if ((true == ui_scheduling->ui->RedTsnPhaseEntryP1CheckBox_15->isChecked()) && (red_tsn_nr_of_priorities.at(instance_idx) >= 1))
             {
@@ -10201,6 +11939,9 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
                 ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
                 ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+                ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+                ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+                ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
             }
         }
     }
@@ -10215,8 +11956,66 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         ui_scheduling->ui->RedTsnPhaseEntryP7CheckBox_15->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryP8CheckBox_15->setChecked(false);
         ui_scheduling->ui->RedTsnPhaseEntryDurationValue_15->setText("NA");
+        ui_scheduling->ui->RedTsnPhaseEntrySetRadioButton_15->setChecked(true);
+        ui_scheduling->ui->RedTsnPhaseEntryHoldRadioButton_15->setChecked(false);
+        ui_scheduling->ui->RedTsnPhaseEntryReleaseRadioButton_15->setChecked(false);
     }
-    
+
+    if (red_tsn_preemption_support.at(instance_idx) == true)
+    {
+        temp_data = 0x00000000; // nothing
+
+        if (true == ui->RedTsnPreemptionVerifyEnableCheckBox->isChecked())
+        {
+            temp_data |= 0x00000001; // verify
+        }
+
+        if (true == ui->RedTsnPreemptionHoldAndReleaseCheckBox->isChecked())
+        {
+            temp_data |= 0x00000002; // hold release
+        }
+
+        // preemption control
+        if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PreemptionControlReg, temp_data))
+        {
+            // nothing
+        }
+        else
+        {
+            ui->RedTsnPreemptionVerifyEnableCheckBox->setChecked(false);
+            ui->RedTsnPreemptionHoldAndReleaseCheckBox->setChecked(false);
+        }
+
+        temp_string = ui->RedTsnPreemptionVerifyIntervalValue->text();
+        if (temp_string == "NA")
+        {
+            temp_data = 0;
+        }
+        else
+        {
+            temp_data = temp_string.toUInt(nullptr, 10);
+            if (temp_data > 128)
+            {
+                temp_data = 128;
+            }
+            else if (temp_data < 1)
+            {
+                temp_data = 1;
+            }
+
+            // preemption verify interval
+            if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedTsn_PreemptionVerifyIntervalReg, temp_data))
+            {
+                // nothing
+            }
+            else
+            {
+                ui->RedTsnPreemptionVerifyIntervalValue->setText("NA");
+            }
+        }
+    }
+
+
     // phase period prio & phase & cycle
     if (red_tsn_priority_support.at(instance_idx) == true)
     {
@@ -10246,6 +12045,31 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         }
 
         temp_data = 0x00000000; // nothing
+        //temp_data |= 0x70000000; // Currently on all Ports (A,B,C), TODO get this from GUI elememts and let them set individualy?
+
+        if (red_tsn_phase_support.at(instance_idx) == true)
+        {
+            if (true == ui_scheduling->ui->RedTsnPhasePortACheckBox->isChecked())
+            {
+                temp_data |= 0x10000000; // valid
+            }
+            if (true == ui_scheduling->ui->RedTsnPhasePortBCheckBox->isChecked())
+            {
+                temp_data |= 0x20000000; // valid
+            }
+            if (true == ui_scheduling->ui->RedTsnPhasePortCCheckBox->isChecked())
+            {
+                temp_data |= 0x40000000; // valid
+            }
+        }
+
+        if (red_tsn_phase_support.at(instance_idx) == true)
+        {
+            if (true == ui->RedTsnPhaseEnablePortCCheckBox->isChecked())
+            {
+                temp_data |= 0x00000010; // enable
+            }
+        }
         if (red_tsn_phase_support.at(instance_idx) == true)
         {
             temp_data |= 0x00000100; // enable
@@ -10337,6 +12161,10 @@ void Ucm_RedTsnTab::red_tsn_write_values(void)
         }
         else
         {
+            ui_scheduling->ui->RedTsnPhasePortACheckBox->setChecked(true);
+            ui_scheduling->ui->RedTsnPhasePortBCheckBox->setChecked(true);
+            ui_scheduling->ui->RedTsnPhasePortCCheckBox->setChecked(true);
+            ui->RedTsnPhaseEnablePortCCheckBox->setChecked(false);
             ui->RedTsnPriorityEnableCheckBox->setChecked(false);
             ui->RedTsnPhaseEnableCheckBox->setChecked(false);
             ui->RedTsnCycleEnableCheckBox->setChecked(false);

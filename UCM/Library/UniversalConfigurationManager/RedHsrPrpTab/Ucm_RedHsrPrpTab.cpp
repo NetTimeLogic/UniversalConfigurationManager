@@ -96,7 +96,8 @@ int Ucm_RedHsrPrpTab::red_hsrprp_disable(void)
     ui->RedHsrPrpTxErrorCValue->setText("NA");
     ui->RedHsrPrpClearCountersCheckBox->setChecked(false);
 
-
+    ui->RedHsrPrpRedBoxIdValue->setText("NA");
+    ui->RedHsrPrpLanIdValue->setText("NA");
 
     return 0;
 }
@@ -144,6 +145,10 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
             ui->RedHsrPrpTxFrameCValue->setText("NA");
             ui->RedHsrPrpTxErrorCValue->setText("NA");
             ui->RedHsrPrpClearCountersCheckBox->setChecked(false);
+
+            ui->RedHsrPrpRedBoxIdValue->setText("NA");
+            ui->RedHsrPrpLanIdValue->setText("NA");
+
             return;
         }
     }
@@ -226,15 +231,33 @@ void Ucm_RedHsrPrpTab::red_hsrprp_read_values(void)
         {
         case 0:
             ui->RedHsrPrpModeValue->setCurrentText("NO");
+            ui->RedHsrPrpRedBoxIdValue->setText("NA");
+            ui->RedHsrPrpLanIdValue->setText("NA");
             break;
         case 1:
             ui->RedHsrPrpModeValue->setCurrentText("PRP");
+            ui->RedHsrPrpRedBoxIdValue->setText("NA");
+            ui->RedHsrPrpLanIdValue->setText("NA");
             break;
         case 2:
             ui->RedHsrPrpModeValue->setCurrentText("HSR");
+            ui->RedHsrPrpRedBoxIdValue->setText("NA");
+            ui->RedHsrPrpLanIdValue->setText("NA");
+            break;
+        case 5:
+            ui->RedHsrPrpModeValue->setCurrentText("HSR-PRP");
+            ui->RedHsrPrpRedBoxIdValue->setText(QString("0x%1").arg(((temp_data >> 12) & 0x0000000F), 1, 16, QLatin1Char('0')));
+            ui->RedHsrPrpLanIdValue->setText(QString("0x%1").arg(((temp_data >> 8) & 0x00000007), 1, 16, QLatin1Char('0')));
+            break;
+        case 6:
+            ui->RedHsrPrpModeValue->setCurrentText("HSR-HSR");
+            ui->RedHsrPrpRedBoxIdValue->setText(QString("0x%1").arg(((temp_data >> 12) & 0x0000000F), 1, 16, QLatin1Char('0')));
+            ui->RedHsrPrpLanIdValue->setText("NA");
             break;
         default:
             ui->RedHsrPrpModeValue->setCurrentText("NA");
+            ui->RedHsrPrpRedBoxIdValue->setText("NA");
+            ui->RedHsrPrpLanIdValue->setText("NA");
             break;
         }
 
@@ -489,6 +512,10 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
             ui->RedHsrPrpTxFrameCValue->setText("NA");
             ui->RedHsrPrpTxErrorCValue->setText("NA");
             ui->RedHsrPrpClearCountersCheckBox->setChecked(false);
+
+            ui->RedHsrPrpRedBoxIdValue->setText("NA");
+            ui->RedHsrPrpLanIdValue->setText("NA");
+
             return;
         }
     }
@@ -598,6 +625,22 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
     {
         temp_data = 0x00000002;
     }
+    else if (temp_string == "HSR-PRP")
+    {
+        temp_data = 0x00000005;
+        temp_string = ui->RedHsrPrpLanIdValue->text();
+        temp_data |= ((temp_string.toUInt(nullptr, 16) << 8) & 0x00000700);
+        temp_string = ui->RedHsrPrpRedBoxIdValue->text();
+        temp_data |= ((temp_string.toUInt(nullptr, 16) << 12) & 0x0000F000);
+        temp_string = "HSR-PRP";
+    }
+    else if (temp_string == "HSR-HSR")
+    {
+        temp_data = 0x00000006;
+        temp_string = ui->RedHsrPrpRedBoxIdValue->text();
+        temp_data |= ((temp_string.toUInt(nullptr, 16) << 12) & 0x0000F000);
+        temp_string = "HSR-HSR";
+    }
     else
     {
         temp_data = 0x00000000;
@@ -629,58 +672,6 @@ void Ucm_RedHsrPrpTab::red_hsrprp_write_values(void)
     }
     else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_ConfigModeReg, temp_data))
     {
-        switch (temp_data & 0x0000000F)
-        {
-        case 0:
-            ui->RedHsrPrpModeValue->setCurrentText("NO");
-            break;
-        case 1:
-            ui->RedHsrPrpModeValue->setCurrentText("PRP");
-            break;
-        case 2:
-            ui->RedHsrPrpModeValue->setCurrentText("HSR");
-            break;
-        default:
-            ui->RedHsrPrpModeValue->setCurrentText("NA");
-            break;
-        }
-
-        if ((temp_data & 0x00010000) == 0)
-        {
-            ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(false);
-        }
-        else
-        {
-            ui->RedHsrPrpPromiscuousModeCheckBox->setChecked(true);
-        }
-
-        if ((temp_data & 0x00020000) == 0)
-        {
-            ui->RedHsrPrpNoForwardingCheckBox->setChecked(false);
-        }
-        else
-        {
-            ui->RedHsrPrpNoForwardingCheckBox->setChecked(true);
-        }
-
-        if ((temp_data & 0x00040000) == 0)
-        {
-            ui->RedHsrPrpTailTaggingCheckBox->setChecked(false);
-        }
-        else
-        {
-            ui->RedHsrPrpTailTaggingCheckBox->setChecked(true);
-        }
-
-        if ((temp_data & 0x00080000) == 0)
-        {
-            ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(false);
-        }
-        else
-        {
-            ui->RedHsrPrpPrpUntaggingCheckBox->setChecked(true);
-        }
-
         temp_data = 0x00000001; // write
         if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_RedHsrPrp_ConfigControlReg, temp_data))
         {

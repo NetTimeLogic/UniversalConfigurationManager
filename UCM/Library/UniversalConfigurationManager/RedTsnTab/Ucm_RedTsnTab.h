@@ -63,6 +63,8 @@ class Ucm_RedTsnSchedulingScreen;
 #define Ucm_RedTsn_CreditPortCMaxReg                    0x0000027C
 #define Ucm_RedTsn_MaxDataSizeControlReg                0x00000280
 #define Ucm_RedTsn_MaxDataSizeReg                       0x00000284
+#define Ucm_RedTsn_PreemptionControlReg                 0x000002B0
+#define Ucm_RedTsn_PreemptionVerifyIntervalReg          0x000002B4
 #define Ucm_RedTsn_PrioPhaseControlReg                  0x00000300
 #define Ucm_RedTsn_PrioVlanReg                          0x00000310
 #define Ucm_RedTsn_PhaseSplPeriodReg                    0x00000340

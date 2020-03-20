@@ -57,6 +57,7 @@ class Ucm_UniversalConfigurationManager;
 #define Ucm_PtpOc_PortDs5Reg                            0x00000214
 #define Ucm_PtpOc_PortDs6Reg                            0x00000218
 #define Ucm_PtpOc_PortDs7Reg                            0x0000021C
+#define Ucm_PtpOc_PortDs8Reg                            0x00000220
 #define Ucm_PtpOc_CurrentDsControlReg                   0x00000300
 #define Ucm_PtpOc_CurrentDs1Reg                         0x00000304
 #define Ucm_PtpOc_CurrentDs2Reg                         0x00000308

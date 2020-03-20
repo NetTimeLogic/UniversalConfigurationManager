@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>630</width>
+    <width>821</width>
     <height>670</height>
    </rect>
   </property>
@@ -27,9 +27,12 @@
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>591</width>
+     <width>781</width>
      <height>601</height>
     </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
    </property>
    <property name="title">
     <string>Scheduling</string>
@@ -2167,7 +2170,7 @@
      <bool>false</bool>
     </property>
     <property name="currentText">
-     <string>NA</string>
+     <string>0</string>
     </property>
     <item>
      <property name="text">
@@ -2350,7 +2353,7 @@
    <widget class="QCheckBox" name="RedTsnPhaseInitialP8CheckBox">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>260</x>
       <y>200</y>
       <width>16</width>
       <height>17</height>
@@ -2376,7 +2379,7 @@
    <widget class="QLabel" name="RedTsnPhaseInitialP8Label">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>260</x>
       <y>180</y>
       <width>16</width>
       <height>17</height>
@@ -2532,6 +2535,1088 @@
     </property>
     <property name="text">
      <string>NA</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_0">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>110</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_0">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_0">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_0">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_1">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>140</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_1">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_1">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_1">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_2">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>170</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_2">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_2">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_3">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>200</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_3">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_3">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_4">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>230</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_4">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_4">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_5">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>260</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_5">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_5">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_5">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_6">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>290</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_6">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_6">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_6">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_7">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>320</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_7">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_7">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_7">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_8">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>350</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_8">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_8">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_8">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_9">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>380</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_9">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_9">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_9">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_10">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>410</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_10">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_10">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_10">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_11">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>440</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_11">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_11">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_11">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_12">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>470</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_12">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_12">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_12">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_13">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>500</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_13">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_13">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_13">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_14">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>530</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_14">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_14">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_14">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="RedTsnPhaseEntryOperationGroup_15">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>560</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryReleaseRadioButton_15">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>2</y>
+       <width>60</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Release</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntrySetRadioButton_15">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2</y>
+       <width>50</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RedTsnPhaseEntryHoldRadioButton_15">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>2</y>
+       <width>50</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hold</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="RedTsnPhaseEntryDurationLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>70</y>
+      <width>100</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Entry Operation</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnPhasePortCCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>260</y>
+      <width>16</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="RedTsnPhaseIScheduleForPortLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>260</y>
+      <width>100</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Shedule for Port</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="RedTsnPhasePortALabel">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>240</y>
+      <width>16</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>A</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="RedTsnPhasePortBLabel">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>240</y>
+      <width>16</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>B</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnPhasePortACheckBox">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>260</y>
+      <width>16</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnPhasePortBCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>260</y>
+      <width>16</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="RedTsnPhasePortCLabel">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>240</y>
+      <width>16</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>C</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>

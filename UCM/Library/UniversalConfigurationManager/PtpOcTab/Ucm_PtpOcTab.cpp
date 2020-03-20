@@ -186,11 +186,13 @@ int Ucm_PtpOcTab::ptp_oc_disable(void)
     ui->PtpOcPortDsPeerDelayValue->setText("NA");
     ui->PtpOcPortDsStateValue->setText("NA");
     ui->PtpOcPortDsAsymmetryValue->setText("NA");
+    ui->PtpOcPortDsMaxPeerDelayValue->setText("NA");
     ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
     ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
     ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
     ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
     ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+    ui->PtpOcPortDsSyncReceiptTimeoutValue->setText("NA");
 
     ui->PtpOcCurrentDsStepsRemovedValue->setText("NA");
     ui->PtpOcCurrentDsOffsetValue->setText("NA");
@@ -278,11 +280,13 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
             ui->PtpOcPortDsPeerDelayValue->setText("NA");
             ui->PtpOcPortDsStateValue->setText("NA");
             ui->PtpOcPortDsAsymmetryValue->setText("NA");
+            ui->PtpOcPortDsMaxPeerDelayValue->setText("NA");
             ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
             ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
             ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
             ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
             ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsSyncReceiptTimeoutValue->setText("NA");
 
             ui->PtpOcCurrentDsStepsRemovedValue->setText("NA");
             ui->PtpOcCurrentDsOffsetValue->setText("NA");
@@ -680,8 +684,8 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                                         temp_max = temp_point.y();
                                     }
                                 }
-                                temp_max = ((temp_max + 100)/100)*100;
-                                temp_min = ((temp_min - 100)/100)*100;
+                                temp_max = ((temp_max/100)+1)*100;
+                                temp_min = ((temp_min/100)-1)*100;
                                 if (temp_min < 0)
                                 {
                                     temp_min = 0;
@@ -743,12 +747,11 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                         ui->PtpOcPortDsStateValue->setText("NA");
                     }
 
-                    // pdelay and delay req log msg interval
+                    // pdelay and delay req log msg interval and max delay
                     if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_PtpOc_PortDs4Reg, temp_data))
                     {
                         ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText(QString::number((signed char)(temp_data & 0x000000FF)));
                         ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText(QString::number((signed char)((temp_data >> 8) & 0x000000FF)));
-
                     }
                     else
                     {
@@ -769,15 +772,16 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                         ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
                     }
 
-                    // sync log msg interval
+                    // sync log msg interval and sync receipt timeout
                     if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_PtpOc_PortDs6Reg, temp_data))
                     {
                         ui->PtpOcPortDsSyncLogMsgIntervalValue->setText(QString::number((signed char)(temp_data & 0x000000FF)));
-
+                        ui->PtpOcPortDsSyncReceiptTimeoutValue->setText(QString::number(((temp_data >> 8) & 0x000000FF)));
                     }
                     else
                     {
                         ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+                        ui->PtpOcPortDsSyncReceiptTimeoutValue->setText("NA");
                     }
 
                     // asymmetry
@@ -791,6 +795,16 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                         ui->PtpOcPortDsAsymmetryValue->setText("NA");
                     }
 
+                    // max pdelay
+                    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_PtpOc_PortDs8Reg, temp_data))
+                    {
+                        ui->PtpOcPortDsMaxPeerDelayValue->setText(QString::number(temp_data));
+                    }
+                    else
+                    {
+                        ui->PtpOcPortDsMaxPeerDelayValue->setText("NA");
+                    }
+
                     break;
                 }
                 else if (i == 9)
@@ -799,11 +813,13 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                     ui->PtpOcPortDsPeerDelayValue->setText("NA");
                     ui->PtpOcPortDsStateValue->setText("NA");
                     ui->PtpOcPortDsAsymmetryValue->setText("NA");
+                    ui->PtpOcPortDsMaxPeerDelayValue->setText("NA");
                     ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
                     ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
                     ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
                     ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
                     ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+                    ui->PtpOcPortDsSyncReceiptTimeoutValue->setText("NA");
                 }
 
             }
@@ -812,11 +828,13 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                 ui->PtpOcPortDsPeerDelayValue->setText("NA");
                 ui->PtpOcPortDsStateValue->setText("NA");
                 ui->PtpOcPortDsAsymmetryValue->setText("NA");
+                ui->PtpOcPortDsMaxPeerDelayValue->setText("NA");
                 ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
                 ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
                 ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
                 ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
                 ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+                ui->PtpOcPortDsSyncReceiptTimeoutValue->setText("NA");
             }
         }
     }
@@ -825,11 +843,13 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
         ui->PtpOcPortDsPeerDelayValue->setText("NA");
         ui->PtpOcPortDsStateValue->setText("NA");
         ui->PtpOcPortDsAsymmetryValue->setText("NA");
+        ui->PtpOcPortDsMaxPeerDelayValue->setText("NA");
         ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
         ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
         ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
         ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
         ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+        ui->PtpOcPortDsSyncReceiptTimeoutValue->setText("NA");
     }
 
     //********************************
@@ -930,8 +950,8 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                                         temp_max = temp_point.y();
                                     }
                                 }                                
-                                temp_max = ((temp_max + 100)/100)*100;
-                                temp_min = ((temp_min - 100)/100)*100;
+                                temp_max = ((temp_max/100)+1)*100;
+                                temp_min = ((temp_min/100)-1)*100;
                                 if (temp_max > 100000)
                                 {
                                     temp_max = 100000;
@@ -1011,8 +1031,8 @@ void Ucm_PtpOcTab::ptp_oc_read_values(void)
                                         temp_max = temp_point.y();
                                     }
                                 }
-                                temp_max = ((temp_max + 100)/100)*100;
-                                temp_min = ((temp_min - 100)/100)*100;
+                                temp_max = ((temp_max/100)+1)*100;
+                                temp_min = ((temp_min/100)-1)*100;
                                 if (temp_min < 0)
                                 {
                                     temp_min = 0;
@@ -1503,11 +1523,13 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
             ui->PtpOcPortDsPeerDelayValue->setText("NA");
             ui->PtpOcPortDsStateValue->setText("NA");
             ui->PtpOcPortDsAsymmetryValue->setText("NA");
+            ui->PtpOcPortDsMaxPeerDelayValue->setText("NA");
             ui->PtpOcPortDsPDelayReqLogMsgIntervalValue->setText("NA");
             ui->PtpOcPortDsDelayReqLogMsgIntervalValue->setText("NA");
             ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
             ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
             ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsSyncReceiptTimeoutValue->setText("NA");
 
             ui->PtpOcCurrentDsStepsRemovedValue->setText("NA");
             ui->PtpOcCurrentDsOffsetValue->setText("NA");
@@ -2095,8 +2117,11 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
             else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_PtpOc_PortDs5Reg, temp_data))
             {
                 // sync message interval
+                temp_string = ui->PtpOcPortDsSyncReceiptTimeoutValue->text();
+                temp_data = (temp_string.toUInt(nullptr, 10) & 0x000000FF);
+                temp_data = temp_data << 8;
                 temp_string = ui->PtpOcPortDsSyncLogMsgIntervalValue->text();
-                temp_data = (temp_string.toInt(nullptr, 10) & 0x000000FF);
+                temp_data |= (temp_string.toInt(nullptr, 10) & 0x000000FF);
                 if (temp_string == "NA")
                 {
                     //nothing
@@ -2116,6 +2141,7 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
                         ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
                         ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
                         ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+                        ui->PtpOcPortDsSyncReceiptTimeoutValue->setText("NA");
                     }
                 }
                 else
@@ -2125,6 +2151,7 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
                     ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
                     ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
                     ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+                    ui->PtpOcPortDsSyncReceiptTimeoutValue->setText("NA");
                 }
             }
             else
@@ -2134,6 +2161,7 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
                 ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
                 ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
                 ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+                ui->PtpOcPortDsSyncReceiptTimeoutValue->setText("NA");
             }
         }
         else
@@ -2143,6 +2171,7 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
             ui->PtpOcPortDsAnnounceReceiptTimeoutValue->setText("NA");
             ui->PtpOcPortDsAnnounceLogMsgIntervalValue->setText("NA");
             ui->PtpOcPortDsSyncLogMsgIntervalValue->setText("NA");
+            ui->PtpOcPortDsSyncReceiptTimeoutValue->setText("NA");
         }
     }
 
@@ -2170,6 +2199,32 @@ void Ucm_PtpOcTab::ptp_oc_write_values(void)
     else
     {
         ui->PtpOcPortDsAsymmetryValue->setText("NA");
+    }
+
+    // max pdelay
+    temp_string = ui->PtpOcPortDsMaxPeerDelayValue->text();
+    temp_data = temp_string.toUInt(nullptr, 10);
+    if (temp_string == "NA")
+    {
+        //nothing
+    }
+    else if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_PtpOc_PortDs8Reg, temp_data))
+    {
+        // set max pdelay
+        temp_data = 0x00000008;
+        if (0 == ucm->com_lib.write_reg(temp_addr + Ucm_PtpOc_PortDsControlReg, temp_data))
+        {
+            //nothing
+        }
+        else
+        {
+            ui->PtpOcPortDsMaxPeerDelayValue->setText("NA");
+        }
+
+    }
+    else
+    {
+        ui->PtpOcPortDsMaxPeerDelayValue->setText("NA");
     }
 
     //********************************

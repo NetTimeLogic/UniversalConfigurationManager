@@ -51,8 +51,8 @@ class Ucm_UniversalConfigurationManager;
 #define Ucm_ClkClock_ServoOffsetFactorIReg              0x00000064
 #define Ucm_ClkClock_ServoDriftFactorPReg               0x00000068
 #define Ucm_ClkClock_ServoDriftFactorIReg               0x0000006C
-#define Ucm_ClkClock_StatusOffset_Reg_Con               0x00000070
-#define Ucm_ClkClock_StatusDrift_Reg_Con                0x00000074
+#define Ucm_ClkClock_StatusOffsetReg                    0x00000070
+#define Ucm_ClkClock_StatusDriftReg                     0x00000074
 
 namespace Ui {
 class Ucm_ClkClockTab;

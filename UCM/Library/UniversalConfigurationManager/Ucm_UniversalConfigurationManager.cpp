@@ -41,6 +41,9 @@ Ucm_UniversalConfigurationManager::Ucm_UniversalConfigurationManager(QMainWindow
     // File menu
     connect(Ucm_Exit, SIGNAL(triggered()), this, SLOT(ucm_file_exit_clicked()));
 
+    // Help menu
+    connect(Ucm_About, SIGNAL(triggered()), this, SLOT(ucm_help_about_clicked()));
+
     // Config Tab
     config_tab = new Ucm_ConfigTab(this);
     Ucm_MainTab->addTab(config_tab, "Config"); // show this at startup
@@ -103,6 +106,18 @@ Ucm_UniversalConfigurationManager::Ucm_UniversalConfigurationManager(QMainWindow
     // TAP Slave Tab
     tap_slave_tab = new Ucm_TapSlaveTab(this);
 
+    // TSN Iic Tab
+    tsn_iic_tab = new Ucm_TsnIicTab(this);
+
+    // Phy Config Tab
+    phy_conf_tab = new Ucm_PhyConfTab(this);
+
+    // I2c Config Tab
+    i2c_conf_tab = new Ucm_I2cConfTab(this);
+
+    // Io Config Tab
+    io_conf_tab = new Ucm_IoConfTab(this);
+
     if (height > (Ucm_MainHeight+2))
     {
         height = (Ucm_MainHeight+2);
@@ -137,6 +152,8 @@ Ucm_UniversalConfigurationManager::~Ucm_UniversalConfigurationManager()
     delete ptp_tc_tab;
     delete ptp_hc_tab;
     delete tap_slave_tab;
+    delete tsn_iic_tab;
+    delete phy_conf_tab;
     core_config.clear();
 }
 
@@ -215,6 +232,18 @@ int Ucm_UniversalConfigurationManager::ucm_resize(int height, int width)
     // TAP Slave Tab
     tap_slave_tab->tap_slave_resize(height, width);
 
+    // TSN Iic Tab
+    tsn_iic_tab->tsn_iic_resize(height, width);
+
+    // Phy Config Tab
+    phy_conf_tab->phy_conf_resize(height, width);
+
+    // I2c Config Tab
+    i2c_conf_tab->i2c_conf_resize(height, width);
+
+    // Io Config Tab
+    io_conf_tab->io_conf_resize(height, width);
+
     updateGeometry();
 
     return 0;
@@ -247,5 +276,13 @@ void Ucm_UniversalConfigurationManager::ucm_file_exit_clicked(void)
 {
     com_lib.~Ucm_CommunicationLib();
     exit(0);
+}
+
+/******************************************************************/
+// Help menu
+/******************************************************************/
+void Ucm_UniversalConfigurationManager::ucm_help_about_clicked(void)
+{
+    about_screen.show();
 }
 

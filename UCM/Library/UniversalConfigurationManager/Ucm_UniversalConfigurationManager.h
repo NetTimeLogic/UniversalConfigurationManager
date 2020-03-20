@@ -56,6 +56,11 @@
 #include <PtpTcTab/Ucm_PtpTcTab.h>
 #include <PtpHcTab/Ucm_PtpHcTab.h>
 #include <TapSlaveTab/Ucm_TapSlaveTab.h>
+#include <TsnIicTab/Ucm_TsnIicTab.h>
+#include <PhyConfTab/Ucm_PhyConfTab.h>
+#include <I2cConfTab/Ucm_I2cConfTab.h>
+#include <IoConfTab/Ucm_IoConfTab.h>
+#include <HelpMenu/Ucm_HelpMenuAbout.h>
 
 using namespace QtCharts;
 
@@ -79,6 +84,13 @@ class Ucm_PtpOcTab;
 class Ucm_PtpTcTab;
 class Ucm_PtpHcTab;
 class Ucm_TapSlaveTab;
+class Ucm_TsnIicTab;
+class Ucm_PhyConfTab;
+class Ucm_I2cConfTab;
+class Ucm_IoConfTab;
+class Ucm_HelpMenuAbout;
+
+#define Ucm_Version_Nr               "4.1.00"
 
 #define Ucm_MainHeight               820
 #define Ucm_MainWidth                1380
@@ -156,13 +168,29 @@ class Ucm_UniversalConfigurationManager : public QMainWindow, public Ui::Ucm_Uni
         // TAP Slave tab
         Ucm_TapSlaveTab* tap_slave_tab;
 
+        // TAP Slave tab
+        Ucm_TsnIicTab* tsn_iic_tab;
+
+        // Phy Config tab
+        Ucm_PhyConfTab* phy_conf_tab;
+
+        // I2c Config tab
+        Ucm_I2cConfTab* i2c_conf_tab;
+
+        // Io Config tab
+        Ucm_IoConfTab* io_conf_tab;
+
 private:
         void resizeEvent(QResizeEvent* event);
         void closeEvent(QCloseEvent *event);
 
+        Ucm_HelpMenuAbout about_screen;
+
 private slots:
         // File menu
         void ucm_file_exit_clicked(void);
+        // Help menu
+        void ucm_help_about_clicked(void);
 
 };
 

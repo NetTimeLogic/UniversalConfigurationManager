@@ -248,7 +248,7 @@
      <x>20</x>
      <y>170</y>
      <width>221</width>
-     <height>431</height>
+     <height>561</height>
     </rect>
    </property>
    <property name="title">
@@ -296,7 +296,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>100</y>
+      <y>130</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -312,7 +312,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>120</y>
+      <y>150</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -325,7 +325,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>140</y>
+      <y>170</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -341,7 +341,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>160</y>
+      <y>190</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -354,7 +354,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>200</y>
+      <y>230</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -367,7 +367,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>240</y>
+      <y>270</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -383,7 +383,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>220</y>
+      <y>250</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -399,7 +399,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>260</y>
+      <y>290</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -412,7 +412,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>300</y>
+      <y>330</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -425,7 +425,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>340</y>
+      <y>370</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -441,7 +441,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>320</y>
+      <y>350</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -457,7 +457,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>360</y>
+      <y>390</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -470,7 +470,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>200</y>
+      <y>230</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -483,7 +483,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>240</y>
+      <y>270</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -496,7 +496,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>100</y>
+      <y>130</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -512,7 +512,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>220</y>
+      <y>250</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -525,7 +525,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>140</y>
+      <y>170</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -538,7 +538,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>340</y>
+      <y>370</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -554,7 +554,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>320</y>
+      <y>350</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -567,7 +567,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>300</y>
+      <y>330</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -583,7 +583,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>120</y>
+      <y>150</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -599,7 +599,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>360</y>
+      <y>390</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -615,7 +615,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>160</y>
+      <y>190</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -631,7 +631,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>260</y>
+      <y>290</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -647,7 +647,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>400</y>
+      <y>430</y>
       <width>101</width>
       <height>17</height>
      </rect>
@@ -659,14 +659,90 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QCheckBox" name="RedTsnLanAPreemptionCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>30</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>LAN A Preemption</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnLanBPreemptionCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>60</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>LAN B Preemption</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnLanCPreemptionCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>90</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>LAN C Preemption</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnLanCCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>LAN C Ok</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="RedTsnPhaseAndPrioritiesGroupBox">
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>170</y>
+     <y>250</y>
      <width>1111</width>
-     <height>341</height>
+     <height>321</height>
     </rect>
    </property>
    <property name="title">
@@ -679,7 +755,7 @@
     <property name="geometry">
      <rect>
       <x>890</x>
-      <y>90</y>
+      <y>70</y>
       <width>80</width>
       <height>17</height>
      </rect>
@@ -698,7 +774,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>90</y>
+      <y>70</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -711,7 +787,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>90</y>
+      <y>70</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -724,7 +800,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>90</y>
+      <y>70</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -740,7 +816,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>90</y>
+      <y>70</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -753,7 +829,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>90</y>
+      <y>70</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -766,7 +842,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>90</y>
+      <y>70</y>
       <width>30</width>
       <height>20</height>
      </rect>
@@ -822,7 +898,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>120</y>
+      <y>100</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -835,7 +911,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>120</y>
+      <y>100</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -848,7 +924,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>120</y>
+      <y>100</y>
       <width>30</width>
       <height>20</height>
      </rect>
@@ -904,7 +980,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>120</y>
+      <y>100</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -920,7 +996,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>120</y>
+      <y>100</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -936,7 +1012,7 @@
     <property name="geometry">
      <rect>
       <x>890</x>
-      <y>120</y>
+      <y>100</y>
       <width>80</width>
       <height>17</height>
      </rect>
@@ -955,7 +1031,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>120</y>
+      <y>100</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -968,7 +1044,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>150</y>
+      <y>130</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -981,7 +1057,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>150</y>
+      <y>130</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -994,7 +1070,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>150</y>
+      <y>130</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -1007,7 +1083,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>150</y>
+      <y>130</y>
       <width>30</width>
       <height>20</height>
      </rect>
@@ -1066,7 +1142,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>150</y>
+      <y>130</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1082,7 +1158,7 @@
     <property name="geometry">
      <rect>
       <x>890</x>
-      <y>150</y>
+      <y>130</y>
       <width>80</width>
       <height>17</height>
      </rect>
@@ -1101,7 +1177,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>150</y>
+      <y>130</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1114,7 +1190,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>180</y>
+      <y>160</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1127,7 +1203,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>180</y>
+      <y>160</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -1140,7 +1216,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>180</y>
+      <y>160</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1156,7 +1232,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>180</y>
+      <y>160</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1172,7 +1248,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>180</y>
+      <y>160</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1185,7 +1261,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>180</y>
+      <y>160</y>
       <width>30</width>
       <height>20</height>
      </rect>
@@ -1244,7 +1320,7 @@
     <property name="geometry">
      <rect>
       <x>890</x>
-      <y>180</y>
+      <y>160</y>
       <width>80</width>
       <height>17</height>
      </rect>
@@ -1260,7 +1336,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>210</y>
+      <y>190</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1276,7 +1352,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>210</y>
+      <y>190</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1289,7 +1365,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>210</y>
+      <y>190</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1305,7 +1381,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>210</y>
+      <y>190</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1318,7 +1394,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>210</y>
+      <y>190</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -1331,7 +1407,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>210</y>
+      <y>190</y>
       <width>30</width>
       <height>20</height>
      </rect>
@@ -1390,7 +1466,7 @@
     <property name="geometry">
      <rect>
       <x>890</x>
-      <y>210</y>
+      <y>190</y>
       <width>80</width>
       <height>17</height>
      </rect>
@@ -1409,7 +1485,7 @@
     <property name="geometry">
      <rect>
       <x>890</x>
-      <y>240</y>
+      <y>220</y>
       <width>80</width>
       <height>17</height>
      </rect>
@@ -1428,7 +1504,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>240</y>
+      <y>220</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1444,7 +1520,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>240</y>
+      <y>220</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1457,7 +1533,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>240</y>
+      <y>220</y>
       <width>30</width>
       <height>20</height>
      </rect>
@@ -1513,7 +1589,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>240</y>
+      <y>220</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -1526,7 +1602,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>240</y>
+      <y>220</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1539,7 +1615,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>240</y>
+      <y>220</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1555,7 +1631,7 @@
     <property name="geometry">
      <rect>
       <x>890</x>
-      <y>270</y>
+      <y>250</y>
       <width>80</width>
       <height>17</height>
      </rect>
@@ -1571,7 +1647,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>270</y>
+      <y>250</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -1587,7 +1663,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>270</y>
+      <y>250</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1603,7 +1679,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>270</y>
+      <y>250</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1616,7 +1692,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>270</y>
+      <y>250</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1629,7 +1705,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>270</y>
+      <y>250</y>
       <width>30</width>
       <height>20</height>
      </rect>
@@ -1685,7 +1761,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>270</y>
+      <y>250</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1698,7 +1774,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>300</y>
+      <y>280</y>
       <width>30</width>
       <height>20</height>
      </rect>
@@ -1754,7 +1830,7 @@
     <property name="geometry">
      <rect>
       <x>890</x>
-      <y>300</y>
+      <y>280</y>
       <width>80</width>
       <height>17</height>
      </rect>
@@ -1770,7 +1846,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>300</y>
+      <y>280</y>
       <width>70</width>
       <height>20</height>
      </rect>
@@ -1786,7 +1862,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>300</y>
+      <y>280</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1799,7 +1875,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>300</y>
+      <y>280</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1815,7 +1891,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>300</y>
+      <y>280</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1828,51 +1904,13 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>300</y>
+      <y>280</y>
       <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>Phase End [ns]</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="RedTsnPhaseEnableCheckBox">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>30</y>
-      <width>100</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Phase Enable</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="RedTsnCycleEnableCheckBox">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>30</y>
-      <width>100</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Cylce Enable</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="RedTsnPhasePeriodLabel">
@@ -1908,7 +1946,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>120</y>
+      <y>100</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -1921,7 +1959,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>90</y>
+      <y>70</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -1934,7 +1972,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>150</y>
+      <y>130</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -1947,7 +1985,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>180</y>
+      <y>160</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -1963,7 +2001,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>180</y>
+      <y>160</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -1979,7 +2017,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>210</y>
+      <y>190</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -1995,7 +2033,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>240</y>
+      <y>220</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2011,7 +2049,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>270</y>
+      <y>250</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2024,7 +2062,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>300</y>
+      <y>280</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2040,7 +2078,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>90</y>
+      <y>70</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2056,7 +2094,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>120</y>
+      <y>100</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2069,7 +2107,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>240</y>
+      <y>220</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2085,7 +2123,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>300</y>
+      <y>280</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2101,7 +2139,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>150</y>
+      <y>130</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2114,7 +2152,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>210</y>
+      <y>190</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2127,7 +2165,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>270</y>
+      <y>250</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2143,7 +2181,7 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>120</y>
+      <y>100</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2159,7 +2197,7 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>300</y>
+      <y>280</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2172,7 +2210,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>210</y>
+      <y>190</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2185,7 +2223,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>120</y>
+      <y>100</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2201,7 +2239,7 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>90</y>
+      <y>70</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2214,7 +2252,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>300</y>
+      <y>280</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2227,7 +2265,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>270</y>
+      <y>250</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2240,7 +2278,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>150</y>
+      <y>130</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2253,7 +2291,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>180</y>
+      <y>160</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2269,7 +2307,7 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>210</y>
+      <y>190</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2285,7 +2323,7 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>150</y>
+      <y>130</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2298,7 +2336,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>90</y>
+      <y>70</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2314,7 +2352,7 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>180</y>
+      <y>160</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2330,7 +2368,7 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>240</y>
+      <y>220</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2346,7 +2384,7 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>270</y>
+      <y>250</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2359,7 +2397,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>240</y>
+      <y>220</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2372,7 +2410,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>210</y>
+      <y>190</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2385,7 +2423,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>300</y>
+      <y>280</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2401,7 +2439,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>210</y>
+      <y>190</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2417,7 +2455,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>120</y>
+      <y>100</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2430,7 +2468,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>90</y>
+      <y>70</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2443,7 +2481,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>240</y>
+      <y>220</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2459,7 +2497,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>90</y>
+      <y>70</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2472,7 +2510,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>150</y>
+      <y>130</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2488,7 +2526,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>180</y>
+      <y>160</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2504,7 +2542,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>270</y>
+      <y>250</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2517,7 +2555,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>180</y>
+      <y>160</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2530,7 +2568,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>120</y>
+      <y>100</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2546,7 +2584,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>240</y>
+      <y>220</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2562,7 +2600,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>150</y>
+      <y>130</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2575,7 +2613,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>270</y>
+      <y>250</y>
       <width>60</width>
       <height>20</height>
      </rect>
@@ -2591,32 +2629,13 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>300</y>
+      <y>280</y>
       <width>60</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>NA</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="RedTsnPriorityEnableCheckBox">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>30</y>
-      <width>100</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Priority Enable</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
     </property>
    </widget>
    <widget class="QCheckBox" name="RedTsnCreditEnable6CheckBox">
@@ -2626,7 +2645,7 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>240</y>
+      <y>220</y>
       <width>60</width>
       <height>17</height>
      </rect>
@@ -2645,7 +2664,7 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>300</y>
+      <y>280</y>
       <width>60</width>
       <height>17</height>
      </rect>
@@ -2664,7 +2683,7 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>210</y>
+      <y>190</y>
       <width>60</width>
       <height>17</height>
      </rect>
@@ -2683,7 +2702,7 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>270</y>
+      <y>250</y>
       <width>60</width>
       <height>17</height>
      </rect>
@@ -2702,7 +2721,7 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>90</y>
+      <y>70</y>
       <width>60</width>
       <height>17</height>
      </rect>
@@ -2721,7 +2740,7 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>120</y>
+      <y>100</y>
       <width>60</width>
       <height>17</height>
      </rect>
@@ -2740,7 +2759,7 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>180</y>
+      <y>160</y>
       <width>60</width>
       <height>17</height>
      </rect>
@@ -2759,7 +2778,7 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>150</y>
+      <y>130</y>
       <width>60</width>
       <height>17</height>
      </rect>
@@ -2778,7 +2797,7 @@
     <property name="geometry">
      <rect>
       <x>1030</x>
-      <y>270</y>
+      <y>250</y>
       <width>70</width>
       <height>17</height>
      </rect>
@@ -2797,7 +2816,7 @@
     <property name="geometry">
      <rect>
       <x>1030</x>
-      <y>120</y>
+      <y>100</y>
       <width>70</width>
       <height>17</height>
      </rect>
@@ -2816,7 +2835,7 @@
     <property name="geometry">
      <rect>
       <x>1030</x>
-      <y>300</y>
+      <y>280</y>
       <width>70</width>
       <height>17</height>
      </rect>
@@ -2835,7 +2854,7 @@
     <property name="geometry">
      <rect>
       <x>1030</x>
-      <y>180</y>
+      <y>160</y>
       <width>70</width>
       <height>17</height>
      </rect>
@@ -2854,7 +2873,7 @@
     <property name="geometry">
      <rect>
       <x>1030</x>
-      <y>150</y>
+      <y>130</y>
       <width>70</width>
       <height>17</height>
      </rect>
@@ -2873,7 +2892,7 @@
     <property name="geometry">
      <rect>
       <x>1030</x>
-      <y>90</y>
+      <y>70</y>
       <width>70</width>
       <height>17</height>
      </rect>
@@ -2892,7 +2911,7 @@
     <property name="geometry">
      <rect>
       <x>1030</x>
-      <y>240</y>
+      <y>220</y>
       <width>70</width>
       <height>17</height>
      </rect>
@@ -2911,7 +2930,7 @@
     <property name="geometry">
      <rect>
       <x>1030</x>
-      <y>210</y>
+      <y>190</y>
       <width>70</width>
       <height>17</height>
      </rect>
@@ -2923,67 +2942,10 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QCheckBox" name="RedTsnMaxSizeEnableCheckBox">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>30</y>
-      <width>100</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Max Size Enable</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="RedTsnCreditEnableCheckBox">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>30</y>
-      <width>100</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Credit Enable</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="RedTsnPreemptionEnableCheckBox">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>30</y>
-      <width>251</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Preemption Enable (only for the lowest Priority)</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="RedTsnSchedulingButton">
     <property name="geometry">
      <rect>
-      <x>1010</x>
+      <x>240</x>
       <y>30</y>
       <width>75</width>
       <height>20</height>
@@ -2998,9 +2960,9 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>520</y>
+     <y>660</y>
      <width>1111</width>
-     <height>80</height>
+     <height>71</height>
     </rect>
    </property>
    <property name="title">
@@ -3083,6 +3045,25 @@
      <string>Credit Inc</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="RedTsnPhaseEnablePortCCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>30</y>
+      <width>91</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Phase Enable</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QCheckBox" name="RedTsnPromiscuousModeCheckBox">
    <property name="geometry">
@@ -3138,6 +3119,213 @@
    <property name="checked">
     <bool>false</bool>
    </property>
+  </widget>
+  <widget class="QGroupBox" name="RedTsnGeneralGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>170</y>
+     <width>1111</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>General</string>
+   </property>
+   <widget class="QCheckBox" name="RedTsnPriorityEnableCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>100</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Priority Enable</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnPhaseEnableCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>30</y>
+      <width>100</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Phase Enable</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnCreditEnableCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>30</y>
+      <width>100</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Credit Enable</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnPreemptionEnableCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>30</y>
+      <width>251</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Preemption Enable (only for the lowest Priority)</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnCycleEnableCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>30</y>
+      <width>100</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cylce Enable</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnMaxSizeEnableCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>30</y>
+      <width>100</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Max Size Enable</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="RedTsnPreemptionGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>580</y>
+     <width>1111</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Preemption</string>
+   </property>
+   <widget class="QCheckBox" name="RedTsnPreemptionVerifyEnableCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>30</y>
+      <width>151</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Preemption Verify Enable</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="RedTsnPreemptionHoldAndReleaseCheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>30</y>
+      <width>151</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Hold And Release</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="RedTsnPreemptionVerifyIntervalLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Verify Interval</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="RedTsnPreemptionVerifyIntervalValue">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>30</y>
+      <width>110</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NA</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

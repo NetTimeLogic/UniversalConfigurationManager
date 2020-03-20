@@ -294,7 +294,7 @@ void Ucm_ClkClockTab::clk_clock_read_values(void)
 
                     // date
                     QDateTime temp_date;
-                    temp_date.setTime_t(temp_data);
+                    temp_date.setSecsSinceEpoch(temp_data);
                     ui->ClkClockDateValue->setText(temp_date.toUTC().toString("dd.MM.yyyy hh:mm:ss"));
 
 
@@ -472,7 +472,7 @@ void Ucm_ClkClockTab::clk_clock_read_values(void)
 
     
     // corrected offset
-    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkClock_StatusOffset_Reg_Con, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkClock_StatusOffsetReg, temp_data))
     {
         if ((temp_data & 0x80000000) != 0)
         {
@@ -550,7 +550,7 @@ void Ucm_ClkClockTab::clk_clock_read_values(void)
     }
 
     // corrected drift
-    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkClock_StatusDrift_Reg_Con, temp_data))
+    if (0 == ucm->com_lib.read_reg(temp_addr + Ucm_ClkClock_StatusDriftReg, temp_data))
     {
         if ((temp_data & 0x80000000) != 0)
         {

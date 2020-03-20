@@ -33,6 +33,7 @@ class Ucm_UniversalConfigurationManager;
 #define Ucm_PpsMaster_PolarityReg                       0x00000008
 #define Ucm_PpsMaster_VersionReg                        0x0000000C
 #define Ucm_PpsMaster_PulseWidthReg                     0x00000010
+#define Ucm_PpsMaster_CableDelayReg                     0x00000020
 
 namespace Ui {
 class Ucm_PpsMasterTab;
